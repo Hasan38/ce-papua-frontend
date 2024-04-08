@@ -1,10 +1,15 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+import { toTypedSchema } from '@vee-validate/zod'
+import { useForm } from 'vee-validate'
+import { z } from 'zod'
 import { useDarkmode } from '/@src/stores/darkmode'
-import { useUserSession } from '/@src/stores/userSession'
 import { useNotyf } from '/@src/composable/useNotyf'
-import sleep from '/@src/utils/sleep'
+import { useLaravelError } from '/@src/composable/useLaravelError'
+import { useLaravelFetch } from '/@src/composable/useLaravelFetch'
+import { useUserSession } from '/@src/stores/userSession'
+import { catchFieldError } from '/@src/utils/api/catchFormErrors'
 
-const isLoading = ref(false)
 const darkmode = useDarkmode()
 const router = useRouter()
 const route = useRoute()
@@ -12,29 +17,80 @@ const notyf = useNotyf()
 const userSession = useUserSession()
 const redirect = route.query.redirect as string
 
-const handleLogin = async () => {
+const isLoading = ref(false)
+const { t } = useI18n()
+
+const $fetch = useLaravelFetch()
+
+const zodSchema = z
+  .object({
+    email: z
+      .string({
+        required_error: 'Enter your email first',
+      })
+      .email('A valid email address should be provided'),
+
+    password: z
+      .string({
+        required_error: 'Enter your password to sign in',
+      })
+      .min(5, 'Your password should contains at least 5 characters'),
+  })
+
+// Zod has a great infer method that will
+// infer the shape of the schema into a TypeScript type
+
+// we need to declare the schema for the form
+
+// we need to declare the schema for the form
+type FormInput = z.infer<typeof zodSchema>
+const validationSchema = toTypedSchema(zodSchema)
+const initialValues = computed<FormInput>(() => ({
+  email: '',
+  password: '',
+}))
+// here we create a vee-validate form context that
+// will be used in all vuero form components
+const { handleSubmit, setFieldError } = useForm({
+  validationSchema,
+  initialValues,
+})
+
+const handleLogin = handleSubmit(async (values) => {
   if (!isLoading.value) {
     isLoading.value = true
 
-    await sleep(2000)
-    userSession.setToken('logged-in')
+    try {
+      await $fetch('/sanctum/csrf-cookie')
+      await $fetch('/api/login', {
+        method: 'POST',
+        body: values,
+      }).then((res) => {
+        userSession.setUser(res.data)
+        userSession.setToken(res.data.token)
 
-    notyf.dismissAll()
-    notyf.success('Welcome back, Erik Kovalsky')
-
-    if (redirect) {
-      router.push(redirect)
+        if (redirect) {
+          router.push(redirect)
+        }
+        else {
+          router.push('/admin')
+        }
+        notyf.dismissAll()
+        notyf.success(`${t('auth.logged-in')}, ${userSession.user!.name}`)
+      })
     }
-    else {
-      router.push('/sidebar/dashboards')
+    catch (err: any) {
+      catchFieldError(err, setFieldError)
+      notyf.error(useLaravelError(err))
     }
-
-    isLoading.value = false
+    finally {
+      isLoading.value = false
+    }
   }
-}
+})
 
 useHead({
-  title: 'Auth Login 3 - Vuero',
+  title: 'Login - Vuero',
 })
 </script>
 
@@ -92,22 +148,27 @@ useHead({
             @submit.prevent="handleLogin"
           >
             <div class="login-form">
-              <VField>
-                <VControl icon="feather:user">
+              <VField id="email" v-slot="{field}">
+                <VControl icon="feather:mail">
                   <VInput
-                    type="text"
-                    placeholder="Username"
-                    autocomplete="username"
+                    type="email"
+                    placeholder="Email"
                   />
+                  <p v-if="field?.errorMessage" class="help is-danger">
+                    {{ field.errorMessage }}
+                  </p>
                 </VControl>
               </VField>
-              <VField>
+              <VField id="password" v-slot="{ field }">
                 <VControl icon="feather:lock">
                   <VInput
                     type="password"
                     placeholder="Password"
                     autocomplete="current-password"
                   />
+                  <p v-if="field?.errorMessage" class="help is-danger">
+                    {{ field.errorMessage }}
+                  </p>
                 </VControl>
               </VField>
 

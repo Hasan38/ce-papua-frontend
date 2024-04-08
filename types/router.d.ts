@@ -41,6 +41,13 @@ declare module 'vue-router/auto/routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...all]': RouteRecordInfo<'/[...all]', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
+    '/admin': RouteRecordInfo<'/admin', '/admin', Record<never, never>, Record<never, never>>,
+    '/admin/': RouteRecordInfo<'/admin/', '/admin', Record<never, never>, Record<never, never>>,
+    '/admin/setting/area/': RouteRecordInfo<'/admin/setting/area/', '/admin/setting/area', Record<never, never>, Record<never, never>>,
+    '/admin/setting/region/': RouteRecordInfo<'/admin/setting/region/', '/admin/setting/region', Record<never, never>, Record<never, never>>,
+    '/admin/setting/user/': RouteRecordInfo<'/admin/setting/user/', '/admin/setting/user', Record<never, never>, Record<never, never>>,
+    '/admin/setting/user/[edit]': RouteRecordInfo<'/admin/setting/user/[edit]', '/admin/setting/user/:edit', { edit: ParamValue<true> }, { edit: ParamValue<false> }>,
+    '/admin/setting/user/add': RouteRecordInfo<'/admin/setting/user/add', '/admin/setting/user/add', Record<never, never>, Record<never, never>>,
     '/auth': RouteRecordInfo<'/auth', '/auth', Record<never, never>, Record<never, never>>,
     '/auth/login': RouteRecordInfo<'/auth/login', '/auth/login', Record<never, never>, Record<never, never>>,
     '/auth/signup-1': RouteRecordInfo<'/auth/signup-1', '/auth/signup-1', Record<never, never>, Record<never, never>>,

@@ -392,7 +392,7 @@ const activeTab = ref<TabId>('team')
                 <div class="timeline-icon">
                   <img
                     class="avatar"
-                    src="/demo/avatars/7.jpg"
+                    src=""
                     alt=""
                     @error.once="onceImageErrored(150)"
                   >

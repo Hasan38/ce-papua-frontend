@@ -1,6 +1,6 @@
 <script setup lang="ts">
-type TabId = 'display' | 'layout'
-const activeTab = ref<TabId>('display')
+type TabId = 'general' | 'machine'
+const activeTab = ref<TabId>('general')
 </script>
 
 <template>
@@ -8,21 +8,21 @@ const activeTab = ref<TabId>('display')
     <div class="tabs-inner">
       <div class="tabs is-centered is-4">
         <ul>
-          <li :class="[activeTab === 'display' && 'is-active']">
+          <li :class="[activeTab === 'general' && 'is-active']">
             <a
               tabindex="0"
               role="button"
-              @keydown.space.prevent="activeTab = 'display'"
-              @click="activeTab = 'display'"
-            >Display</a>
+              @keydown.space.prevent="activeTab = 'general'"
+              @click="activeTab = 'general'"
+            >General</a>
           </li>
-          <li :class="[activeTab === 'layout' && 'is-active']">
+          <li :class="[activeTab === 'machine' && 'is-active']">
             <a
               tabindex="0"
               role="button"
-              @keydown.space.prevent="activeTab = 'layout'"
-              @click="activeTab = 'layout'"
-            >Layout</a>
+              @keydown.space.prevent="activeTab = 'machine'"
+              @click="activeTab = 'machine'"
+            >Machine</a>
           </li>
         </ul>
       </div>
@@ -30,7 +30,7 @@ const activeTab = ref<TabId>('display')
 
     <div class="container">
       <div
-        v-if="activeTab === 'display'"
+        v-if="activeTab === 'general'"
         class="tab-content is-active"
       >
         <div class="tab-content-inner">
@@ -38,16 +38,16 @@ const activeTab = ref<TabId>('display')
             <div class="columns">
               <div class="column is-3">
                 <h4 class="column-heading">
-                  General
+                  Regional
                 </h4>
                 <ul>
                   <li>
-                    <RouterLink to="/components/">
+                    <RouterLink to="/admin/setting/region">
                       <i
                         aria-hidden="true"
                         class="lnil lnil-home"
                       />
-                      <span>Components Hub</span>
+                      <span>Region</span>
                       <i
                         aria-hidden="true"
                         class="iconify"
@@ -56,12 +56,12 @@ const activeTab = ref<TabId>('display')
                     </RouterLink>
                   </li>
                   <li>
-                    <RouterLink to="/components/content">
+                    <RouterLink to="/admin/setting/area">
                       <i
                         aria-hidden="true"
                         class="lnil lnil-text-format"
                       />
-                      <span>Content</span>
+                      <span>Area Group</span>
                       <i
                         aria-hidden="true"
                         class="iconify"
@@ -88,16 +88,16 @@ const activeTab = ref<TabId>('display')
 
               <div class="column is-3">
                 <h4 class="column-heading">
-                  Display
+                  User
                 </h4>
                 <ul>
                   <li>
-                    <RouterLink to="/components/avatar/">
-                      <span>VAvatar</span>
+                    <RouterLink to="/admin/setting/user">
+                      <span>Data User</span>
                       <i
                         aria-hidden="true"
                         class="iconify"
-                        data-icon="feather:circle"
+                        data-icon="feather:user"
                       />
                     </RouterLink>
                   </li>
@@ -274,7 +274,7 @@ const activeTab = ref<TabId>('display')
       </div>
 
       <div
-        v-if="activeTab === 'layout'"
+        v-if="activeTab === 'machine'"
         class="tab-content is-active"
       >
         <div class="tab-content-inner">

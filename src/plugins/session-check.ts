@@ -32,8 +32,8 @@ export default definePlugin(async ({ router, pinia }) => {
     try {
       // Do api request call to retreive user profile.
       // Note that the api is provided with json-server
-      const user = await $fetch('/api/users/me')
-      userSession.setUser(user)
+      const user = await $fetch('/api/user')
+      userSession.setUser(user.data)
     }
     catch (err) {
       // delete stored token if it fails

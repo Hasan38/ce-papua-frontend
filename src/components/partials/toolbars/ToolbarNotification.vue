@@ -53,7 +53,7 @@ const dropdown = useDropdown(dropdownElement)
                   <img
                     class="user-photo"
                     alt=""
-                    src="/demo/avatars/7.jpg"
+                    src=""
                     @error.once="onceImageErrored(150)"
                   >
                 </div>
@@ -71,7 +71,7 @@ const dropdown = useDropdown(dropdownElement)
                   <img
                     class="user-photo"
                     alt=""
-                    src="/demo/avatars/12.jpg"
+                    src=""
                     @error.once="onceImageErrored(150)"
                   >
                 </div>
@@ -89,7 +89,7 @@ const dropdown = useDropdown(dropdownElement)
                   <img
                     class="user-photo"
                     alt=""
-                    src="/demo/avatars/13.jpg"
+                    src=""
                     @error.once="onceImageErrored(150)"
                   >
                 </div>
@@ -107,7 +107,7 @@ const dropdown = useDropdown(dropdownElement)
                   <img
                     class="user-photo"
                     alt=""
-                    src="/demo/avatars/25.jpg"
+                    src=""
                     @error.once="onceImageErrored(150)"
                   >
                 </div>
