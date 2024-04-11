@@ -51,6 +51,11 @@ const initialValues = computed<FormInput>(() => ({
 }))
 // here we create a vee-validate form context that
 // will be used in all vuero form components
+
+if (userSession.isLoggedIn) {
+  router.push('/admin/dashboard')
+}
+
 const { handleSubmit, setFieldError } = useForm({
   validationSchema,
   initialValues,
@@ -62,22 +67,21 @@ const handleLogin = handleSubmit(async (values) => {
 
     try {
       await $fetch('/sanctum/csrf-cookie')
-      await $fetch('/api/login', {
+      const data = await $fetch('/api/login', {
         method: 'POST',
         body: values,
-      }).then((res) => {
-        userSession.setUser(res.data)
-        userSession.setToken(res.data.token)
-
-        if (redirect) {
-          router.push(redirect)
-        }
-        else {
-          router.push('/admin')
-        }
-        notyf.dismissAll()
-        notyf.success(`${t('auth.logged-in')}, ${userSession.user!.name}`)
       })
+      userSession.setUser(data.data)
+      userSession.setToken(data.data.token)
+
+      if (redirect) {
+        router.push(redirect)
+      }
+      else {
+        router.push('/admin/dashboard')
+      }
+      notyf.dismissAll()
+      notyf.success(`${t('auth.logged-in')}, ${userSession.user!.name}`)
     }
     catch (err: any) {
       catchFieldError(err, setFieldError)

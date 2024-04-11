@@ -37,7 +37,7 @@ function logout() {
         />
 
         <div class="meta">
-          <span>Erik Kovalsky</span>
+          <span>{{ userSession.user?.name ?? 'UNKNOWN' }}</span>
           <span>Product Manager</span>
         </div>
       </div>

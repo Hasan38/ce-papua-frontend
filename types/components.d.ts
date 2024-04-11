@@ -89,6 +89,7 @@ declare module 'vue' {
     ContentTitlesDocumentation: typeof import('./../documentation/elements/content/content-titles-documentation.md')['default']
     ContentUnorderedListsDocumentation: typeof import('./../documentation/elements/content/content-unordered-lists-documentation.md')['default']
     CourseDashboard: typeof import('./../src/components/pages/dashboards/business/CourseDashboard.vue')['default']
+    Dashboard: typeof import('./../src/components/pages/admin/Dashboard.vue')['default']
     DashboardHeaderWrapper: typeof import('./../src/components/partials/lifestyle/DashboardHeaderWrapper.vue')['default']
     DashboardsMobileSubsidebar: typeof import('./../src/layouts/mobile-subsidebars/DashboardsMobileSubsidebar.vue')['default']
     DashboardsSubnav: typeof import('./../src/layouts/navbar-items/DashboardsSubnav.vue')['default']

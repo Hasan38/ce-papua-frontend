@@ -270,16 +270,15 @@ watch(
           class="centered-links"
           :class="[activeSubnav === 'search' && 'is-hidden']"
         >
-          <a
+          <RouterLink
             :class="[
-              (activeSubnav === 'home' || route.path.startsWith('/navbar/dashboards')) &&
+              (route.path.startsWith('/admin/dashboard')) &&
                 'is-active',
             ]"
             class="centered-link centered-link-toggle"
             tabindex="0"
             role="button"
-            @keydown.space.prevent="toggleSubnav('home')"
-            @click="toggleSubnav('home')"
+            to="/admin/dashboard"
           >
             <i
               aria-hidden="true"
@@ -287,7 +286,7 @@ watch(
               data-icon="feather:activity"
             />
             <span>Dashboards</span>
-          </a>
+          </RouterLink>
           <a
             :class="[
               (activeSubnav === 'layouts' || route.path.startsWith('/navbar/layouts')) &&

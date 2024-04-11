@@ -69,20 +69,6 @@ const activeTab = ref<TabId>('general')
                       />
                     </RouterLink>
                   </li>
-                  <li>
-                    <RouterLink to="/components/table">
-                      <i
-                        aria-hidden="true"
-                        class="lnil lnil-table"
-                      />
-                      <span>Table</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
                 </ul>
               </div>
 
@@ -101,129 +87,17 @@ const activeTab = ref<TabId>('general')
                       />
                     </RouterLink>
                   </li>
-                  <li>
-                    <RouterLink to="/components/avatar/stack">
-                      <span>VAvatarStack</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/block">
-                      <span>VBlock</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/icon-box">
-                      <span>VIconBox</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/icon-wrap">
-                      <span>VIconWrap</span>
-                      <VTag
-                        label="v1.1"
-                        color="primary"
-                        outlined
-                        curved
-                      />
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/snack">
-                      <span>VSnack</span>
-                      <VTag
-                        label="v1.1"
-                        color="primary"
-                        outlined
-                        curved
-                      />
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/tag">
-                      <span>VTag</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
                 </ul>
               </div>
 
               <div class="column is-3">
                 <h4 class="column-heading">
-                  Plugins
+                  Customer
                 </h4>
                 <ul>
                   <li>
-                    <RouterLink to="/components/plugins/notif">
-                      <span>Notif</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/plugins/tippy">
-                      <span>Tippy</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/plugins/billboard-js">
-                      <span>VBillboardJS</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/plugins/photos-swipe">
-                      <span>VPhotosSwipe</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/plugins/plyr">
-                      <span>VPlyr</span>
+                    <RouterLink to="/admin/setting/customer">
+                      <span>Data Customer</span>
                       <i
                         aria-hidden="true"
                         class="iconify"
@@ -286,92 +160,14 @@ const activeTab = ref<TabId>('general')
                 </h4>
                 <ul>
                   <li>
-                    <RouterLink to="/components/flex">
-                      <span>VFlex <small>& VFlexItem</small></span>
+                    <RouterLink to="/admin/setting/machine">
+                      <span>Data <small>Machine</small></span>
                       <VTag
                         label="v2.0"
                         color="primary"
                         outlined
                         curved
                       />
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/grid">
-                      <span>VGrid <small>& VGridItem</small></span>
-                      <VTag
-                        label="v2.0"
-                        color="primary"
-                        outlined
-                        curved
-                      />
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/breadcrumb">
-                      <span>VBreadcrumb</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/tabs">
-                      <span>VTabs</span>
-                      <VTag
-                        label="v1.1"
-                        color="primary"
-                        outlined
-                        curved
-                      />
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/pagination">
-                      <span>VFlexPagination</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/markdown-preview">
-                      <span>VMarkdownPreview</span>
-                      <VTag
-                        label="v2.6"
-                        color="primary"
-                        outlined
-                        curved
-                      />
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/flextable/">
-                      <span>VFlexTable</span>
                       <i
                         aria-hidden="true"
                         class="iconify"
@@ -384,12 +180,12 @@ const activeTab = ref<TabId>('general')
 
               <div class="column is-3">
                 <h4 class="column-heading">
-                  Accordions
+                  Error Code
                 </h4>
                 <ul>
                   <li>
                     <RouterLink to="/components/accordion/">
-                      <span>VAccordion</span>
+                      <span>Error Code By TS</span>
                       <i
                         aria-hidden="true"
                         class="iconify"
@@ -399,121 +195,7 @@ const activeTab = ref<TabId>('general')
                   </li>
                   <li>
                     <RouterLink to="/components/collapse">
-                      <span>VCollapse</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/accordion/image">
-                      <span>VAccordionImage</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="column is-3">
-                <h4 class="column-heading">
-                  Cards
-                </h4>
-                <ul>
-                  <li>
-                    <RouterLink to="/components/card/">
-                      <span>VCard</span>
-                      <VTag
-                        label="v1.1"
-                        color="primary"
-                        outlined
-                        curved
-                      />
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/card/action">
-                      <span>VCardAction</span>
-                      <VTag
-                        label="v1.1"
-                        color="primary"
-                        outlined
-                        curved
-                      />
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/card/advanced">
-                      <span>VCardAdvanced</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/card/media">
-                      <span>VCardMedia</span>
-                      <VTag
-                        label="v1.1"
-                        color="primary"
-                        outlined
-                        curved
-                      />
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/card/social">
-                      <span>VCardSocial</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="column is-3">
-                <h4 class="column-heading">
-                  Placeholders
-                </h4>
-                <ul>
-                  <li>
-                    <RouterLink to="/components/placeholder-page">
-                      <span>VPlaceholderPage</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/components/placeholder-section">
-                      <span>VPlaceholderSection</span>
+                      <span>CE Papua</span>
                       <i
                         aria-hidden="true"
                         class="iconify"
