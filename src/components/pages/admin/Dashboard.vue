@@ -2,12 +2,18 @@
 import { useLaravelFetch } from '/@src/composable/useLaravelFetch'
 import type { CountZona, CountCustomer, CountCustomerType } from '/@src/models/dashboard'
 import { useThemeColors } from '/@src/composable/useThemeColors'
-import { useAreaGroup } from '/@src/services/get-areaGroup'
 import { type OptionsCountCustomerPie } from '/@src/models/chartPie'
 import { type OptionsCountCustomerBar } from '/@src/models/chartBar'
+import { useUserSession } from '/@src/stores/userSession'
 import sleep from '/@src/utils/sleep'
+import { useAreaGroup } from '/@src/services/get-areaGroup'
+
 const themeColors = useThemeColors()
 const $fetch = useLaravelFetch()
+const userSession = useUserSession()
+const modalFilter = ref(false)
+const area_id = ref(1)
+const area_name = ref('Jayapura')
 interface Response {
   success: boolean
   data: {
@@ -16,7 +22,7 @@ interface Response {
     count_customer_type: CountCustomerType[]
   }
 }
-const area_id = ref(1)
+
 const optionsCountCustomerPie = ref<OptionsCountCustomerPie>()
 const optionsCountCustomerBar = ref<OptionsCountCustomerBar>()
 const optionsCountCustomerHorizontalBar = ref<OptionsCountCustomerBar>()
@@ -286,188 +292,281 @@ optionsCountCustomerHorizontalBar.value = {
   },
 }
 
-function getData() {
-  if (!isLoading.value) {
-    isLoading.value = true
-    watchEffect(async () => {
-      sleep(500)
-      await $fetch<Response>(`/api/dashboard?area_id=${area_id.value}`).then(((res) => {
-        isLoading.value = false
-        count_zonas.value = res.data.count_zona
-        const count_customer = res.data.count_customer?.map(function (item) {
-          return {
-            x: item.name,
-            y: item.total,
-          }
-        })
-        optionsCountCustomerPie.value = {
-          series: count_customer.map(val => val.y),
-          chartOptions: {
-            labels: count_customer.map(val => val.x),
+const onFilter = async () => {
+  if (isLoading.value) return
+  isLoading.value = true
+  sleep(1000)
+  await $fetch<Response>(`/api/dashboard?area_id=${area_id.value}`).then(((res) => {
+    modalFilter.value = false
+    isLoading.value = false
+    count_zonas.value = res.data.count_zona
+    const count_customer = res.data.count_customer?.map(function (item) {
+      return {
+        x: item.name,
+        y: item.total,
+      }
+    })
+    const count_customer_type = res.data.count_customer_type?.map(function (item) {
+      return {
+        x: item.customer_type,
+        y: item.total,
+      }
+    })
+    optionsCountCustomerPie.value = {
+      series: count_customer.map(val => val.y),
+      chartOptions: {
+        labels: count_customer.map(val => val.x),
 
-            chart: {
-              height: 400,
-              type: 'donut',
-              toolbar: {
-                show: true,
-              },
-
-            },
-            color: {
-              pattern: [
-                themeColors.success,
-                themeColors.info,
-                themeColors.warning,
-                themeColors.danger,
-                themeColors.purple,
-                themeColors.blue,
-                themeColors.green,
-                themeColors.yellow,
-                themeColors.orange,
-                themeColors.lightText,
-                themeColors.fadeGrey,
-                themeColors.primary,
-                themeColors.primaryMedium,
-                themeColors.primaryLight,
-                themeColors.secondary,
-                themeColors.accent,
-                themeColors.accentMedium,
-                themeColors.accentLight,
-
-              ],
-              threshold: {
-                values: [30, 60, 90, 100],
-              },
-            },
-            plotOptions: {
-              pie: {
-                startAngle: -90,
-                endAngle: 270,
-              },
-            },
-            dataLabels: {
-              enabled: false,
-            },
-            fill: {
-              type: 'gradient',
-            },
-            legend: {
-              formatter: function (val: any, opts: any) {
-                return val + ' - ' + opts.w.globals.series[opts.seriesIndex]
-              },
-            },
-
-            responsive: [
-              {
-                breakpoint: 480,
-                options: {
-                  chart: {
-                    height: 400,
-                  },
-                  legend: {
-                    position: 'bottom',
-                  },
-                },
-              },
-            ],
+        chart: {
+          height: 400,
+          type: 'donut',
+          toolbar: {
+            show: true,
           },
-        }
 
-        optionsCountCustomerHorizontalBar.value = {
-          series: [{
-            data: count_customer_type.map(val => val.y),
-          }],
-          chart: {
-            type: 'bar',
-            height: 380,
+        },
+        color: {
+          pattern: [
+            themeColors.success,
+            themeColors.info,
+            themeColors.warning,
+            themeColors.danger,
+            themeColors.purple,
+            themeColors.blue,
+            themeColors.green,
+            themeColors.yellow,
+            themeColors.orange,
+            themeColors.lightText,
+            themeColors.fadeGrey,
+            themeColors.primary,
+            themeColors.primaryMedium,
+            themeColors.primaryLight,
+            themeColors.secondary,
+            themeColors.accent,
+            themeColors.accentMedium,
+            themeColors.accentLight,
+
+          ],
+          threshold: {
+            values: [30, 60, 90, 100],
           },
-          fill: {
-            type: 'gradient',
+        },
+        plotOptions: {
+          pie: {
+            startAngle: -90,
+            endAngle: 270,
           },
-          plotOptions: {
-            bar: {
-              barHeight: '100%',
-              distributed: true,
-              horizontal: true,
-              dataLabels: {
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        fill: {
+          type: 'gradient',
+        },
+        legend: {
+          formatter: function (val: any, opts: any) {
+            return val + ' - ' + opts.w.globals.series[opts.seriesIndex]
+          },
+        },
+
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                height: 400,
+              },
+              legend: {
                 position: 'bottom',
               },
             },
           },
-          color: {
-            pattern: [
-              themeColors.success,
-              themeColors.info,
-              themeColors.warning,
-              themeColors.danger,
-              themeColors.purple,
-              themeColors.blue,
-              themeColors.green,
-              themeColors.yellow,
-              themeColors.orange,
-              themeColors.lightText,
-              themeColors.fadeGrey,
-              themeColors.primary,
-              themeColors.primaryMedium,
-              themeColors.primaryLight,
-              themeColors.secondary,
-              themeColors.accent,
-              themeColors.accentMedium,
-              themeColors.accentLight,
+        ],
+      },
+    }
 
-            ],
-            threshold: {
-              values: [30, 60, 90, 100],
-            },
-          },
+    optionsCountCustomerBar.value = {
+      series: [{
+        data: count_customer.map(val => val.y),
+      }],
+      chart: {
+        type: 'bar',
+        height: 380,
+      },
+      fill: {
+        type: 'gradient',
+      },
+      plotOptions: {
+        bar: {
+          barHeight: '100%',
+          distributed: true,
+          horizontal: true,
           dataLabels: {
-            enabled: true,
-            textAnchor: 'start',
-            style: {
-              colors: ['#fff'],
-            },
-            formatter: function (val: any, opt: any) {
-              return opt.w.globals.labels[opt.dataPointIndex] + ':  ' + val
-            },
-            offsetX: 0,
-            dropShadow: {
-              enabled: true,
-            },
+            position: 'bottom',
           },
-          stroke: {
-            width: 1,
-            colors: ['#fff'],
-          },
-          xaxis: {
-            categories: count_customer_type.map(val => val.x),
-          },
-          yaxis: {
-            labels: {
-              show: false,
-            },
-          },
+        },
+      },
+      color: {
+        pattern: [
+          themeColors.success,
+          themeColors.info,
+          themeColors.warning,
+          themeColors.danger,
+          themeColors.purple,
+          themeColors.blue,
+          themeColors.green,
+          themeColors.yellow,
+          themeColors.orange,
+          themeColors.lightText,
+          themeColors.fadeGrey,
+          themeColors.primary,
+          themeColors.primaryMedium,
+          themeColors.primaryLight,
+          themeColors.secondary,
+          themeColors.accent,
+          themeColors.accentMedium,
+          themeColors.accentLight,
 
-          tooltip: {
-            theme: 'dark',
-            x: {
-              show: false,
-            },
-            y: {
-              title: {
-                formatter: function () {
-                  return ''
-                },
-              },
+        ],
+        threshold: {
+          values: [30, 60, 90, 100],
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        textAnchor: 'start',
+        style: {
+          colors: ['#fff'],
+        },
+        formatter: function (val: any, opt: any) {
+          return opt.w.globals.labels[opt.dataPointIndex] + ':  ' + val
+        },
+        offsetX: 0,
+        dropShadow: {
+          enabled: true,
+        },
+      },
+      stroke: {
+        width: 1,
+        colors: ['#fff'],
+      },
+      xaxis: {
+        categories: count_customer.map(val => val.x),
+      },
+      yaxis: {
+        labels: {
+          show: false,
+        },
+      },
+
+      tooltip: {
+        theme: 'dark',
+        x: {
+          show: false,
+        },
+        y: {
+          title: {
+            formatter: function () {
+              return ''
             },
           },
-        }
-      })).catch(((e) => {
-        console.log(e)
-      }))
-    })
-  }
+        },
+      },
+    }
+    optionsCountCustomerHorizontalBar.value = {
+      series: [{
+        data: count_customer_type.map(val => val.y),
+      }],
+      chart: {
+        type: 'bar',
+        height: 380,
+      },
+      fill: {
+        type: 'gradient',
+      },
+      plotOptions: {
+        bar: {
+          barHeight: '100%',
+          distributed: true,
+          horizontal: true,
+          dataLabels: {
+            position: 'bottom',
+          },
+        },
+      },
+      color: {
+        pattern: [
+          themeColors.success,
+          themeColors.info,
+          themeColors.warning,
+          themeColors.danger,
+          themeColors.purple,
+          themeColors.blue,
+          themeColors.green,
+          themeColors.yellow,
+          themeColors.orange,
+          themeColors.lightText,
+          themeColors.fadeGrey,
+          themeColors.primary,
+          themeColors.primaryMedium,
+          themeColors.primaryLight,
+          themeColors.secondary,
+          themeColors.accent,
+          themeColors.accentMedium,
+          themeColors.accentLight,
+
+        ],
+        threshold: {
+          values: [30, 60, 90, 100],
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        textAnchor: 'start',
+        style: {
+          colors: ['#fff'],
+        },
+        formatter: function (val: any, opt: any) {
+          return opt.w.globals.labels[opt.dataPointIndex] + ':  ' + val
+        },
+        offsetX: 0,
+        dropShadow: {
+          enabled: true,
+        },
+      },
+      stroke: {
+        width: 1,
+        colors: ['#fff'],
+      },
+      xaxis: {
+        categories: count_customer_type.map(val => val.x),
+      },
+      yaxis: {
+        labels: {
+          show: false,
+        },
+      },
+
+      tooltip: {
+        theme: 'dark',
+        x: {
+          show: false,
+        },
+        y: {
+          title: {
+            formatter: function () {
+              return ''
+            },
+          },
+        },
+      },
+    }
+  }))
 }
 
+async function onSelect(option: any, id: any) {
+  area_name.value = id.label
+}
 </script>
 
 <template>
@@ -478,16 +577,14 @@ function getData() {
           <div class="columns is-multiline is-flex-tablet-p">
             <div class="column is-3">
               <div class="dashboard-card">
-                <VField>
-                  <VControl>
-                    <Multiselect
-                      v-model="area_id"
-                      :options="useAreaGroup"
-                      placeholder="pilih area group"
-                      @input="getData"
-                    />
-                  </VControl>
-                </VField>
+                <VButton
+                  icon="feather:filter"
+                  color="info"
+                  rounded
+                  @click="modalFilter = true"
+                >
+                  {{ area_name ?? userSession.user?.area_groups?.name }}
+                </VButton>
               </div>
             </div>
             <div class="column is-3">
@@ -621,6 +718,40 @@ function getData() {
       </div>
     </div>
   </div>
+  <VModal
+    is="form"
+    :open="modalFilter"
+    title="Filter"
+    size="small"
+    actions="right"
+    @submit.prevent="onFilter"
+    @close="modalFilter = false"
+  >
+    <template #content>
+      <div class="modal-form">
+        <VField label="Pilih Area" class="is-autocomplete-select">
+          <VControl icon="feather:calendar">
+            <Multiselect
+              v-model="area_id"
+              :options="useAreaGroup"
+              :searchable="true"
+              placeholder="region"
+              @select="onSelect"
+            />
+          </VControl>
+        </VField>
+      </div>
+    </template>
+    <template #action>
+      <VButton
+        color="primary"
+        :loading="isLoading"
+        type="submit"
+      >
+        Search
+      </VButton>
+    </template>
+  </VModal>
 </template>
 
 <style lang="scss">
