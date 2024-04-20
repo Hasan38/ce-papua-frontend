@@ -2,19 +2,20 @@
 import type { VFlexTableWrapperDataResolver } from '/@src/components/base/VFlexTableWrapper.vue'
 import { useLaravelFetch } from '/@src/composable/useLaravelFetch'
 import type { Machine } from '/@src/models/machine'
-import { useNotyf } from '/@src/composable/useNotyf'
+// import { useNotyf } from '/@src/composable/useNotyf'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-import { useUserSession } from '/@src/stores/userSession'
+// import { useUserSession } from '/@src/stores/userSession'
 // the total data will be set by the fetchData function
 const total = ref(0)
 const componentKey = ref(0)
 // we don't have to set "searchable" parameter
 // this will be handled by the fetchData function
-const userSession = useUserSession()
+// const userSession = useUserSession()
+const errors = ref<any>({})
 const modalDelete = ref(false)
 // const url = import.meta.env.VITE_API_BASE_URL
 const isLoading = ref(false)
-const notyf = useNotyf()
+// const notyf = useNotyf()
 const router = useRouter()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle('Machines')
@@ -240,17 +241,17 @@ function addDelete(row: any) {
 const onDelete = async () => {
   if (isLoading.value) return
   isLoading.value = true
-  try {
-    await $fetch.raw(`/api/machine/${isMachine.value.id}`, { method: 'DELETE' }).then(() => {
-      isLoading.value = false
-      componentKey.value += 1
-      modalDelete.value = false
-    })
-  }
-  catch ($e: any) {
+
+  await $fetch.raw(`/api/machine/${isMachine.value.id}`, { method: 'DELETE' }).then(() => {
     isLoading.value = false
-    notyf.error($e)
-  }
+    componentKey.value += 1
+    modalDelete.value = false
+  }).catch((e) => {
+    isLoading.value = false
+    if (e.status === 422) {
+      errors.value = e.data.errors
+    }
+  })
 }
 
 useHead({
@@ -487,6 +488,9 @@ function addMachine() {
               title="Are you sure you want to delete this?"
               :subtitle="isMachine.terminal_id"
             />
+            <VMessage v-if="errors.message" color="danger">
+              {{ errors.message }}
+            </VMessage>
           </div>
         </div>
       </template>

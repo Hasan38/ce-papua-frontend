@@ -122,6 +122,7 @@ declare module 'vue' {
     ElementsSubnav: typeof import('./../src/layouts/navbar-items/ElementsSubnav.vue')['default']
     ElementsSubsidebar: typeof import('./../src/layouts/sidebar-subsidebar/ElementsSubsidebar.vue')['default']
     EmptySearch: typeof import('./../src/components/pages/layouts/search/EmptySearch.vue')['default']
+    ErrorCodesSubnav: typeof import('./../src/layouts/navbar-items/ErrorCodesSubnav.vue')['default']
     FacetSearch: typeof import('./../src/components/pages/layouts/search/FacetSearch.vue')['default']
     FileBaseDocumentation: typeof import('./../documentation/elements/forms/file/file-base-documentation.md')['default']
     FileBoxedDocumentation: typeof import('./../documentation/elements/forms/file/file-boxed-documentation.md')['default']

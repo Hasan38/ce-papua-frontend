@@ -16,7 +16,7 @@ useHead({
 const router = useRouter()
 const route = useRoute()
 const id = (route.params?.edit as string) ?? ''
-const errors = ref({})
+const errors = ref<any>({})
 const notyf = useNotyf()
 const isLoading = ref(false)
 const area_id = ref(0)
@@ -130,38 +130,34 @@ const onSubmit = handleSubmit(async (values) => {
 
   if (isLoading.value) return
   isLoading.value = true
-  try {
-    await $fetch('/sanctum/csrf-cookie')
-    await $fetch.raw(`/api/machine/${id}`, {
-      method: 'PUT',
-      body: {
-        customer_id: customer_id.value,
-        customer_type: values.customer_type,
-        area_id: area_id.value,
-        branch: values.branch,
-        terminal_id: values.terminal_id,
-        sn: values.sn,
-        machine_type: values.machine_type,
-        address: values.address,
-        zona: parseInt(values.zona),
-        service_status: values.service_status,
-        pengelola: values.pengelola,
 
-      },
-    })
+  await $fetch('/sanctum/csrf-cookie')
+  await $fetch.raw(`/api/machine/${id}`, {
+    method: 'PUT',
+    body: {
+      customer_id: customer_id.value,
+      customer_type: values.customer_type,
+      area_id: area_id.value,
+      branch: values.branch,
+      terminal_id: values.terminal_id,
+      sn: values.sn,
+      machine_type: values.machine_type,
+      address: values.address,
+      zona: parseInt(values.zona),
+      service_status: values.service_status,
+      pengelola: values.pengelola,
+
+    },
+  }).then(() => {
     isLoading.value = false
     router.push('/admin/setting/machine')
     notyf.success('machine berhasil di ubah')
-  }
-  catch (e: any) {
+  }).catch((e) => {
     isLoading.value = false
     if (e.status === 422) {
       errors.value = e.data.errors
     }
-  }
-  finally {
-    isLoading.value = false
-  }
+  })
 })
 
 </script>
@@ -178,6 +174,9 @@ const onSubmit = handleSubmit(async (values) => {
         :class="[isStuck && 'is-stuck']"
         class="form-header stuck-header"
       >
+        <VMessage v-if="errors.message" color="danger">
+          {{ errors.message }}
+        </VMessage>
         <div class="form-header-inner">
           <div class="left">
             <h3>Ubah Mesin</h3>
@@ -222,6 +221,9 @@ const onSubmit = handleSubmit(async (values) => {
                   />
                 </VControl>
               </VField>
+              <p v-if="errors?.customer_id" class="help is-danger">
+                {{ errors?.customer_id }}
+              </p>
             </div>
             <div class="column is-6">
               <VField
@@ -253,6 +255,9 @@ const onSubmit = handleSubmit(async (values) => {
                   />
                 </VControl>
               </VField>
+              <p v-if="errors?.area_id" class="help is-danger">
+                {{ errors?.area_id }}
+              </p>
             </div>
 
             <div class="column is-6">

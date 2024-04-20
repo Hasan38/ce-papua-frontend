@@ -1,4 +1,4 @@
-import { useFetch } from '/@src/composable/useFetch'
+import { useLaravelFetch } from '/@src/composable/useLaravelFetch'
 import { definePlugin } from '/@src/app'
 import { useUserSession } from '/@src/stores/userSession'
 
@@ -25,7 +25,7 @@ import { useUserSession } from '/@src/stores/userSession'
  */
 export default definePlugin(async ({ router, pinia }) => {
   const userSession = useUserSession(pinia)
-  const $fetch = useFetch()
+  const $fetch = useLaravelFetch()
 
   // 1. Check token validity at app startup
   if (userSession.isLoggedIn) {

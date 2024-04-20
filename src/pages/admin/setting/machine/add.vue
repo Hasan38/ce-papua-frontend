@@ -15,7 +15,7 @@ useHead({
 })
 
 const router = useRouter()
-const errors = ref({})
+const errors = ref<any>({})
 const notyf = useNotyf()
 const isLoading = ref(false)
 const area_id = ref(0)

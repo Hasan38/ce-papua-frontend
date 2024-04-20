@@ -7,19 +7,45 @@ import { type OptionsCountCustomerBar } from '/@src/models/chartBar'
 import { useUserSession } from '/@src/stores/userSession'
 import sleep from '/@src/utils/sleep'
 import { useAreaGroup } from '/@src/services/get-areaGroup'
+import { type Machine } from '/@src/models/machine'
 
 const themeColors = useThemeColors()
 const $fetch = useLaravelFetch()
 const userSession = useUserSession()
 const modalFilter = ref(false)
+const modalZona = ref(false)
+const route = useRoute()
+const zona = ref(0)
+const machineData = ref<Machine[]>()
 const area_id = ref(1)
+const totalMachine = ref()
 const area_name = ref('Jayapura')
+const currentPage = ref(0)
+computed({
+  get() {
+    currentPage.value = Number.parseInt(route.query.page as string) || 1
+    return currentPage.value
+  },
+  set(val) {
+    currentPage.value = val
+  },
+})
 interface Response {
   success: boolean
   data: {
     count_customer: CountCustomer[]
     count_zona: CountZona
     count_customer_type: CountCustomerType[]
+  }
+}
+
+interface MachineResponse {
+  success: boolean
+  data: {
+    current_page: number
+    data: Machine[]
+    per_page: number
+    total: number
   }
 }
 
@@ -293,6 +319,7 @@ optionsCountCustomerHorizontalBar.value = {
 }
 
 const onFilter = async () => {
+  currentPage.value = 0
   if (isLoading.value) return
   isLoading.value = true
   sleep(1000)
@@ -567,191 +594,301 @@ const onFilter = async () => {
 async function onSelect(option: any, id: any) {
   area_name.value = id.label
 }
+
+async function getMachineByZona(area_ids: any, zonas: any) {
+  modalZona.value = true
+  if (zona.value !== zonas) {
+    currentPage.value = 0
+  }
+  zona.value = zonas
+  isLoading.value = true
+
+  await $fetch.raw<MachineResponse>('/api/dashboard/byzona', {
+    method: 'GET',
+    params: {
+      area_id: area_ids,
+      zona: zonas,
+      page: currentPage.value,
+      limit: 10,
+    },
+  }).then(((res) => {
+    isLoading.value = false
+    machineData.value = res._data?.data.data ?? []
+    totalMachine.value = res._data?.data.total
+  })).catch((e) => {
+    console.log(e)
+  })
+}
+
 </script>
 
 <template>
-  <div class="personal-dashboard personal-dashboard-v3">
-    <div class="columns">
-      <div class="column is-12">
-        <div class="stats-wrapper">
-          <div class="columns is-multiline is-flex-tablet-p">
-            <div class="column is-3">
-              <div class="dashboard-card">
-                <VButton
-                  icon="feather:filter"
-                  color="info"
-                  rounded
-                  @click="modalFilter = true"
-                >
-                  {{ area_name ?? userSession.user?.area_groups?.name }}
-                </VButton>
+  <div>
+    <div class="personal-dashboard personal-dashboard-v3">
+      <div class="columns">
+        <div class="column is-12">
+          <div class="stats-wrapper">
+            <div class="columns is-multiline is-flex-tablet-p">
+              <div class="column is-3">
+                <div class="dashboard-card">
+                  <VButton
+                    icon="feather:filter"
+                    color="info"
+                    rounded
+                    @click="modalFilter = true"
+                  >
+                    {{ area_name ?? userSession.user?.area_groups?.name }}
+                    {{ +count_zonas?.zona_1! + +count_zonas?.zona_2! + +count_zonas?.zona_3! }}
+                    Mesin
+                  </VButton>
+                </div>
               </div>
-            </div>
-            <div class="column is-3">
-              <div class="dashboard-card">
-                <VPlaceloadText
-                  v-if="isLoading"
-                  :lines="2"
-                  width="75%"
-                  last-line-width="25%"
-                />
-                <VBlock
-                  v-else
-                  :title="`${count_zonas?.zona_1} Mesin`"
-                  subtitle="ZONA 1"
-                  center
-                >
-                  <template #icon>
-                    <VIconBox
-                      color="info"
-                      rounded
-                    >
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:clock"
-                      />
-                    </VIconBox>
-                  </template>
-                </VBlock>
-              </div>
-            </div>
-            <div class="column is-3">
-              <div class="dashboard-card">
-                <VPlaceloadText
-                  v-if="isLoading"
-                  :lines="2"
-                  width="75%"
-                  last-line-width="25%"
-                />
-                <VBlock
-                  v-else
-                  :title="`${count_zonas?.zona_2} Mesin`"
-                  subtitle="ZONA 2"
-                  center
-                >
-                  <template #icon>
-                    <VIconBox
-                      color="purple"
-                      rounded
-                    >
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:radio"
-                      />
-                    </VIconBox>
-                  </template>
-                </VBlock>
-              </div>
-            </div>
-            <div class="column is-3">
-              <div class="dashboard-card">
-                <VPlaceloadText
-                  v-if="isLoading"
-                  :lines="2"
-                  width="75%"
-                  last-line-width="25%"
-                />
-                <VBlock
-                  v-else
-                  :title="`${count_zonas?.zona_3} Mesin`"
-                  subtitle="ZONA 3"
-                  center
-                >
-                  <template #icon>
-                    <VIconBox
-                      color="green"
-                      rounded
-                    >
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:user-check"
-                      />
-                    </VIconBox>
-                  </template>
-                </VBlock>
-              </div>
-            </div>
-            <div class="column is-6">
-              <div class="dashboard-card">
-                <VLoader size="large" :active="isLoading">
-                  <ApexChart
-                    id="interviews-chart-pie"
-                    :height="optionsCountCustomerPie?.chartOptions.chart.height"
-                    :type="optionsCountCustomerPie?.chartOptions.chart.type"
-                    :series="optionsCountCustomerPie?.series ?? []"
-                    :options="optionsCountCustomerPie?.chartOptions "
+              <div class="column is-3">
+                <div class="dashboard-card">
+                  <VPlaceloadText
+                    v-if="isLoading"
+                    :lines="2"
+                    width="75%"
+                    last-line-width="25%"
                   />
-                </VLoader>
+                  <a v-else href="#">
+                    <VBlock
+
+                      :title="`${count_zonas?.zona_1} Mesin`"
+                      subtitle="ZONA 1"
+                      center
+                      @click="getMachineByZona(area_id, 1)"
+                    >
+                      <template #icon>
+                        <VIconBox
+                          color="info"
+                          rounded
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="iconify"
+                            data-icon="feather:clock"
+                          />
+                        </VIconBox>
+                      </template>
+                    </VBlock>
+                  </a>
+                </div>
               </div>
-            </div>
-            <div class="column is-6">
-              <div class="dashboard-card">
-                <VLoader size="large" :active="isLoading">
-                  <ApexChart
-                    id="interviews-chart-bar"
-                    :height="optionsCountCustomerBar?.chart.height"
-                    :type="optionsCountCustomerBar?.chart.type"
-                    :series="optionsCountCustomerBar?.series ?? []"
-                    :options="optionsCountCustomerBar"
+              <div class="column is-3">
+                <div class="dashboard-card">
+                  <VPlaceloadText
+                    v-if="isLoading"
+                    :lines="2"
+                    width="75%"
+                    last-line-width="25%"
                   />
-                </VLoader>
+                  <a v-else href="#">
+                    <VBlock
+
+                      :title="`${count_zonas?.zona_2} Mesin`"
+                      subtitle="ZONA 2"
+                      center
+                      @click="getMachineByZona(area_id, 2)"
+                    >
+                      <template #icon>
+                        <VIconBox
+                          color="purple"
+                          rounded
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="iconify"
+                            data-icon="feather:radio"
+                          />
+                        </VIconBox>
+                      </template>
+                    </VBlock>
+                  </a>
+                </div>
               </div>
-            </div>
-            <div class="column is-12">
-              <div class="dashboard-card">
-                <VLoader size="large" :active="isLoading">
-                  <ApexChart
-                    id="interviews-chart-hor-bar"
-                    :height="optionsCountCustomerHorizontalBar?.chart.height"
-                    :type="optionsCountCustomerHorizontalBar?.chart.type"
-                    :series="optionsCountCustomerHorizontalBar?.series ?? []"
-                    :options="optionsCountCustomerHorizontalBar"
+              <div class="column is-3">
+                <div class="dashboard-card">
+                  <VPlaceloadText
+                    v-if="isLoading"
+                    :lines="2"
+                    width="75%"
+                    last-line-width="25%"
                   />
-                </VLoader>
+                  <a v-else href="#">
+                    <VBlock
+
+                      :title="`${count_zonas?.zona_3} Mesin`"
+                      subtitle="ZONA 3"
+                      center
+                      @click="getMachineByZona(area_id, 3)"
+                    >
+                      <template #icon>
+                        <VIconBox
+                          color="green"
+                          rounded
+                        >
+                          <i
+                            aria-hidden="true"
+                            class="iconify"
+                            data-icon="feather:user-check"
+                          />
+                        </VIconBox>
+                      </template>
+                    </VBlock>
+                  </a>
+                </div>
+              </div>
+              <div class="column is-6">
+                <div class="dashboard-card">
+                  <VLoader size="large" :active="isLoading">
+                    <ApexChart
+                      id="interviews-chart-pie"
+                      :height="optionsCountCustomerPie?.chartOptions.chart.height"
+                      :type="optionsCountCustomerPie?.chartOptions.chart.type"
+                      :series="optionsCountCustomerPie?.series ?? []"
+                      :options="optionsCountCustomerPie?.chartOptions "
+                    />
+                  </VLoader>
+                </div>
+              </div>
+              <div class="column is-6">
+                <div class="dashboard-card">
+                  <VLoader size="large" :active="isLoading">
+                    <ApexChart
+                      id="interviews-chart-bar"
+                      :height="optionsCountCustomerBar?.chart.height"
+                      :type="optionsCountCustomerBar?.chart.type"
+                      :series="optionsCountCustomerBar?.series ?? []"
+                      :options="optionsCountCustomerBar"
+                    />
+                  </VLoader>
+                </div>
+              </div>
+              <div class="column is-12">
+                <div class="dashboard-card">
+                  <VLoader size="large" :active="isLoading">
+                    <ApexChart
+                      id="interviews-chart-hor-bar"
+                      :height="optionsCountCustomerHorizontalBar?.chart.height"
+                      :type="optionsCountCustomerHorizontalBar?.chart.type"
+                      :series="optionsCountCustomerHorizontalBar?.series ?? []"
+                      :options="optionsCountCustomerHorizontalBar"
+                    />
+                  </VLoader>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <VModal
+      is="form"
+      :open="modalFilter"
+      title="Filter"
+      size="small"
+      actions="right"
+      @submit.prevent="onFilter"
+      @close="modalFilter = false"
+    >
+      <template #content>
+        <div class="modal-form">
+          <VField label="Pilih Area" class="is-autocomplete-select">
+            <VControl icon="feather:calendar">
+              <Multiselect
+                v-model="area_id"
+                :options="useAreaGroup"
+                :searchable="true"
+                placeholder="region"
+                @select="onSelect"
+              />
+            </VControl>
+          </VField>
+        </div>
+      </template>
+      <template #action>
+        <VButton
+          color="primary"
+          :loading="isLoading"
+          type="submit"
+        >
+          Search
+        </VButton>
+      </template>
+    </VModal>
+    <VModal
+      :open="modalZona"
+      :title="`${area_name} [ZONA ${zona}]`"
+      size="big"
+      actions="center"
+      @close="modalZona = false"
+    >
+      <template #content>
+        <div class="datatable-wrapper">
+          <div class="table-container">
+            <table class="table datatable-table is-fullwidth">
+              <thead>
+                <th>Terminal ID</th>
+
+                <th>Branch</th>
+                <th>Area</th>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="machine in machineData"
+                  :key="machine.id"
+                >
+                  <td>
+                    <div class="flex-media">
+                      <div class="meta">
+                        <h3>{{ machine.terminal_id }}</h3>
+                        <span>{{ machine.sn }}/{{ machine.customers.name }}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{ machine.branch }}</td>
+                  <td>{{ machine.area_groups.name }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <VPlaceholderPage
+            v-if="machineData?.length === 0"
+            title="We couldn't find any matching results."
+            subtitle="Too bad. Looks like we couldn't find any matching results for the search terms
+            you've entered. Please try different search terms or criteria."
+            larger
+          >
+            <template #image>
+              <img
+                class="light-image"
+                src="/@src/assets/illustrations/placeholders/search-7.svg"
+                alt=""
+              >
+              <img
+                class="dark-image"
+                src="/@src/assets/illustrations/placeholders/search-7-dark.svg"
+                alt=""
+              >
+            </template>
+          </VPlaceholderPage>
+        </div>
+
+        <!--Table Pagination-->
+        <VFlexPagination
+          v-if="machineData?.length!! > 0"
+          v-model:current-page="currentPage"
+          :item-per-page="10"
+          :total-items="totalMachine"
+          :max-links-displayed="5"
+          class="mt-4"
+          @update:current-page="getMachineByZona(area_id,zona)"
+        />
+      </template>
+      <template #action />
+    </VModal>
   </div>
-  <VModal
-    is="form"
-    :open="modalFilter"
-    title="Filter"
-    size="small"
-    actions="right"
-    @submit.prevent="onFilter"
-    @close="modalFilter = false"
-  >
-    <template #content>
-      <div class="modal-form">
-        <VField label="Pilih Area" class="is-autocomplete-select">
-          <VControl icon="feather:calendar">
-            <Multiselect
-              v-model="area_id"
-              :options="useAreaGroup"
-              :searchable="true"
-              placeholder="region"
-              @select="onSelect"
-            />
-          </VControl>
-        </VField>
-      </div>
-    </template>
-    <template #action>
-      <VButton
-        color="primary"
-        :loading="isLoading"
-        type="submit"
-      >
-        Search
-      </VButton>
-    </template>
-  </VModal>
 </template>
 
 <style lang="scss">
@@ -977,6 +1114,279 @@ async function onSelect(option: any, id: any) {
   .personal-dashboard-v3 {
     .stats-wrapper {
       height: auto;
+    }
+  }
+}
+
+.datatable-toolbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  &.is-reversed {
+    flex-direction: row-reverse;
+  }
+
+  .field {
+    margin-bottom: 0;
+
+    .control {
+      .button {
+        color: var(--light-text);
+
+        &:hover,
+        &:focus {
+          background: var(--primary);
+          border-color: var(--primary);
+          color: var(--primary--color-invert);
+        }
+      }
+    }
+  }
+
+  .buttons {
+    margin-left: auto;
+    margin-bottom: 0;
+
+    .v-button {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.is-dark {
+  .datatable-toolbar {
+    .field {
+      .control {
+        .button {
+          background: var(--dark-sidebar) !important;
+          color: var(--light-text);
+
+          &:hover,
+          &:focus {
+            background: var(--primary) !important;
+            border-color: var(--primary) !important;
+            color: var(--smoke-white) !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.datatable-wrapper {
+  width: 100%;
+
+  .datatable-container {
+    background: var(--white);
+    border: none !important;
+    overflow-x: auto;
+
+    .table,
+    table {
+      width: 100%;
+    }
+
+    &::-webkit-scrollbar {
+      height: 8px !important;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px !important;
+      background: rgb(0 0 0 / 20%) !important;
+    }
+  }
+}
+
+.datatable-table {
+  border: 1px solid var(--fade-grey);
+  border-collapse: collapse;
+  border-radius: 0.75rem;
+
+  th {
+    padding: 16px 20px;
+    font-family: var(--font-alt);
+    font-size: 0.8rem;
+    color: var(--dark-text);
+    text-transform: uppercase;
+    border: 1px solid var(--fade-grey);
+    font-weight: 600;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+  td {
+    font-family: var(--font);
+    vertical-align: middle;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--fade-grey);
+
+    &:last-child {
+      text-align: right;
+    }
+
+    &.datatables-empty {
+      opacity: 0;
+    }
+  }
+
+  .light-text {
+    color: var(--light-text);
+  }
+
+  .flex-media {
+    display: flex;
+    align-items: center;
+
+    .meta {
+      margin-left: 10px;
+      line-height: 1.3;
+
+      span {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--light-text);
+        font-family: var(--font);
+
+        &:first-child {
+          font-family: var(--font-alt);
+          color: var(--dark-text);
+        }
+      }
+    }
+  }
+
+  .row-action {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .checkbox {
+    padding: 0;
+  }
+
+  .product-photo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+  }
+
+  .file-icon {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+  }
+
+  .drinks-icon {
+    display: block;
+    max-width: 48px;
+    border-radius: var(--radius-rounded);
+    border: 1px solid var(--fade-grey);
+  }
+
+  .negative-icon,
+  .positive-icon {
+    svg {
+      height: 16px;
+      width: 16px;
+    }
+  }
+
+  .positive-icon {
+    .iconify {
+      color: var(--success);
+
+      * {
+        stroke-width: 4px;
+      }
+    }
+  }
+
+  .negative-icon {
+    &.is-danger {
+      .iconify {
+        color: var(--danger) !important;
+      }
+    }
+
+    .iconify {
+      color: var(--light-text);
+
+      * {
+        stroke-width: 4px;
+      }
+    }
+  }
+
+  .price {
+    color: var(--dark-text);
+    font-weight: 500;
+
+    &::before {
+      content: '$';
+    }
+
+    &.price-free {
+      color: var(--light-text);
+    }
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+
+    &.is-available {
+      i {
+        color: var(--success);
+      }
+    }
+
+    &.is-busy {
+      i {
+        color: var(--danger);
+      }
+    }
+
+    &.is-offline {
+      i {
+        color: var(--light-text);
+      }
+    }
+
+    i {
+      margin-right: 8px;
+      font-size: 8px;
+    }
+
+    span {
+      font-family: var(--font);
+      font-size: 0.9rem;
+      color: var(--light-text);
+    }
+  }
+}
+
+.is-dark {
+  .datatable-wrapper {
+    .datatable-container {
+      border-color: var(--dark-sidebar-light-12);
+      background: var(--dark-sidebar-light-6);
+    }
+  }
+
+  .datatable-table {
+    border-color: var(--dark-sidebar-light-12);
+
+    th,
+    td {
+      border-color: var(--dark-sidebar-light-12);
+      color: var(--dark-dark-text);
+    }
+
+    .drinks-icon {
+      border-color: var(--dark-sidebar-light-12);
     }
   }
 }

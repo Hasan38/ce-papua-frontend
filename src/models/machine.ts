@@ -1,3 +1,6 @@
+import { type AreaGroup } from './area_group'
+import { type Customer } from './customer'
+
 export interface Machine {
   id: number
   customer_id: number
@@ -14,4 +17,6 @@ export interface Machine {
   lat: string
   long: string
   created_at: string
+  area_groups: AreaGroup
+  customers: Customer
 }

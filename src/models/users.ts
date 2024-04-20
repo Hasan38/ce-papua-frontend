@@ -1,3 +1,4 @@
+import { type Role } from './role'
 import type { Regional } from '/@src/models/regional'
 
 export interface UserPopover {
@@ -31,4 +32,5 @@ export interface User {
     name: string
     regionals: Regional
   }
+  roles: Role[]
 }

@@ -5,6 +5,7 @@
 
 interface ImportMetaEnv extends Readonly<Record<string, string>> {
   readonly VITE_API_BASE_URL: string | undefined
+  readonly VITE_API_BASE_URL_ERROR: string | undefined
   readonly VITE_MAPBOX_ACCESS_TOKEN: string | undefined
 }
 

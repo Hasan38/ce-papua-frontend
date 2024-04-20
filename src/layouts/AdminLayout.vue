@@ -10,7 +10,7 @@ export type SubnavId =
   | 'closed'
   | 'home'
   | 'layouts'
-  | 'elements'
+  | 'error_codes'
   | 'settings'
   | 'search'
 
@@ -306,19 +306,19 @@ watch(
             <span>Layouts</span>
           </a>
           <a
-            :class="[activeSubnav === 'elements' && 'is-active']"
+            :class="[activeSubnav === 'error_codes' && 'is-active']"
             class="centered-link centered-link-toggle"
             tabindex="0"
             role="button"
-            @keydown.space.prevent="toggleSubnav('elements')"
-            @click="toggleSubnav('elements')"
+            @keydown.space.prevent="toggleSubnav('error_codes')"
+            @click="toggleSubnav('error_codes')"
           >
             <i
               aria-hidden="true"
               class="iconify"
-              data-icon="feather:box"
+              data-icon="feather:x-circle"
             />
-            <span>Elements</span>
+            <span>Error Code</span>
           </a>
           <a
             :class="[activeSubnav === 'settings' && 'is-active']"
@@ -416,7 +416,7 @@ watch(
 
           <LayoutsSubnav :class="[activeSubnav === 'layouts' && 'is-active']" />
 
-          <ElementsSubnav :class="[activeSubnav === 'elements' && 'is-active']" />
+          <ErrorCodesSubnav :class="[activeSubnav === 'error_codes' && 'is-active']" />
 
           <SettingsSubnav :class="[activeSubnav === 'settings' && 'is-active']" />
         </div>

@@ -500,7 +500,6 @@ useHead({
     >
       <template #content>
         <VField
-
           label="Customer Name"
         >
           <VControl fullwidth>
