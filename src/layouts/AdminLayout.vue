@@ -9,7 +9,7 @@ export type NavbarTheme = 'default' | 'colored' | 'fade'
 export type SubnavId =
   | 'closed'
   | 'home'
-  | 'layouts'
+  | 'machines'
   | 'error_codes'
   | 'settings'
   | 'search'
@@ -121,16 +121,16 @@ watch(
         </li>
         <li>
           <a
-            :class="[activeMobileSubsidebar === 'layouts' && 'is-active']"
+            :class="[activeMobileSubsidebar === 'machines' && 'is-active']"
             tabindex="0"
             role="button"
-            @keydown.space.prevent="activeMobileSubsidebar = 'layouts'"
-            @click="activeMobileSubsidebar = 'layouts'"
+            @keydown.space.prevent="activeMobileSubsidebar = 'machines'"
+            @click="activeMobileSubsidebar = 'machines'"
           >
             <i
               aria-hidden="true"
               class="iconify"
-              data-icon="feather:grid"
+              data-icon="feather:airplay"
             />
           </a>
         </li>
@@ -204,11 +204,11 @@ watch(
 
     <!-- Mobile subsidebar links -->
     <Transition name="slide-x">
-      <LayoutsMobileSubsidebar
+      <!-- <LayoutsMobileSubsidebar
         v-if="isMobileSidebarOpen && activeMobileSubsidebar === 'layouts'"
-      />
+      /> -->
       <DashboardsMobileSubsidebar
-        v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'dashboard'"
+        v-if="isMobileSidebarOpen && activeMobileSubsidebar === 'dashboard'"
       />
       <ComponentsMobileSubsidebar
         v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'components'"
@@ -289,21 +289,21 @@ watch(
           </RouterLink>
           <a
             :class="[
-              (activeSubnav === 'layouts' || route.path.startsWith('/navbar/layouts')) &&
+              (activeSubnav === 'machines' || route.path.startsWith('/admin/machine')) &&
                 'is-active',
             ]"
             class="centered-link centered-link-toggle"
             tabindex="0"
             role="button"
-            @keydown.space.prevent="toggleSubnav('layouts')"
-            @click="toggleSubnav('layouts')"
+            @keydown.space.prevent="toggleSubnav('machines')"
+            @click="toggleSubnav('machines')"
           >
             <i
               aria-hidden="true"
               class="iconify"
-              data-icon="feather:grid"
+              data-icon="feather:airplay"
             />
-            <span>Layouts</span>
+            <span>Machine</span>
           </a>
           <a
             :class="[activeSubnav === 'error_codes' && 'is-active']"
@@ -414,7 +414,7 @@ watch(
         >
           <DashboardsSubnav :class="[activeSubnav === 'home' && 'is-active']" />
 
-          <LayoutsSubnav :class="[activeSubnav === 'layouts' && 'is-active']" />
+          <MachinesSubnav :class="[activeSubnav === 'machines' && 'is-active']" />
 
           <ErrorCodesSubnav :class="[activeSubnav === 'error_codes' && 'is-active']" />
 

@@ -46,6 +46,7 @@ declare module 'vue-router/auto/routes' {
     '/admin/error_code/cml/': RouteRecordInfo<'/admin/error_code/cml/', '/admin/error_code/cml', Record<never, never>, Record<never, never>>,
     '/admin/error_code/cml/[comment]': RouteRecordInfo<'/admin/error_code/cml/[comment]', '/admin/error_code/cml/:comment', { comment: ParamValue<true> }, { comment: ParamValue<false> }>,
     '/admin/error_code/search/': RouteRecordInfo<'/admin/error_code/search/', '/admin/error_code/search', Record<never, never>, Record<never, never>>,
+    '/admin/machine/': RouteRecordInfo<'/admin/machine/', '/admin/machine', Record<never, never>, Record<never, never>>,
     '/admin/setting/area/': RouteRecordInfo<'/admin/setting/area/', '/admin/setting/area', Record<never, never>, Record<never, never>>,
     '/admin/setting/customer/': RouteRecordInfo<'/admin/setting/customer/', '/admin/setting/customer', Record<never, never>, Record<never, never>>,
     '/admin/setting/machine/': RouteRecordInfo<'/admin/setting/machine/', '/admin/setting/machine', Record<never, never>, Record<never, never>>,

@@ -216,6 +216,7 @@ declare module 'vue' {
     ListWidgetTodoList: typeof import('./../src/components/partials/widgets/list/content/ListWidgetTodoList.vue')['default']
     ListWidgetTopicList: typeof import('./../src/components/partials/widgets/list/content/ListWidgetTopicList.vue')['default']
     ListWidgetUserList: typeof import('./../src/components/partials/widgets/list/content/ListWidgetUserList.vue')['default']
+    MachinesSubnav: typeof import('./../src/layouts/navbar-items/MachinesSubnav.vue')['default']
     MailboxPanel: typeof import('./../src/components/partials/inbox/panel/MailboxPanel.vue')['default']
     MapMarker: typeof import('./../src/components/partials/maps/MapMarker.vue')['default']
     MapsDashboard: typeof import('./../src/components/pages/dashboards/business/MapsDashboard.vue')['default']
