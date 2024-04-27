@@ -1,10 +1,8 @@
-# Vuero Vue3 - Multipurpose Admin and Webapp Template
-
-[![cssninja-discord](https://img.shields.io/discord/785473098069311510?label=join%20us%20on%20discord&color=6944EC)](https://go.cssninja.io/discord)
+# CE-FRONTEND
 
 ## ▶️ Getting started
 
-First of all, Thank you so much for purchasing this template and for being our loyal customer. You are awesome! You are entitled to get free lifetime updates to this product and support from the cssninjaStudio team directly. **Vuero** is a product built by [cssninjaStudio](https://cssninja.io/) and [Digisquad](https://digisquad.io/).
+First of all, Thank you so much for purchasing this template and for being our loyal customer. You are awesome! You are entitled to get free lifetime updates to this product and support from the cssninjaStudio team directly. **CE-FRONTEND** is a product built by [hasanrevastt].
 
 ### Prerequisites
 
@@ -84,35 +82,5 @@ You can find how we use it in the `/src/pages/messaging-v1.vue` file and the `/s
 You can only start vite with `dev:json-server`  
 Read more about it [on github.com/typicode/json-server](https://github.com/typicode/json-server)
 
-> - Access the Vuero frontend in your browser at [http://localhost:3000/](http://localhost:3000/)
+> - Access the ce-frontend in your browser at [http://localhost:3000/](http://localhost:3000/)
 > - Access the Json-server backend in your browser at [http://localhost:8080/](http://localhost:8080/)
-
-## 💡 What to do next ?
-
-Our online documentation is a great place to learn how to use Vuero.
-We try to keep it mostly up to date, so you can always find the latest information.
-
-> We also have a great [discord community](https://go.cssninja.io/discord) where you can ask questions and show your work.
-
-### [Vuero on docs.cssninja.io](https://docs.cssninja.io/vuero?utm_source=readme)
-
-- [Setup your project](https://docs.cssninja.io/vuero/guide/setup-your-project.html?utm_source=readme)
-- [Customizing Vuero](https://docs.cssninja.io/vuero/guide/customizing-vuero.html?utm_source=readme)
-- [Common Issues](https://docs.cssninja.io/vuero/help/common-issues.html?utm_source=readme)
-- [Customer support](https://docs.cssninja.io/vuero/help/customer-support.html?utm_source=readme)
-- [Changelog](https://docs.cssninja.io/vuero/guide/changelog?utm_source=readme)
-
-We try to keep Vuero dependencies and best practices up to dates. We also take care of user requests, either by implementing requested features, fixing bugs or improving the documentation.
-
-You can also have [access to the private github access](https://cssninja.io/faq/github-access), so you can view the source code history and submit issues. To do so, create an account and verify your envato purchase on [https://cssninja.io/](https://cssninja.io/faq/github-access).
-
-### Useful links
-
-- http://vuejs.org/
-  - https://vuejs.org/guide/extras/composition-api-faq.html
-  - https://vuejs.org/api/#composition-api
-  - https://vuejs.org/api/sfc-script-setup.html
-  - https://vuejs.org/guide/typescript/overview.html
-- https://vitejs.dev/
-- https://pinia.esm.dev/
-- https://vueuse.org/
