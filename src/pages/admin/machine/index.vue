@@ -15,7 +15,7 @@ const modalView = ref(false)
 // const url = import.meta.env.VITE_API_BASE_URL
 // const notyf = useNotyf()
 const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle('Machines')
+viewWrapper.setPageTitle('Machine')
 interface FormEmpresasProps {
   machine?: Machine
 

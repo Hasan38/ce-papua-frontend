@@ -5,6 +5,7 @@ import type { AreaGroup } from '/@src/models/area_group'
 import { useNotyf } from '/@src/composable/useNotyf'
 import { useRegional } from '/@src/services/get-regional'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
+import { useUserSession } from '/@src/stores/userSession'
 // the total data will be set by the fetchData function
 const total = ref(0)
 const componentKey = ref(0)
@@ -13,9 +14,10 @@ const componentKey = ref(0)
 const modalEdit = ref(false)
 const modalAdd = ref(false)
 const modalDelete = ref(false)
+const userSession = useUserSession()
 // const url = import.meta.env.VITE_API_BASE_URL
 const isLoading = ref(false)
-const errors = ref({})
+const errors = ref<any>({})
 const name = ref('')
 const regional_id = ref()
 const notyf = useNotyf()
@@ -355,6 +357,7 @@ useHead({
 
           <template #before-navigation>
             <VButton
+              v-if="userSession.user?.roles[0].name === 'admin'"
               color="primary"
               class="mr-2"
               rounded
@@ -469,7 +472,7 @@ useHead({
             </template>
 
             <template v-if="column.key === 'actions'">
-              <VButtons>
+              <VButtons v-if="userSession.user?.roles[0].name === 'admin'">
                 <VIconButton
                   color="success"
                   icon="feather:edit"

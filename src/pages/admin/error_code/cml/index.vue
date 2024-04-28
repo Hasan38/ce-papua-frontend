@@ -5,6 +5,14 @@ import { useUserSession } from '/@src/stores/userSession'
 import { useNotyf } from '/@src/composable/useNotyf'
 import CKE from '@ckeditor/ckeditor5-vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { useViewWrapper } from '/@src/stores/viewWrapper'
+
+const viewWrapper = useViewWrapper()
+viewWrapper.setPageTitle('CML')
+
+useHead({
+  title: 'Error code - CML',
+})
 const CKEditor = CKE.component
 const config = {
   fontFamily: {
@@ -339,6 +347,7 @@ const onDelete = async () => {
         </div>
       </TransitionGroup>
       <VFlexPagination
+        v-if="errorData?.length !== 0"
         :current-page="currentPage"
         :item-per-page="10"
         :total-items="(total as number) ?? 0"

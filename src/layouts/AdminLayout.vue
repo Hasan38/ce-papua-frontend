@@ -287,16 +287,15 @@ watch(
             />
             <span>Dashboards</span>
           </RouterLink>
-          <a
+          <RouterLink
             :class="[
-              (activeSubnav === 'machines' || route.path.startsWith('/admin/machine')) &&
+              (route.path.startsWith('/admin/machine')) &&
                 'is-active',
             ]"
             class="centered-link centered-link-toggle"
             tabindex="0"
             role="button"
-            @keydown.space.prevent="toggleSubnav('machines')"
-            @click="toggleSubnav('machines')"
+            to="/admin/machine"
           >
             <i
               aria-hidden="true"
@@ -304,7 +303,7 @@ watch(
               data-icon="feather:airplay"
             />
             <span>Machine</span>
-          </a>
+          </RouterLink>
           <a
             :class="[activeSubnav === 'error_codes' && 'is-active']"
             class="centered-link centered-link-toggle"
@@ -414,7 +413,7 @@ watch(
         >
           <DashboardsSubnav :class="[activeSubnav === 'home' && 'is-active']" />
 
-          <MachinesSubnav :class="[activeSubnav === 'machines' && 'is-active']" />
+          <!-- <MachinesSubnav :class="[activeSubnav === 'machines' && 'is-active']" /> -->
 
           <ErrorCodesSubnav :class="[activeSubnav === 'error_codes' && 'is-active']" />
 

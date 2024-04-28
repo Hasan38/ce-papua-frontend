@@ -6,14 +6,33 @@ import { useUserSession } from '/@src/stores/userSession'
 import { useForm } from 'vee-validate'
 import { z } from 'zod'
 import { useNotyf } from '/@src/composable/useNotyf'
+import CKE from '@ckeditor/ckeditor5-vue'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { useViewWrapper } from '/@src/stores/viewWrapper'
 
+const viewWrapper = useViewWrapper()
+viewWrapper.setPageTitle('Search EC')
+
+useHead({
+  title: 'Error code',
+})
+
+const CKEditor = CKE.component
+const config = {
+  fontFamily: {
+    options: ['"Montserrat", sans-serif', '"Roboto", sans-serif'],
+  },
+}
+
+const problem_info = ref('')
+const action_taken = ref('')
 const $fetch = useLaravelFetch()
 const code = ref('')
 const userSession = useUserSession()
 const model = ref('SR7500')
 const isLoading = ref(false)
 const errorData = ref<ErrorCode[]>()
-const errors = ref({})
+const errors = ref<any>({})
 const modalPost = ref(false)
 const errorValue = ref<any>([])
 const notyf = useNotyf()
@@ -75,16 +94,6 @@ const zodSchema = z
         required_error: 'pilih tipe mesin',
       })
       .min(2, 'type mesin min 3 karakter'),
-    problem_info: z
-      .string({
-        required_error: 'isi problem',
-      })
-      .min(3, 'isi problem min 3 karakter'),
-    action_taken: z
-      .string({
-        required_error: 'isi detail action',
-      })
-      .min(3, 'action taken should contains at least 3 characters'),
 
   })
 
@@ -97,9 +106,6 @@ const { handleSubmit } = useForm({
   validationSchema,
   initialValues: {
     machine_type: '',
-    problem_info: '',
-    action_taken: '',
-
   },
 })
 
@@ -120,8 +126,8 @@ const onPost = handleSubmit(async (values) => {
       user_id: userSession.user?.id,
       error_code: errorValue.value,
       machine_type: values.machine_type,
-      problem_info: values.problem_info,
-      action_taken: values.action_taken,
+      problem_info: problem_info.value,
+      action_taken: action_taken.value,
 
     },
   }).then(() => {
@@ -831,47 +837,31 @@ const onPost = handleSubmit(async (values) => {
           </VControl>
         </VField>
         <VField
-          id="problem_info"
-          v-slot="{ field }"
+
           label="Problem Info"
         >
           <VControl fullwidth>
-            <VTextarea
-
-              class="textarea"
-              rows="4"
-              placeholder="Problem Info..."
-              autocomplete="off"
-              autocapitalize="off"
-              spellcheck="true"
+            <CKEditor
+              v-model="problem_info"
+              :editor="ClassicEditor"
+              class="ck-editor"
+              :config="config"
             />
-            <p v-if="field?.errorMessage" class="help is-danger">
-              {{ field.errorMessage }}
-            </p>
-            <p v-if="errors?.problem_info" class="help is-danger">
+
+            <p v-if="errors?.problem_info" class="help has-text-danger">
               {{ errors?.problem_info }}
             </p>
           </VControl>
         </VField>
-        <VField
-          id="action_taken"
-          v-slot="{ field }"
-          label="Detail Action"
-        >
+        <VField label="Detail Action">
           <VControl fullwidth>
-            <VTextarea
-
-              class="textarea"
-              rows="4"
-              placeholder="Detail Action..."
-              autocomplete="off"
-              autocapitalize="off"
-              spellcheck="true"
+            <CKEditor
+              v-model="action_taken"
+              :editor="ClassicEditor"
+              :config="config"
             />
-            <p v-if="field?.errorMessage" class="help is-danger">
-              {{ field.errorMessage }}
-            </p>
-            <p v-if="errors?.action_taken" class="help is-danger">
+
+            <p v-if="errors?.action_taken" class="help has-text-danger">
               {{ errors?.action_taken }}
             </p>
           </VControl>

@@ -6,6 +6,14 @@ import { useUserSession } from '/@src/stores/userSession'
 import { useNotyf } from '/@src/composable/useNotyf'
 import moment from 'moment'
 import { type Rating } from '/@src/models/rating'
+import { useViewWrapper } from '/@src/stores/viewWrapper'
+
+const viewWrapper = useViewWrapper()
+viewWrapper.setPageTitle('CML-Detail')
+
+useHead({
+  title: 'Error code - CML',
+})
 
 const route = useRoute()
 const userSession = useUserSession()
