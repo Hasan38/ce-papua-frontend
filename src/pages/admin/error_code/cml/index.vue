@@ -540,7 +540,7 @@ const onDelete = async () => {
           <div class="field">
             <VPlaceholderSection
               title="Are you sure you want to delete this?"
-              :subtitle="isError.error_code"
+              :subtitle="`${isError.error_code}`"
             />
           </div>
         </div>

@@ -11,12 +11,9 @@ const componentKey = ref(0)
 // we don't have to set "searchable" parameter
 // this will be handled by the fetchData function
 // const userSession = useUserSession()
-const errors = ref<any>({})
-const modalDelete = ref(false)
+const modalView = ref(false)
 // const url = import.meta.env.VITE_API_BASE_URL
-const isLoading = ref(false)
 // const notyf = useNotyf()
-const router = useRouter()
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle('Machines')
 interface FormEmpresasProps {
@@ -233,34 +230,14 @@ const fetchData: VFlexTableWrapperDataResolver = async ({
   return data.data?.data
 }
 
-function addDelete(row: any) {
-  modalDelete.value = true
+function addView(row: any) {
+  modalView.value = true
   isMachine.value = row
-}
-
-const onDelete = async () => {
-  if (isLoading.value) return
-  isLoading.value = true
-
-  await $fetch.raw(`/api/machine/${isMachine.value.id}`, { method: 'DELETE' }).then(() => {
-    isLoading.value = false
-    componentKey.value += 1
-    modalDelete.value = false
-  }).catch((e) => {
-    isLoading.value = false
-    if (e.status === 422) {
-      errors.value = e.data.errors
-    }
-  })
 }
 
 useHead({
   title: 'Data Machines',
 })
-
-function addMachine() {
-  router.push('/admin/setting/machine/add')
-}
 
 </script>
 
@@ -310,16 +287,6 @@ function addMachine() {
           </template>
 
           <template #before-navigation>
-            <VButton
-              color="primary"
-              class="mr-2"
-              rounded
-              icon="fas fa-plus"
-              @click="addMachine"
-            >
-              Add
-            </VButton>
-
             <VFlex class="mr-4">
               <VField>
                 <VControl>
@@ -442,18 +409,18 @@ function addMachine() {
 
             <template v-if="column.key === 'actions'">
               <VButtons>
-                <RouterLink :to="`/admin/setting/machine/${row.id}`">
+                <RouterLink :to="`/admin/machine/note/${row.id}`">
                   <VIconButton
                     color="success"
-                    icon="feather:edit"
+                    icon="feather:file-text"
                     circle
                   />
                 </RouterLink>
                 <VIconButton
-                  color="primary"
-                  icon="feather:trash"
+                  color="warning"
+                  icon="feather:eye"
                   circle
-                  @click="addDelete(row)"
+                  @click="addView(row)"
                 />
               </VButtons>
             </template>
@@ -473,36 +440,148 @@ function addMachine() {
     </VFlexTableWrapper>
 
     <VModal
-      is="form"
-      :open="modalDelete"
-      title=""
-      size="small"
+      :open="modalView"
+      title="Detail"
+      size="large"
       actions="center"
-      @submit.prevent="onDelete"
-      @close="modalDelete = false"
+      @close="modalView = false"
     >
       <template #content>
         <div class="modal-form">
-          <div class="field">
-            <VPlaceholderSection
-              title="Are you sure you want to delete this?"
-              :subtitle="isMachine.terminal_id"
-            />
-            <VMessage v-if="errors.message" color="danger">
-              {{ errors.message }}
-            </VMessage>
+          <div class="columns is-multiline">
+            <div class="column is-6">
+              <VField label="customer" class="is-autocomplete-select">
+                <VControl icon="feather:slack">
+                  <VInput
+                    v-model="isMachine.customer_type"
+                    type="text"
+                    disabled
+                  />
+                </VControl>
+              </VField>
+            </div>
+
+            <div class="column is-6">
+              <VField
+
+                label="branch"
+              >
+                <VControl icon="feather:slack">
+                  <VInput
+                    v-model="isMachine.branch"
+                    type="text"
+                    disabled
+                  />
+                </VControl>
+              </VField>
+            </div>
+            <div class="column is-6">
+              <VField
+
+                label="terminal id/wsid/tid"
+              >
+                <VControl icon="feather:slack">
+                  <VInput
+                    v-model="isMachine.terminal_id"
+                    type="text"
+
+                    disabled
+                  />
+                </VControl>
+              </VField>
+            </div>
+            <div class="column is-6">
+              <VField
+
+                label="SN"
+              >
+                <VControl icon="feather:slack">
+                  <VInput
+                    v-model="isMachine.sn"
+                    type="text"
+                    placeholder="SN"
+                    disabled
+                  />
+                </VControl>
+              </VField>
+            </div>
+            <div class="column is-6">
+              <VField
+
+                label="Machine Type"
+              >
+                <VControl>
+                  <VInput
+                    v-model="isMachine.machine_type"
+                    type="text"
+                    disabled
+                  />
+                </VControl>
+              </VField>
+            </div>
+            <div class="column is-6">
+              <VField
+
+                label="Address"
+              >
+                <VControl fullwidth>
+                  <VTextarea
+                    v-model="isMachine.address"
+                    class="textarea"
+                    rows="4"
+                    disabled
+                  />
+                </VControl>
+              </VField>
+            </div>
+
+            <div class="column is-6">
+              <VField
+
+                label="zona"
+              >
+                <VControl>
+                  <VInput
+                    v-model="isMachine.zona"
+                    type="text"
+                    disabled
+                  />
+                </VControl>
+              </VField>
+            </div>
+            <div class="column is-6">
+              <VField
+
+                label="service status"
+              >
+                <VControl>
+                  <VInput
+                    v-model="isMachine.service_status"
+                    type="text"
+                    disabled
+                  />
+                </VControl>
+              </VField>
+            </div>
+            <div class="column is-6">
+              <VField
+
+                label="pengelola"
+              >
+                <VControl icon="feather:slack">
+                  <VInput
+                    v-model="isMachine.pengelola"
+                    type="text"
+                    placeholder="pengelola"
+                    disabled
+                  />
+                </VControl>
+              </VField>
+            </div>
           </div>
         </div>
       </template>
-      <template #action>
-        <VButton
-          color="primary"
-          :loading="isLoading"
-          type="submit"
-        >
-          Confirm
-        </VButton>
-      </template>
+      <template #action />
     </VModal>
   </div>
 </template>

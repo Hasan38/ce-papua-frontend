@@ -1,5 +1,6 @@
 import { type AreaGroup } from './area_group'
 import { type Customer } from './customer'
+import { type Note } from './note'
 
 export interface Machine {
   id: number
@@ -19,4 +20,5 @@ export interface Machine {
   created_at: string
   area_groups: AreaGroup
   customers: Customer
+  notes: Note[]
 }
