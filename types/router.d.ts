@@ -58,6 +58,8 @@ declare module 'vue-router/auto/routes' {
     '/admin/setting/user/': RouteRecordInfo<'/admin/setting/user/', '/admin/setting/user', Record<never, never>, Record<never, never>>,
     '/admin/setting/user/[edit]': RouteRecordInfo<'/admin/setting/user/[edit]', '/admin/setting/user/:edit', { edit: ParamValue<true> }, { edit: ParamValue<false> }>,
     '/admin/setting/user/add': RouteRecordInfo<'/admin/setting/user/add', '/admin/setting/user/add', Record<never, never>, Record<never, never>>,
+    '/admin/tutorial/[add]': RouteRecordInfo<'/admin/tutorial/[add]', '/admin/tutorial/:add', { add: ParamValue<true> }, { add: ParamValue<false> }>,
+    '/admin/tutorial/video/': RouteRecordInfo<'/admin/tutorial/video/', '/admin/tutorial/video', Record<never, never>, Record<never, never>>,
     '/auth': RouteRecordInfo<'/auth', '/auth', Record<never, never>, Record<never, never>>,
     '/auth/login': RouteRecordInfo<'/auth/login', '/auth/login', Record<never, never>, Record<never, never>>,
     '/auth/signup-1': RouteRecordInfo<'/auth/signup-1', '/auth/signup-1', Record<never, never>, Record<never, never>>,

@@ -11,6 +11,7 @@ export type SubnavId =
   | 'home'
   | 'machines'
   | 'error_codes'
+  | 'tutorials'
   | 'settings'
   | 'search'
 
@@ -320,6 +321,21 @@ watch(
             <span>Error Code</span>
           </a>
           <a
+            :class="[activeSubnav === 'tutorials' && 'is-active']"
+            class="centered-link centered-link-toggle"
+            tabindex="0"
+            role="button"
+            @keydown.space.prevent="toggleSubnav('tutorials')"
+            @click="toggleSubnav('tutorials')"
+          >
+            <i
+              aria-hidden="true"
+              class="iconify"
+              data-icon="feather:archive"
+            />
+            <span>Archiev</span>
+          </a>
+          <a
             :class="[activeSubnav === 'settings' && 'is-active']"
             class="centered-link centered-link-toggle"
             tabindex="0"
@@ -412,11 +428,8 @@ watch(
           class="navbar-subnavbar"
         >
           <DashboardsSubnav :class="[activeSubnav === 'home' && 'is-active']" />
-
-          <!-- <MachinesSubnav :class="[activeSubnav === 'machines' && 'is-active']" /> -->
-
           <ErrorCodesSubnav :class="[activeSubnav === 'error_codes' && 'is-active']" />
-
+          <TutorialsSubnav :class="[activeSubnav === 'tutorials' && 'is-active']" />
           <SettingsSubnav :class="[activeSubnav === 'settings' && 'is-active']" />
         </div>
       </template>

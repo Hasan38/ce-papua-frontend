@@ -401,6 +401,7 @@ declare module 'vue' {
     TooltipBaseDocumentation: typeof import('./../documentation/tooltip/tooltip-base-documentation.md')['default']
     TooltipColorsDocumentation: typeof import('./../documentation/tooltip/tooltip-colors-documentation.md')['default']
     TooltipShapesDocumentation: typeof import('./../documentation/tooltip/tooltip-shapes-documentation.md')['default']
+    TutorialsSubnav: typeof import('./../src/layouts/navbar-items/TutorialsSubnav.vue')['default']
     UIWidget: typeof import('./../src/components/partials/widgets/ui-creative/UIWidget.vue')['default']
     UIWidgetCreativeList: typeof import('./../src/components/partials/widgets/ui-creative/content/UIWidgetCreativeList.vue')['default']
     UIWidgetDays: typeof import('./../src/components/partials/widgets/ui-creative/content/UIWidgetDays.vue')['default']
