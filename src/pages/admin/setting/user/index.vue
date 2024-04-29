@@ -3,6 +3,7 @@ import type { User } from '/@src/models/users'
 import { useLaravelFetch } from '/@src/composable/useLaravelFetch'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 import { useNotyf } from '/@src/composable/useNotyf'
+import { useUserSession } from '/@src/stores/userSession'
 export interface UserResponse {
   success: boolean
   data: {
@@ -24,6 +25,7 @@ const props = withDefaults(defineProps<FormEmpresasProps>(), {
   users: Object,
 })
 
+const userSession = useUserSession()
 const notyf = useNotyf()
 const isUser = ref(props.users) ?? null
 const viewWrapper = useViewWrapper()
@@ -113,6 +115,7 @@ const deleteUser = async () => {
 
       <VButtons>
         <VButton
+          v-if="userSession.user?.roles[0].name === 'admin'"
           color="primary"
           to="/admin/setting/user/add"
           icon="fas fa-plus"
@@ -160,7 +163,7 @@ const deleteUser = async () => {
                 </div>
               </td>
               <td>
-                <VButtons>
+                <VButtons v-if="userSession.user?.roles[0].name === 'admin'">
                   <RouterLink
                     :to="`/admin/setting/user/${user.id}`"
                   >

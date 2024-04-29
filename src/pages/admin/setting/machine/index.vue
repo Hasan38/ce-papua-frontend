@@ -4,13 +4,13 @@ import { useLaravelFetch } from '/@src/composable/useLaravelFetch'
 import type { Machine } from '/@src/models/machine'
 // import { useNotyf } from '/@src/composable/useNotyf'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
-// import { useUserSession } from '/@src/stores/userSession'
+import { useUserSession } from '/@src/stores/userSession'
 // the total data will be set by the fetchData function
 const total = ref(0)
 const componentKey = ref(0)
 // we don't have to set "searchable" parameter
 // this will be handled by the fetchData function
-// const userSession = useUserSession()
+const userSession = useUserSession()
 const errors = ref<any>({})
 const modalDelete = ref(false)
 // const url = import.meta.env.VITE_API_BASE_URL
@@ -311,6 +311,7 @@ function addMachine() {
 
           <template #before-navigation>
             <VButton
+              v-if="userSession.user?.roles[0].name !== 'guest'"
               color="primary"
               class="mr-2"
               rounded
@@ -441,7 +442,7 @@ function addMachine() {
             </template>
 
             <template v-if="column.key === 'actions'">
-              <VButtons>
+              <VButtons v-if="userSession.user?.roles[0].name !== 'guest'">
                 <RouterLink :to="`/admin/setting/machine/${row.id}`">
                   <VIconButton
                     color="success"

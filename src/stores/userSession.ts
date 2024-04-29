@@ -9,12 +9,12 @@ export const useUserSession = defineStore('userSession', () => {
   // @see https://vueuse.org/core/usestorage/
   const token = useStorage('token', '')
 
-  const user = ref<Partial<User>>()
+  const user = ref<User>()
   const loading = ref(true)
 
   const isLoggedIn = computed(() => token.value !== undefined && token.value !== '')
 
-  function setUser(newUser: Partial<User>) {
+  function setUser(newUser: User) {
     user.value = newUser
   }
 
