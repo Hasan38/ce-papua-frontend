@@ -385,7 +385,7 @@ useHead({
               <div>
                 <span class="dark-text">{{ row?.terminal_id }}</span>
                 <VTextEllipsis width="280px" class="light-text">
-                  {{ row?.sn }}
+                  {{ row?.sn }}/ {{ row.notes_count }} notes count
                 </VTextEllipsis>
               </div>
             </template>

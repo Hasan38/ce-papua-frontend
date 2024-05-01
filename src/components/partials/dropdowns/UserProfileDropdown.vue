@@ -1,12 +1,35 @@
 <script setup lang="ts">
 import { useUserSession } from '/@src/stores/userSession'
+import { useLaravelError } from '/@src/composable/useLaravelError'
+import { useLaravelFetch } from '/@src/composable/useLaravelFetch'
+import { useNotyf } from '/@src/composable/useNotyf'
 
+const $fetch = useLaravelFetch()
+const notyf = useNotyf()
 const userSession = useUserSession()
 const router = useRouter()
+const isLoading = ref(false)
 
 function logout() {
-  userSession.logoutUser()
-  router.push('/')
+  if (!isLoading.value) {
+    isLoading.value = true
+
+    try {
+      $fetch('/sanctum/csrf-cookie')
+      $fetch('/api/users/logout', {
+        method: 'POST',
+      })
+      isLoading.value = false
+      userSession.logoutUser()
+      router.push('/auth/login')
+    }
+    catch (err: any) {
+      notyf.error(useLaravelError(err))
+    }
+    finally {
+      isLoading.value = false
+    }
+  }
 }
 </script>
 
@@ -38,7 +61,7 @@ function logout() {
 
         <div class="meta">
           <span>{{ userSession.user?.name ?? 'UNKNOWN' }}</span>
-          <span>Product Manager</span>
+          <span>{{ userSession.user?.roles[0].name }}</span>
         </div>
       </div>
 
@@ -56,61 +79,6 @@ function logout() {
         <div class="meta">
           <span>Profile</span>
           <span>View your profile</span>
-        </div>
-      </a>
-
-      <hr class="dropdown-divider">
-
-      <a
-        href="#"
-        role="menuitem"
-        class="dropdown-item is-media"
-      >
-        <div class="icon">
-          <i
-            aria-hidden="true"
-            class="lnil lnil-briefcase"
-          />
-        </div>
-        <div class="meta">
-          <span>Projects</span>
-          <span>All my projects</span>
-        </div>
-      </a>
-
-      <a
-        href="#"
-        role="menuitem"
-        class="dropdown-item is-media"
-      >
-        <div class="icon">
-          <i
-            aria-hidden="true"
-            class="lnil lnil-users-alt"
-          />
-        </div>
-        <div class="meta">
-          <span>Team</span>
-          <span>Manage your team</span>
-        </div>
-      </a>
-
-      <hr class="dropdown-divider">
-
-      <a
-        href="#"
-        role="menuitem"
-        class="dropdown-item is-media"
-      >
-        <div class="icon">
-          <i
-            aria-hidden="true"
-            class="lnil lnil-cog"
-          />
-        </div>
-        <div class="meta">
-          <span>Settings</span>
-          <span>Account settings</span>
         </div>
       </a>
 

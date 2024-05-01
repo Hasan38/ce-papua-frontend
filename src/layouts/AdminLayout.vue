@@ -245,23 +245,8 @@ watch(
       <template #toolbar>
         <Toolbar class="desktop-toolbar">
           <ToolbarNotification />
-
-          <a
-            class="toolbar-link right-panel-trigger"
-            tabindex="0"
-            role="button"
-            @keydown.space.prevent="panels.setActive('activity')"
-            @click="panels.setActive('activity')"
-          >
-            <i
-              aria-hidden="true"
-              class="iconify"
-              data-icon="feather:grid"
-            />
-          </a>
         </Toolbar>
 
-        <LayoutSwitcher />
         <UserProfileDropdown right />
       </template>
 
@@ -436,7 +421,6 @@ watch(
     </Navbar>
 
     <LanguagesPanel />
-    <ActivityPanel />
     <TaskPanel />
 
     <VViewWrapper top-nav>
@@ -459,20 +443,6 @@ watch(
 
               <Toolbar class="mobile-toolbar">
                 <ToolbarNotification />
-
-                <a
-                  class="toolbar-link right-panel-trigger"
-                  tabindex="0"
-                  role="button"
-                  @keydown.space.prevent="panels.setActive('activity')"
-                  @click="panels.setActive('activity')"
-                >
-                  <i
-                    aria-hidden="true"
-                    class="iconify"
-                    data-icon="feather:grid"
-                  />
-                </a>
               </Toolbar>
             </div>
 

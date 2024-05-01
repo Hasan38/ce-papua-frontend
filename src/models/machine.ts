@@ -20,5 +20,6 @@ export interface Machine {
   created_at: string
   area_groups: AreaGroup
   customers: Customer
+  notes_count: number
   notes: Note[]
 }
