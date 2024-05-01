@@ -203,8 +203,8 @@ function dateshow(value: any) {
             </template>
             <template #action>
               <VIconWrap
+                v-if="userSession.user?.id === item.user_id || userSession.user?.roles[0]?.name ==='admin'"
                 icon="feather:trash"
-
                 @click="addDelete(item)"
               />
             </template>

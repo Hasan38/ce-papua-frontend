@@ -4,12 +4,14 @@ import { useNotyf } from '/@src/composable/useNotyf'
 import type { TutorialResponse, Tutorial } from '/@src/models/tutorial'
 import moment from 'moment'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
+import { useUserSession } from '/@src/stores/userSession'
 
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle('Archiev Videos')
 useHead({
   title: computed(() => 'Archiev Video'),
 })
+const userSession = useUserSession()
 const path = ref<any>('video')
 const $fetch = useLaravelFetch()
 const isLoading = ref(false)
@@ -210,6 +212,7 @@ const onDelete = async () => {
                 </button>
 
                 <VDropdown
+                  v-if="userSession.user?.roles[0]?.name ==='admin'"
                   icon="feather:more-vertical"
                   class="play-button-right"
                   spaced

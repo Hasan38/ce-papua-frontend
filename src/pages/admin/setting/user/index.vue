@@ -148,7 +148,7 @@ const deleteUser = async () => {
                   />
                   <div class="meta">
                     <h3>{{ user.name }}</h3>
-                    <span>{{ user.nip }}/{{ user.roles[0].name }}</span>
+                    <span>{{ user.nip }}/{{ user.roles[0]?.name ?? '' }}</span>
                   </div>
                 </div>
               </td>

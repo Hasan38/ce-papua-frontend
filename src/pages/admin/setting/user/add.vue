@@ -40,6 +40,7 @@ const zodSchema = z
         required_error: 'Enter a valid NIP',
       })
       .min(8, 'Your NIP should contains at least 8 characters'),
+
     address: z
       .string({
         required_error: 'Enter your Address',
@@ -91,7 +92,7 @@ const onSubmit = handleSubmit(async (values) => {
         area_id: area_id.value,
         address: values.address,
         phone: values.phone,
-        password: 'papuamerdeka',
+        password: 'Hitachi2',
 
       },
     })
@@ -189,6 +190,7 @@ const onSubmit = handleSubmit(async (values) => {
                 </VControl>
               </VField>
             </div>
+            
             <div class="column is-6">
               <VField
                 id="email"

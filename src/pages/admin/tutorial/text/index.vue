@@ -4,12 +4,14 @@ import { useNotyf } from '/@src/composable/useNotyf'
 import type { TutorialResponse, Tutorial } from '/@src/models/tutorial'
 import moment from 'moment'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
+import { useUserSession } from '/@src/stores/userSession'
 
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle('Archiev')
 useHead({
   title: computed(() => 'Archiev'),
 })
+const userSession = useUserSession()
 const path = ref<any>('text')
 const $fetch = useLaravelFetch()
 const isLoading = ref(false)
@@ -103,12 +105,15 @@ const onDelete = async () => {
 <template>
   <div>
     <div class="card-grid-toolbar">
-      <VControl icon="feather:search">
-        <input
-          class="input custom-text-filter"
-          placeholder="Search..."
-        >
-      </VControl>
+      <VField>
+        <VControl icon="feather:search">
+          <input
+            v-model="filters"
+            class="input custom-text-filter"
+            placeholder="Search..."
+          >
+        </VControl>
+      </VField>
 
       <div class="buttons">
         <VButton
@@ -199,6 +204,7 @@ const onDelete = async () => {
                   </div>
                   <div class="card-header-icon">
                     <VDropdown
+                      v-if="userSession.user?.roles[0]?.name ==='admin'"
                       icon="feather:more-vertical"
                       class="play-button-right"
                       spaced
@@ -253,7 +259,7 @@ const onDelete = async () => {
                         class="dark-inverted"
                         role="button"
                         tabIndex="0"
-                        @keypress="onKeyPressHandler"
+                        @keypress="addView(item)"
                         @click="addView(item)"
                       >
                         {{ item.title }}

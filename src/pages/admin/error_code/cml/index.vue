@@ -273,6 +273,7 @@ const onDelete = async () => {
                     </div>
                   </RouterLink>
                   <a
+                    v-if="userSession.user?.id === item.user_id || userSession.user?.roles[0]?.name ==='admin'"
                     href="#"
                     role="menuitem"
                     class="dropdown-item is-media"
@@ -293,6 +294,7 @@ const onDelete = async () => {
                   <hr class="dropdown-divider">
 
                   <a
+                    v-if="userSession.user?.id === item.user_id || userSession.user?.roles[0]?.name ==='admin'"
                     href="#"
                     role="menuitem"
                     class="dropdown-item is-media"

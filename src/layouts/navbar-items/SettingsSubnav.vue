@@ -110,7 +110,7 @@ const activeTab = ref<TabId>('general')
 
               <div class="column is-3">
                 <a
-                  href="https://cssninja.io"
+                  href=""
                   class="column-placeholder"
                 >
                   <img
@@ -126,7 +126,7 @@ const activeTab = ref<TabId>('general')
                   <h3>Support</h3>
                 </a>
                 <a
-                  href="https://docs.cssninja.io/vuero"
+                  href=""
                   class="column-placeholder"
                 >
                   <img
@@ -184,7 +184,7 @@ const activeTab = ref<TabId>('general')
                 </h4>
                 <ul>
                   <li>
-                    <RouterLink to="/components/accordion/">
+                    <RouterLink to="/admin/error_code/cml">
                       <span>Error Code By TS</span>
                       <i
                         aria-hidden="true"
@@ -194,7 +194,7 @@ const activeTab = ref<TabId>('general')
                     </RouterLink>
                   </li>
                   <li>
-                    <RouterLink to="/components/collapse">
+                    <RouterLink to="/admin/error_code/cml">
                       <span>CE Papua</span>
                       <i
                         aria-hidden="true"

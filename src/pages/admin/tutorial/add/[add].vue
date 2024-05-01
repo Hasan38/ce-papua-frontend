@@ -225,7 +225,7 @@ function getRouter(types: any) {
               </VField>
             </div>
             <div class="column is-12">
-              <VMessage closable>
+              <VMessage v-if="type === 'video'" closable>
                 play video dari gdrive silahkan baca  <a href="https://sangsoonam.github.io/2019/07/27/how-to-embed-a-google-drive-video.html" target="_blank">panduan</a>.
               </VMessage>
               <VField

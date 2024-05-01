@@ -17,9 +17,9 @@ const modalZona = ref(false)
 const route = useRoute()
 const zona = ref(0)
 const machineData = ref<Machine[]>()
-const area_id = ref(1)
+const area_id = ref(userSession.user?.area_id ?? 1)
 const totalMachine = ref()
-const area_name = ref('Jayapura')
+const area_name = ref(userSession.user?.area_name ?? 'Jayapura')
 const currentPage = ref(0)
 computed({
   get() {

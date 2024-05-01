@@ -15,7 +15,7 @@ useHead({
 const router = useRouter()
 const route = useRoute()
 const id = (route.params?.edit as string) ?? ''
-const errors = ref({})
+const errors = ref<any>({})
 const notyf = useNotyf()
 const isLoading = ref(false)
 const area_id = ref(0)
@@ -37,6 +37,11 @@ const zodSchema = z
         required_error: 'Enter your email first',
       })
       .email('A valid email address should be provided'),
+    roles: z
+      .string({
+        required_error: 'Enter a Role',
+      })
+      .min(2, 'Role still blank'),
     nip: z
       .string({
         required_error: 'Enter a valid NIP',
@@ -64,6 +69,7 @@ const { handleSubmit, setFieldValue } = useForm({
   initialValues: {
     name: '',
     email: '',
+    roles: '',
     nip: '',
     address: '',
     phone: '',
@@ -77,6 +83,7 @@ async function getUser() {
   await $fetch.raw(`/api/users/${id}`).then((res) => {
     setFieldValue('name', res._data.data.name)
     setFieldValue('email', res._data.data.email)
+    setFieldValue('roles', res._data.data.roles[0]?.name)
     setFieldValue('nip', res._data.data.nip)
     setFieldValue('address', res._data.data.address)
     setFieldValue('phone', res._data.data.phone)
@@ -102,6 +109,7 @@ const onSubmit = handleSubmit(async (values) => {
         name: values.name,
         nip: values.nip,
         email: values.email,
+        roles: values.roles,
         area_id: area_id.value,
         address: values.address,
         phone: values.phone,
@@ -217,6 +225,33 @@ const onSubmit = handleSubmit(async (values) => {
                   </p>
                   <p v-if="errors?.email" class="help is-danger">
                     {{ errors?.email }}
+                  </p>
+                </VControl>
+              </VField>
+            </div>
+            <div class="column is-6">
+              <VField
+                id="roles"
+                v-slot="{ field }"
+                label="Role"
+              >
+                <VControl>
+                  <VSelect>
+                    <VOption value="admin">
+                      Admin
+                    </VOption>
+                    <VOption value="ce">
+                      CE
+                    </VOption>
+                    <VOption value="guest">
+                      guest
+                    </VOption>
+                  </VSelect>
+                  <p v-if="field?.errorMessage" class="help is-danger">
+                    {{ field.errorMessage }}
+                  </p>
+                  <p v-if="errors?.roles" class="help is-danger">
+                    {{ errors?.roles }}
                   </p>
                 </VControl>
               </VField>
