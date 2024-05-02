@@ -106,52 +106,75 @@ watch(
     >
       <template #links>
         <li>
-          <a
-            :class="[activeMobileSubsidebar === 'dashboard' && 'is-active']"
+          <RouterLink
+            :class="[
+              (route.path.startsWith('/admin/dashboard')) &&
+                'is-active',
+            ]"
             tabindex="0"
             role="button"
-            @keydown.space.prevent="activeMobileSubsidebar = 'dashboard'"
-            @click="activeMobileSubsidebar = 'dashboard'"
+            to="/admin/dashboard"
           >
             <i
               aria-hidden="true"
               class="iconify"
               data-icon="feather:activity"
             />
-          </a>
+          </RouterLink>
         </li>
         <li>
-          <a
-            :class="[activeMobileSubsidebar === 'machines' && 'is-active']"
+          <RouterLink
+            :class="[
+              (route.path.startsWith('/admin/machine')) &&
+                'is-active',
+            ]"
+            class="centered-link centered-link-toggle"
             tabindex="0"
             role="button"
-            @keydown.space.prevent="activeMobileSubsidebar = 'machines'"
-            @click="activeMobileSubsidebar = 'machines'"
+            to="/admin/machine"
           >
             <i
               aria-hidden="true"
               class="iconify"
               data-icon="feather:airplay"
             />
-          </a>
+          </RouterLink>
         </li>
         <li
-          :class="[activeMobileSubsidebar === 'elements' && 'is-active']"
+          :class="[activeMobileSubsidebar === 'error_codes' && 'is-active']"
+          class="centered-link centered-link-toggle"
           tabindex="0"
           role="button"
-          @keydown.space.prevent="activeMobileSubsidebar = 'elements'"
-          @click="activeMobileSubsidebar = 'elements'"
+          @keydown.space.prevent="activeMobileSubsidebar = 'error_codes'"
+          @click="activeMobileSubsidebar = 'error_codes'"
         >
           <a>
             <i
               aria-hidden="true"
               class="iconify"
-              data-icon="feather:box"
+              data-icon="feather:x-circle"
             />
           </a>
         </li>
         <li
-          :class="[activeMobileSubsidebar === 'components' && 'is-active']"
+          :class="[activeMobileSubsidebar === 'tutorials' && 'is-active']"
+          class="centered-link centered-link-toggle"
+          tabindex="0"
+          role="button"
+          @keydown.space.prevent="activeMobileSubsidebar = 'tutorials'"
+          @click="activeMobileSubsidebar = 'tutorials'"
+        >
+          <a>
+            <i
+              aria-hidden="true"
+              class="iconify"
+              data-icon="feather:archive"
+            />
+          </a>
+        </li>
+        <li
+          :class="[activeMobileSubsidebar === 'settings' && 'is-active']"
+          class="centered-link centered-link-toggle"
           tabindex="0"
           role="button"
           @keydown.space.prevent="activeMobileSubsidebar = 'settings'"
@@ -164,15 +187,6 @@ watch(
               data-icon="feather:cpu"
             />
           </a>
-        </li>
-        <li>
-          <RouterLink to="/messaging-v1">
-            <i
-              aria-hidden="true"
-              class="iconify"
-              data-icon="feather:message-circle"
-            />
-          </RouterLink>
         </li>
       </template>
 
@@ -205,17 +219,14 @@ watch(
 
     <!-- Mobile subsidebar links -->
     <Transition name="slide-x">
-      <!-- <LayoutsMobileSubsidebar
-        v-if="isMobileSidebarOpen && activeMobileSubsidebar === 'layouts'"
-      /> -->
-      <DashboardsMobileSubsidebar
-        v-if="isMobileSidebarOpen && activeMobileSubsidebar === 'dashboard'"
+      <ErrorCodesMobileSubsidebar
+        v-if="isMobileSidebarOpen && activeMobileSubsidebar === 'error_codes'"
       />
-      <ComponentsMobileSubsidebar
-        v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'components'"
+      <TutorialsMobileSubsidebar
+        v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'tutorials'"
       />
-      <ElementsMobileSubsidebar
-        v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'elements'"
+      <SettingsMobileSubsidebar
+        v-else-if="isMobileSidebarOpen && activeMobileSubsidebar === 'settings'"
       />
     </Transition>
 

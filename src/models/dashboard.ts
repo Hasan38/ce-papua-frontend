@@ -1,5 +1,5 @@
 export interface CountCustomer {
-  total: number
+  total: string
   name: string
   id: number
 }

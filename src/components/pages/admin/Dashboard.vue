@@ -69,7 +69,7 @@ const count_customer_type = data.data.count_customer_type?.map(function (item) {
   }
 })
 optionsCountCustomerPie.value = {
-  series: count_customer.map(val => val.y),
+  series: count_customer.map(val => parseInt(val.y)),
   chartOptions: {
     labels: count_customer.map(val => val.x),
 

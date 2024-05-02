@@ -94,7 +94,7 @@ const handleLogin = handleSubmit(async (values) => {
 })
 
 useHead({
-  title: 'Login - Vuero',
+  title: 'Login',
 })
 </script>
 
