@@ -10,7 +10,7 @@ export const projects = [
     team: [
       {
         id: 0,
-        picture: '/demo/avatars/25.jpg',
+        picture: '/25.jpg',
         initials: 'AC',
         color: 'info',
       },
@@ -28,7 +28,7 @@ export const projects = [
       },
       {
         id: 3,
-        picture: '/demo/avatars/5.jpg',
+        picture: '',
         initials: 'ML',
         color: 'danger',
       },
@@ -74,13 +74,13 @@ export const projects = [
       },
       {
         id: 7,
-        picture: '/demo/avatars/7.jpg',
+        picture: '/',
         initials: 'AC',
         color: 'h-purple',
       },
       {
         id: 19,
-        picture: '/demo/avatars/19.jpg',
+        picture: '/19.jpg',
         initials: 'GK',
         color: 'h-yellow',
       },
@@ -127,7 +127,7 @@ export const projects = [
       },
       {
         id: 5,
-        picture: '/demo/avatars/5.jpg',
+        picture: '',
         initials: 'ML',
         color: 'warning',
       },
@@ -144,7 +144,7 @@ export const projects = [
     team: [
       {
         id: 18,
-        picture: '/demo/avatars/18.jpg',
+        picture: '/18.jpg',
         initials: 'EC',
         color: 'info',
       },
@@ -161,19 +161,19 @@ export const projects = [
     team: [
       {
         id: 0,
-        picture: '/demo/avatars/25.jpg',
+        picture: '/25.jpg',
         initials: 'AC',
         color: 'info',
       },
       {
         id: 14,
-        picture: '/demo/avatars/11.jpg',
+        picture: '',
         initials: 'KL',
         color: 'danger',
       },
       {
         id: 17,
-        picture: '/demo/avatars/5.jpg',
+        picture: '',
         initials: 'ML',
         color: 'warning',
       },
@@ -214,7 +214,7 @@ export const projects = [
     team: [
       {
         id: 0,
-        picture: '/demo/avatars/25.jpg',
+        picture: '/25.jpg',
         initials: 'AC',
         color: 'info',
       },
@@ -226,7 +226,7 @@ export const projects = [
       },
       {
         id: 17,
-        picture: '/demo/avatars/5.jpg',
+        picture: '',
         initials: 'ML',
         color: 'warning',
       },
@@ -261,7 +261,7 @@ export const projects = [
     team: [
       {
         id: 0,
-        picture: '/demo/avatars/25.jpg',
+        picture: '/25.jpg',
         initials: 'AC',
         color: 'info',
       },
@@ -302,19 +302,19 @@ export const projects = [
     team: [
       {
         id: 25,
-        picture: '/demo/avatars/25.jpg',
+        picture: '/25.jpg',
         initials: 'AC',
         color: 'info',
       },
       {
         id: 13,
-        picture: '/demo/avatars/13.jpg',
+        picture: '/13.jpg',
         initials: 'TS',
         color: 'info',
       },
       {
         id: 17,
-        picture: '/demo/avatars/5.jpg',
+        picture: '',
         initials: 'ML',
         color: 'warning',
       },
@@ -331,7 +331,7 @@ export const projects = [
     team: [
       {
         id: 7,
-        picture: '/demo/avatars/7.jpg',
+        picture: '/',
         initials: 'AC',
         color: 'info',
       },
@@ -343,7 +343,7 @@ export const projects = [
       },
       {
         id: 27,
-        picture: '/demo/avatars/27.jpg',
+        picture: '/2',
         initials: 'CE',
         color: 'warning',
       },

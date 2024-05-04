@@ -86,7 +86,7 @@ const activeTab = ref<TabId>('team')
             <!--Team Member-->
             <div class="team-card">
               <VAvatar
-                picture="/demo/avatars/12.jpg"
+                picture="/12.jpg"
                 badge="/images/icons/flags/united-states-of-america.svg"
               />
 
@@ -118,7 +118,7 @@ const activeTab = ref<TabId>('team')
             <!--Team Member-->
             <div class="team-card">
               <VAvatar
-                picture="/demo/avatars/25.jpg"
+                picture="/25.jpg"
                 badge="/images/icons/flags/united-states-of-america.svg"
               />
 
@@ -150,7 +150,7 @@ const activeTab = ref<TabId>('team')
             <!--Team Member-->
             <div class="team-card">
               <VAvatar
-                picture="/demo/avatars/18.jpg"
+                picture="/18.jpg"
                 badge="/images/icons/flags/united-states-of-america.svg"
               />
 
@@ -182,7 +182,7 @@ const activeTab = ref<TabId>('team')
             <!--Team Member-->
             <div class="team-card">
               <VAvatar
-                picture="/demo/avatars/13.jpg"
+                picture="/13.jpg"
                 badge="/images/icons/flags/united-states-of-america.svg"
               />
 
@@ -254,11 +254,11 @@ const activeTab = ref<TabId>('team')
                   <div class="avatar-stack">
                     <VAvatar
                       size="small"
-                      picture="/demo/avatars/5.jpg"
+                      picture=""
                     />
                     <VAvatar
                       size="small"
-                      picture="/demo/avatars/7.jpg"
+                      picture="/"
                     />
                     <VAvatar
                       size="small"
@@ -306,11 +306,11 @@ const activeTab = ref<TabId>('team')
                   <div class="avatar-stack">
                     <VAvatar
                       size="small"
-                      picture="/demo/avatars/13.jpg"
+                      picture="/13.jpg"
                     />
                     <VAvatar
                       size="small"
-                      picture="/demo/avatars/18.jpg"
+                      picture="/18.jpg"
                     />
                   </div>
                 </div>
@@ -354,11 +354,11 @@ const activeTab = ref<TabId>('team')
                   <div class="avatar-stack">
                     <VAvatar
                       size="small"
-                      picture="/demo/avatars/7.jpg"
+                      picture="/"
                     />
                     <VAvatar
                       size="small"
-                      picture="/demo/avatars/25.jpg"
+                      picture="/25.jpg"
                     />
                   </div>
                 </div>

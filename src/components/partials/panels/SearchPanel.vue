@@ -177,7 +177,7 @@ function getAvatarData(user: UserPopover): VAvatarProps {
                 >
                   <VAvatar
                     size="small"
-                    picture="/demo/avatars/7.jpg"
+                    picture="/"
                   />
                   <template #content>
                     <UserPopoverContent :user="popovers.user7" />
@@ -200,7 +200,7 @@ function getAvatarData(user: UserPopover): VAvatarProps {
                 >
                   <VAvatar
                     size="small"
-                    picture="/demo/avatars/13.jpg"
+                    picture="/13.jpg"
                   />
                   <template #content>
                     <UserPopoverContent :user="popovers.user13" />
@@ -223,7 +223,7 @@ function getAvatarData(user: UserPopover): VAvatarProps {
                 >
                   <VAvatar
                     size="small"
-                    picture="/demo/avatars/22.jpg"
+                    picture="/22.jpg"
                   />
                   <template #content>
                     <UserPopoverContent :user="popovers.user22" />

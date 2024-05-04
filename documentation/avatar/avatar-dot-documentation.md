@@ -16,28 +16,28 @@ See code for more details about usage.
     column-gap=".25rem"
   >
     <VAvatar
-      picture="/demo/avatars/7.jpg"
+      picture="/"
       size="small"
       dot
     />
     <VAvatar picture="/images/avatars/svg/vuero-1.svg" dot />
     <VAvatar
-      picture="/demo/avatars/11.jpg"
+      picture=""
       size="medium"
       dot
     />
     <VAvatar
-      picture="/demo/avatars/21.jpg"
+      picture="/21.jpg"
       size="large"
       dot
     />
     <VAvatar
-      picture="/demo/avatars/13.jpg"
+      picture="/13.jpg"
       size="big"
       dot
     />
     <VAvatar
-      picture="/demo/avatars/5.jpg"
+      picture=""
       size="xl"
       dot
     />
@@ -50,12 +50,12 @@ See code for more details about usage.
 <!--example-->
 
 <VFlex flex-wrap="wrap" align-items="flex-end" row-gap=".5rem" column-gap=".25rem">
-  <VAvatar picture="/demo/avatars/7.jpg" size="small" dot />
+  <VAvatar picture="/" size="small" dot />
   <VAvatar picture="/images/avatars/svg/vuero-1.svg" dot />
-  <VAvatar picture="/demo/avatars/11.jpg" size="medium" dot />
-  <VAvatar picture="/demo/avatars/21.jpg" size="large" dot />
-  <VAvatar picture="/demo/avatars/13.jpg" size="big" dot />
-  <VAvatar picture="/demo/avatars/5.jpg" size="xl" dot />
+  <VAvatar picture="" size="medium" dot />
+  <VAvatar picture="/21.jpg" size="large" dot />
+  <VAvatar picture="/13.jpg" size="big" dot />
+  <VAvatar picture="" size="xl" dot />
 </VFlex>
 
 <!--/example-->

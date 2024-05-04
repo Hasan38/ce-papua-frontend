@@ -26,7 +26,7 @@ the component background white.
   <VSnack
     title="Corporate"
     white
-    image="/demo/avatars/7.jpg"
+    image="/"
   >
     <i class="iconify" data-icon="feather:x" />
   </VSnack>
@@ -58,7 +58,7 @@ the component background white.
     <VSnack title="Metamovies" white  image="/images/icons/logos/metamovies.svg">
         <i class="iconify" data-icon="feather:x"></i>
     </VSnack>
-    <VSnack title="Corporate" white  image="/demo/avatars/7.jpg">
+    <VSnack title="Corporate" white  image="/">
         <i class="iconify" data-icon="feather:x"></i>
     </VSnack>
     <VSnack title="English" white  image="/images/icons/flags/united-states-of-america.svg">

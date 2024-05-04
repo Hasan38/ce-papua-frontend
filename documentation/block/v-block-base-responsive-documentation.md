@@ -18,7 +18,7 @@ to fit in the available space. Resize your screen to see it in action.
     <template #icon>
       <VAvatar
         size="medium"
-        picture="/demo/avatars/19.jpg"
+        picture="/19.jpg"
         badge="/images/icons/flags/germany.svg"
       />
     </template>
@@ -42,7 +42,7 @@ to fit in the available space. Resize your screen to see it in action.
         <template #icon>
           <VAvatar
             size="medium"
-            picture="/demo/avatars/19.jpg"
+            picture="/19.jpg"
             badge="/images/icons/flags/germany.svg"
           />
         </template>

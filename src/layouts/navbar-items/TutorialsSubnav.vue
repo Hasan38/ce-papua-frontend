@@ -39,7 +39,7 @@ const activeTab = ref<TabId>('tutorial')
                         aria-hidden="true"
                         class="lnil lnil-search"
                       />
-                      <span>text</span>
+                      <span>Text & File</span>
                       <i
                         aria-hidden="true"
                         class="iconify"
@@ -53,7 +53,7 @@ const activeTab = ref<TabId>('tutorial')
                         aria-hidden="true"
                         class="lnil lnil-video-alt-1"
                       />
-                      <span>video</span>
+                      <span>Video</span>
                       <i
                         aria-hidden="true"
                         class="iconify"

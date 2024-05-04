@@ -23,3 +23,13 @@ export interface Machine {
   notes_count: number
   notes: Note[]
 }
+
+export interface MachineResponse {
+  success: boolean
+  data: {
+    current_page: number
+    data: Machine[]
+    total: number
+    next_page_url: string
+  }
+}

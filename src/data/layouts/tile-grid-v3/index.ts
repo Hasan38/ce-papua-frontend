@@ -3,10 +3,10 @@ export const posts = [
     id: '1',
     title: 'How to serve coffee at the office the proper way',
     published: '30 minutes ago',
-    image: '/demo/photos/11.jpg',
+    image: '/demo/photos',
     author: {
       id: 39,
-      avatar: '/demo/avatars/39.jpg',
+      avatar: '/39.jpg',
       name: 'Alejandro B.',
       initials: 'AB',
       color: 'info',
@@ -19,7 +19,7 @@ export const posts = [
     image: '/demo/photos/12.jpg',
     author: {
       id: 15,
-      avatar: '/demo/avatars/15.jpg',
+      avatar: '/15.jpg',
       name: 'Hilde V.',
       initials: 'HV',
       color: 'warning',
@@ -32,7 +32,7 @@ export const posts = [
     image: '/demo/photos/13.jpg',
     author: {
       id: 24,
-      avatar: '/demo/avatars/24.jpg',
+      avatar: '/24.jpg',
       name: 'Sandrine C.',
       initials: 'SC',
       color: 'h-purple',
@@ -45,7 +45,7 @@ export const posts = [
     image: '/demo/photos/14.jpg',
     author: {
       id: 27,
-      avatar: '/demo/avatars/27.jpg',
+      avatar: '/2',
       name: 'Carmen E.',
       initials: 'CE',
       color: 'h-purple',
@@ -58,7 +58,7 @@ export const posts = [
     image: '/demo/photos/15.jpg',
     author: {
       id: 10,
-      avatar: '/demo/avatars/10.jpg',
+      avatar: '/10.jpg',
       name: 'Henry G.',
       initials: 'HG',
       color: 'info',
@@ -68,10 +68,10 @@ export const posts = [
     id: '6',
     title: 'Finding the right spot for your startup',
     published: '1 day ago',
-    image: '/demo/photos/17.jpg',
+    image: '/demo/photos/1',
     author: {
       id: 22,
-      avatar: '/demo/avatars/22.jpg',
+      avatar: '/22.jpg',
       name: 'Jimmy H.',
       initials: 'JH',
       color: 'info',
@@ -88,7 +88,7 @@ export const posts = [
     ],
     author: {
       id: 22,
-      avatar: '/demo/avatars/22.jpg',
+      avatar: '/22.jpg',
       name: 'Jimmy H.',
       initials: 'JH',
       color: 'info',
@@ -105,7 +105,7 @@ export const posts = [
     ],
     author: {
       id: 26,
-      avatar: '/demo/avatars/26.jpg',
+      avatar: '/26.jpg',
       name: 'Courtney W.',
       initials: 'CW',
       color: 'info',
@@ -131,7 +131,7 @@ export const posts = [
     image: '/demo/photos/21.jpg',
     author: {
       id: 14,
-      avatar: '/demo/avatars/14.jpg',
+      avatar: '/14.jpg',
       name: 'Ryan B.',
       initials: 'RB',
       color: 'info',
@@ -144,7 +144,7 @@ export const posts = [
     image: '/demo/photos/22.jpg',
     author: {
       id: 9,
-      avatar: '/demo/avatars/9.jpg',
+      avatar: '/9.jpg',
       name: 'Ana B.',
       initials: 'AB',
       color: 'info',
@@ -161,7 +161,7 @@ export const posts = [
     ],
     author: {
       id: 40,
-      avatar: '/demo/avatars/40.jpg',
+      avatar: '/40.jpg',
       name: 'Jeanne M.',
       initials: 'JM',
       color: 'info',
@@ -174,7 +174,7 @@ export const posts = [
     image: '/demo/photos/24.jpg',
     author: {
       id: 19,
-      avatar: '/demo/avatars/19.jpg',
+      avatar: '/19.jpg',
       name: 'Greta K.',
       initials: 'GK',
       color: 'info',
@@ -187,7 +187,7 @@ export const posts = [
     image: '/demo/photos/25.jpg',
     author: {
       id: 28,
-      avatar: '/demo/avatars/28.jpg',
+      avatar: '/28.jpg',
       name: 'Edouard F.',
       initials: 'EF',
       color: 'info',
@@ -200,7 +200,7 @@ export const posts = [
     image: '/demo/photos/26.jpg',
     author: {
       id: 5,
-      avatar: '/demo/avatars/5.jpg',
+      avatar: '',
       name: 'Mary L.',
       initials: 'ML',
       color: 'info',
@@ -210,10 +210,10 @@ export const posts = [
     id: '16',
     title: 'Diving into building an e-commerce brand - part 1',
     published: '4 days ago',
-    image: '/demo/photos/27.jpg',
+    image: '/demo/photos/2',
     author: {
       id: 33,
-      avatar: '/demo/avatars/33.jpg',
+      avatar: '/33.jpg',
       name: 'Harvey M.',
       initials: 'HM',
       color: 'success',
@@ -226,7 +226,7 @@ export const posts = [
     image: '/demo/photos/28.jpg',
     author: {
       id: 33,
-      avatar: '/demo/avatars/33.jpg',
+      avatar: '/33.jpg',
       name: 'Harvey M.',
       initials: 'HM',
       color: 'success',
@@ -239,7 +239,7 @@ export const posts = [
     image: '/demo/photos/28.jpg',
     author: {
       id: 31,
-      avatar: '/demo/avatars/31.jpg',
+      avatar: '/31.jpg',
       name: 'Yasseen A.',
       initials: 'YA',
       color: 'info',

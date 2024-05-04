@@ -53,23 +53,23 @@ export const customers = [
 
 export const users = [
   {
-    picture: '/demo/avatars/31.jpg',
+    picture: '/31.jpg',
     name: 'Yasseene Amzi',
   },
   {
-    picture: '/demo/avatars/5.jpg',
+    picture: '',
     name: 'Mary Lebowski',
   },
   {
-    picture: '/demo/avatars/32.jpg',
+    picture: '/32.jpg',
     name: 'Jonathan Krugger',
   },
   {
-    picture: '/demo/avatars/21.jpg',
+    picture: '/21.jpg',
     name: 'Elizabeth Fisher',
   },
   {
-    picture: '/demo/avatars/21.jpg',
+    picture: '/21.jpg',
     name: 'Tara Svenson',
   },
 ]

@@ -23,7 +23,7 @@ Use the `size="small"` prop on the component to show a smaller version of it.
   </VSnack>
   <VSnack
     title="Corporate"
-    image="/demo/avatars/7.jpg"
+    image="/"
     size="small"
   >
     <i class="iconify" data-icon="feather:x" />
@@ -56,7 +56,7 @@ Use the `size="small"` prop on the component to show a smaller version of it.
     <VSnack title="Metamovies" image="/images/icons/logos/metamovies.svg" size="small">
         <i class="iconify" data-icon="feather:x"></i>
     </VSnack>
-    <VSnack title="Corporate" image="/demo/avatars/7.jpg" size="small">
+    <VSnack title="Corporate" image="/" size="small">
         <i class="iconify" data-icon="feather:x"></i>
     </VSnack>
     <VSnack title="English" image="/images/icons/flags/united-states-of-america.svg" size="small">

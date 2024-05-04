@@ -5,7 +5,7 @@ export const projects = [
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quo tandem modo? At certe gravius.',
     remaining: '3 months',
-    image: '/demo/photos/apps/1.jpg',
+    image: '/demo/photos/apps',
     badge: '/images/icons/stacks/illustrator.svg',
     lockable: true,
     locked: false,
@@ -19,7 +19,7 @@ export const projects = [
       },
       {
         id: 18,
-        picture: '/demo/avatars/18.jpg',
+        picture: '/18.jpg',
         name: 'Esteban C.',
         initials: 'EC',
         color: 'h-purple',
@@ -33,7 +33,7 @@ export const projects = [
       },
       {
         id: 7,
-        picture: '/demo/avatars/7.jpg',
+        picture: '/',
         name: 'Alice C.',
         initials: 'AC',
         color: 'success',
@@ -53,7 +53,7 @@ export const projects = [
     team: [
       {
         id: 21,
-        picture: '/demo/avatars/21.jpg',
+        picture: '/21.jpg',
         name: 'Elizabet F.',
         initials: 'EF',
         color: 'warning',
@@ -67,7 +67,7 @@ export const projects = [
       },
       {
         id: 39,
-        picture: '/demo/avatars/39.jpg',
+        picture: '/39.jpg',
         name: 'Alejandro B.',
         initials: 'AB',
         color: 'danger',
@@ -87,7 +87,7 @@ export const projects = [
     team: [
       {
         id: 21,
-        picture: '/demo/avatars/21.jpg',
+        picture: '/21.jpg',
         name: 'Elizabet F.',
         initials: 'EF',
         color: 'warning',
@@ -101,7 +101,7 @@ export const projects = [
       },
       {
         id: 39,
-        picture: '/demo/avatars/39.jpg',
+        picture: '/39.jpg',
         name: 'Alejandro B.',
         initials: 'AB',
         color: 'danger',
@@ -121,14 +121,14 @@ export const projects = [
     team: [
       {
         id: 28,
-        picture: '/demo/avatars/28.jpg',
+        picture: '/28.jpg',
         name: 'Edouard F.',
         initials: 'EF',
         color: 'info',
       },
       {
         id: 33,
-        picture: '/demo/avatars/33.jpg',
+        picture: '/33.jpg',
         name: 'Harvey M.',
         initials: 'HM',
         color: 'warning',
@@ -155,7 +155,7 @@ export const projects = [
       },
       {
         id: 23,
-        picture: '/demo/avatars/23.jpg',
+        picture: '/23.jpg',
         name: 'Irina V.',
         initials: 'IV',
         color: 'danger',
@@ -182,7 +182,7 @@ export const projects = [
       },
       {
         id: 18,
-        picture: '/demo/avatars/18.jpg',
+        picture: '/18.jpg',
         name: 'Esteban C.',
         initials: 'EC',
         color: 'h-purple',
@@ -216,7 +216,7 @@ export const projects = [
       },
       {
         id: 27,
-        picture: '/demo/avatars/27.jpg',
+        picture: '/2',
         name: 'Carmen E.',
         initials: 'CE',
         color: 'info',
@@ -243,7 +243,7 @@ export const projects = [
       },
       {
         id: 27,
-        picture: '/demo/avatars/27.jpg',
+        picture: '/2',
         name: 'Carmen E.',
         initials: 'CE',
         color: 'info',
@@ -270,7 +270,7 @@ export const projects = [
       },
       {
         id: 23,
-        picture: '/demo/avatars/23.jpg',
+        picture: '/23.jpg',
         name: 'Irina V.',
         initials: 'IV',
         color: 'danger',
@@ -297,7 +297,7 @@ export const projects = [
       },
       {
         id: 23,
-        picture: '/demo/avatars/23.jpg',
+        picture: '/23.jpg',
         name: 'Irina V.',
         initials: 'IV',
         color: 'danger',
@@ -324,7 +324,7 @@ export const projects = [
       },
       {
         id: 18,
-        picture: '/demo/avatars/18.jpg',
+        picture: '/18.jpg',
         name: 'Esteban C.',
         initials: 'EC',
         color: 'h-purple',
@@ -338,7 +338,7 @@ export const projects = [
       },
       {
         id: 7,
-        picture: '/demo/avatars/7.jpg',
+        picture: '/',
         name: 'Alice C.',
         initials: 'AC',
         color: 'success',
@@ -358,7 +358,7 @@ export const projects = [
     team: [
       {
         id: 21,
-        picture: '/demo/avatars/21.jpg',
+        picture: '/21.jpg',
         name: 'Elizabet F.',
         initials: 'EF',
         color: 'warning',
@@ -372,7 +372,7 @@ export const projects = [
       },
       {
         id: 39,
-        picture: '/demo/avatars/39.jpg',
+        picture: '/39.jpg',
         name: 'Alejandro B.',
         initials: 'AB',
         color: 'danger',
@@ -399,7 +399,7 @@ export const projects = [
       },
       {
         id: 31,
-        picture: '/demo/avatars/31.jpg',
+        picture: '/31.jpg',
         name: 'Yasseen A.',
         initials: 'YA',
         color: 'h-purple',
@@ -419,14 +419,14 @@ export const projects = [
     team: [
       {
         id: 33,
-        picture: '/demo/avatars/33.jpg',
+        picture: '/33.jpg',
         name: 'Harvey M.',
         initials: 'HM',
         color: 'warning',
       },
       {
         id: 26,
-        picture: '/demo/avatars/26.jpg',
+        picture: '/26.jpg',
         name: 'Courtney W.',
         initials: 'CW',
         color: 'info',
@@ -446,7 +446,7 @@ export const projects = [
     team: [
       {
         id: 21,
-        picture: '/demo/avatars/21.jpg',
+        picture: '/21.jpg',
         name: 'Elizabet F.',
         initials: 'EF',
         color: 'warning',
@@ -460,7 +460,7 @@ export const projects = [
       },
       {
         id: 39,
-        picture: '/demo/avatars/39.jpg',
+        picture: '/39.jpg',
         name: 'Alejandro B.',
         initials: 'AB',
         color: 'danger',

@@ -36,7 +36,7 @@ const data = [
     contacts: [
       {
         id: 0,
-        picture: '/demo/avatars/25.jpg',
+        picture: '/25.jpg',
         initials: 'AC',
         color: 'info',
       },

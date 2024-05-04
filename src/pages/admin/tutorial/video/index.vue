@@ -41,9 +41,34 @@ const props = withDefaults(defineProps<FormEmpresasProps>(), {
 const isTutor = ref(props.tutorial) ?? null
 const debouncedFilter = useDebounce(filters, 500)
 async function getVideo() {
-  isLoading.value = true
-  try {
-    const { _data: data } = await $fetch.raw<TutorialResponse>('/api/tutorial', {
+  if (debouncedFilter.value) {
+    isLoading.value = true
+    await $fetch.raw<TutorialResponse>('/api/tutorial', {
+      query: {
+        q: debouncedFilter.value,
+        page: 0,
+        type: path.value,
+      },
+      method: 'GET',
+
+      // controller is an instance of AbortController,
+      // this allow to abort the request when the state
+      // is invalidated (before fetchData will be retriggered)
+
+    }).then((res) => {
+      isLoading.value = false
+      response.value = res._data
+      videoData.value = res._data?.data.data
+      total.value = res._data?.data.total ?? 0
+    })
+      .catch ((e) => {
+        isLoading.value = false
+        console.log(e)
+      })
+  }
+  else {
+    isLoading.value = true
+    await $fetch.raw<TutorialResponse>('/api/tutorial', {
       query: {
         q: debouncedFilter.value,
         page: currentPage.value,
@@ -55,17 +80,16 @@ async function getVideo() {
       // this allow to abort the request when the state
       // is invalidated (before fetchData will be retriggered)
 
+    }).then((res) => {
+      isLoading.value = false
+      response.value = res._data
+      videoData.value = res._data?.data.data
+      total.value = res._data?.data.total ?? 0
     })
-    isLoading.value = false
-    response.value = data
-    videoData.value = data?.data.data
-    total.value = data?.data.total ?? 0
-  }
-  catch (error: any) {
-    isLoading.value = false
-  }
-  finally {
-    isLoading.value = false
+      .catch ((e) => {
+        isLoading.value = false
+        console.log(e)
+      })
   }
 }
 watchEffect(getVideo)
@@ -149,32 +173,34 @@ const onDelete = async () => {
         </h4>
 
         <div class="group-content">
-          <div v-if="isLoading" class="columns is-multiline">
-            <!--Grid item-->
-            <div
-              v-for="key in 30"
-              :key="key"
-              class="column is-4"
-            >
-              <div class="tile-grid-item">
-                <div class="tile-grid-item-inner placeload-wrap is-flex">
-                  <VPlaceloadAvatar size="medium" />
-                  <VPlaceloadText
-                    width="80%"
-                    last-line-width="60%"
-                    class="mx-2"
-                  />
+          <div v-if="isLoading" class="card-grid card-grid-v2">
+            <div class="columns is-multiline">
+              <!--Grid item-->
+              <div
+                v-for="key in 30"
+                :key="key"
+                class="column is-4"
+              >
+                <div class="tile-grid-item">
+                  <div class="tile-grid-item-inner placeload-wrap is-flex">
+                    <VPlaceloadAvatar size="medium" />
+                    <VPlaceloadText
+                      width="80%"
+                      last-line-width="60%"
+                      class="mx-2"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="columns is-multiline">
+          <div v-else class="card-grid card-grid-v2">
             <VPlaceholderPage
               :class="[videoData?.length !== 0 && 'is-hidden']"
               title="We couldn't find any matching results."
               subtitle="Too bad. Looks like we couldn't find any matching results for the
-          search terms you've entered. Please try different search terms or
-          criteria."
+                          search terms you've entered. Please try different search terms or
+                          criteria."
               larger
             >
               <template #image>
@@ -190,100 +216,104 @@ const onDelete = async () => {
                 >
               </template>
             </VPlaceholderPage>
-            <!--Media item-->
-            <div
-              v-for="item in videoData"
-              :key="item.id"
-              class="column is-3"
+            <TransitionGroup
+              name="list"
+              tag="div"
+              class="columns is-multiline"
             >
               <div
-                v-background="{
-                  src: 'https://logowik.com/content/uploads/images/hitachi7389.jpg',
-                  placeholder: 'https://via.placeholder.com/800x600',
-                }"
-                class="media-feed-item has-background-image"
+                v-for="item in videoData"
+                :key="item.id"
+                class="column is-3"
               >
-                <button class="play-button" @click="viewVideo(item)">
-                  <i
-                    aria-hidden="true"
-                    class="iconify"
-                    data-icon="feather:play"
-                  />
-                </button>
-
-                <VDropdown
-                  v-if="userSession.user?.roles[0]?.name ==='admin'"
-                  icon="feather:more-vertical"
-                  class="play-button-right"
-                  spaced
-                  right
+                <div
+                  v-background="{
+                    src: 'https://logowik.com/content/uploads/images/hitachi7389.jpg',
+                    placeholder: 'https://via.placeholder.com/800x600',
+                  }"
+                  class="media-feed-item has-background-image"
                 >
-                  <template #content>
-                    <RouterLink
-                      role="menuitem"
-                      href="#"
-                      class="dropdown-item is-media"
-                      :to="`/admin/tutorial/edit/${item.id}`"
-                    >
-                      <div class="icon">
-                        <i
-                          aria-hidden="true"
-                          class="lnil lnil-pencil"
-                        />
-                      </div>
-                      <div class="meta">
-                        <span>Edit</span>
-                        <span>Edit this video</span>
-                      </div>
-                    </RouterLink>
+                  <button class="play-button" @click="viewVideo(item)">
+                    <i
+                      aria-hidden="true"
+                      class="iconify"
+                      data-icon="feather:play"
+                    />
+                  </button>
 
-                    <hr class="dropdown-divider">
-                    <a
-                      role="menuitem"
-                      href="#"
-                      class="dropdown-item is-media"
-                      @click="addDelete(item)"
-                    >
-                      <div class="icon">
-                        <i
-                          aria-hidden="true"
-                          class="lnil lnil-trash-can-alt"
-                        />
-                      </div>
-                      <div class="meta">
-                        <span>Delete</span>
-                        <span>Delete this video</span>
-                      </div>
-                    </a>
-                  </template>
-                </VDropdown>
-
-                <!--Bottom Overlay-->
-                <div class="item-overlay" />
-                <!-- Overlay content -->
-                <div class="overlay-layer">
-                  <div class="overlay-content">
-                    <div class="inner-content">
-                      <a
-                        class="media-title"
+                  <VDropdown
+                    v-if="userSession.user?.roles[0]?.name ==='admin'"
+                    icon="feather:more-vertical"
+                    class="play-button-right"
+                    spaced
+                    right
+                  >
+                    <template #content>
+                      <RouterLink
+                        role="menuitem"
                         href="#"
-                        @click="viewVideo(item)"
+                        class="dropdown-item is-media"
+                        :to="`/admin/tutorial/edit/${item.id}`"
                       >
-                        {{ item.title }}
-                      </a>
-                      <div class="media-meta">
-                        <a class="meta-item is-hoverable">{{ item.users.name }}</a>
-                        <span class="separator">|</span>
+                        <div class="icon">
+                          <i
+                            aria-hidden="true"
+                            class="lnil lnil-pencil"
+                          />
+                        </div>
+                        <div class="meta">
+                          <span>Edit</span>
+                          <span>Edit this video</span>
+                        </div>
+                      </RouterLink>
 
-                        <a class="meta-item is-hoverable">{{ dateshow(item.created_at) }} </a>
+                      <hr class="dropdown-divider">
+                      <a
+                        role="menuitem"
+                        href="#"
+                        class="dropdown-item is-media"
+                        @click="addDelete(item)"
+                      >
+                        <div class="icon">
+                          <i
+                            aria-hidden="true"
+                            class="lnil lnil-trash-can-alt"
+                          />
+                        </div>
+                        <div class="meta">
+                          <span>Delete</span>
+                          <span>Delete this video</span>
+                        </div>
+                      </a>
+                    </template>
+                  </VDropdown>
+
+                  <!--Bottom Overlay-->
+                  <div class="item-overlay" />
+                  <!-- Overlay content -->
+                  <div class="overlay-layer">
+                    <div class="overlay-content">
+                      <div class="inner-content">
+                        <a
+                          class="media-title"
+                          href="#"
+                          @click="viewVideo(item)"
+                        >
+                          {{ item.title }}
+                        </a>
+                        <div class="media-meta">
+                          <a class="meta-item is-hoverable">{{ item.users.name }}</a>
+                          <span class="separator">|</span>
+
+                          <a class="meta-item is-hoverable">{{ dateshow(item.created_at) }} </a>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </TransitionGroup>
           </div>
-
           <VFlexPagination
             v-if="videoData?.length !== 0"
             :current-page="currentPage"

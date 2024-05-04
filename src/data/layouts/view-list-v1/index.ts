@@ -6,7 +6,7 @@ export const users = [
     role: 'Project Manager',
     roleColor: 'primary',
     medias: {
-      avatar: '/demo/avatars/5.jpg',
+      avatar: '',
       flag: '/images/icons/flags/united-states-of-america.svg',
     },
     stats: {
@@ -15,7 +15,7 @@ export const users = [
       posts: 16,
     },
     teams: [
-      { picture: '/demo/avatars/9.jpg' },
+      { picture: '/9.jpg' },
       { picture: '/images/avatars/svg/vuero-1.svg' },
     ],
   },
@@ -26,7 +26,7 @@ export const users = [
     role: 'Web Developer',
     roleColor: 'orange',
     medias: {
-      avatar: '/demo/avatars/34.jpg',
+      avatar: '/34.jpg',
       flag: '/images/icons/flags/canada.svg',
     },
     stats: {
@@ -35,9 +35,9 @@ export const users = [
       posts: 5,
     },
     teams: [
-      { picture: '/demo/avatars/12.jpg' },
-      { picture: '/demo/avatars/22.jpg' },
-      { picture: '/demo/avatars/40.jpg' },
+      { picture: '/12.jpg' },
+      { picture: '/22.jpg' },
+      { picture: '/40.jpg' },
     ],
   },
   {
@@ -55,7 +55,7 @@ export const users = [
       replies: 97,
       posts: 16,
     },
-    teams: [{ picture: '/demo/avatars/7.jpg' }, { picture: '/demo/avatars/23.jpg' }],
+    teams: [{ picture: '/' }, { picture: '/23.jpg' }],
   },
   {
     id: '40',
@@ -64,7 +64,7 @@ export const users = [
     role: 'Mobile Developer',
     roleColor: 'orange',
     medias: {
-      avatar: '/demo/avatars/40.jpg',
+      avatar: '/40.jpg',
       flag: '/images/icons/flags/france.svg',
     },
     stats: {
@@ -73,8 +73,8 @@ export const users = [
       posts: 8,
     },
     teams: [
-      { picture: '/demo/avatars/18.jpg' },
-      { picture: '/demo/avatars/13.jpg' },
+      { picture: '/18.jpg' },
+      { picture: '/13.jpg' },
       { picture: '/images/avatars/svg/vuero-1.svg' },
       { picture: '/images/avatars/svg/vuero-1.svg' },
       { picture: '/images/avatars/svg/vuero-1.svg' },
@@ -90,7 +90,7 @@ export const users = [
     role: 'HR Manager',
     roleColor: 'primary',
     medias: {
-      avatar: '/demo/avatars/27.jpg',
+      avatar: '/2',
       flag: '/images/icons/flags/spain.svg',
     },
     stats: {
@@ -98,7 +98,7 @@ export const users = [
       replies: 158,
       posts: 54,
     },
-    teams: [{ picture: '/demo/avatars/18.jpg' }],
+    teams: [{ picture: '/18.jpg' }],
   },
   {
     id: '9',
@@ -107,7 +107,7 @@ export const users = [
     role: 'UI/UX Designer',
     roleColor: 'green',
     medias: {
-      avatar: '/demo/avatars/9.jpg',
+      avatar: '/9.jpg',
       flag: '/images/icons/flags/united-states-of-america.svg',
     },
     stats: {
@@ -117,7 +117,7 @@ export const users = [
     },
     teams: [
       { picture: '/images/avatars/svg/vuero-1.svg' },
-      { picture: '/demo/avatars/5.jpg' },
+      { picture: '' },
     ],
   },
   {
@@ -127,7 +127,7 @@ export const users = [
     role: 'UI/UX Designer',
     roleColor: 'green',
     medias: {
-      avatar: '/demo/avatars/18.jpg',
+      avatar: '/18.jpg',
       flag: '/images/icons/flags/united-states-of-america.svg',
     },
     stats: {
@@ -136,16 +136,16 @@ export const users = [
       posts: 16,
     },
     teams: [
-      { picture: '/demo/avatars/27.jpg' },
-      { picture: '/demo/avatars/16.jpg' },
-      { picture: '/demo/avatars/29.jpg' },
-      { picture: '/demo/avatars/5.jpg' },
-      { picture: '/demo/avatars/5.jpg' },
-      { picture: '/demo/avatars/5.jpg' },
-      { picture: '/demo/avatars/5.jpg' },
-      { picture: '/demo/avatars/5.jpg' },
-      { picture: '/demo/avatars/5.jpg' },
-      { picture: '/demo/avatars/5.jpg' },
+      { picture: '/2' },
+      { picture: '/16.jpg' },
+      { picture: '/29.jpg' },
+      { picture: '' },
+      { picture: '' },
+      { picture: '' },
+      { picture: '' },
+      { picture: '' },
+      { picture: '' },
+      { picture: '' },
     ],
   },
   {
@@ -155,7 +155,7 @@ export const users = [
     role: 'Business Analyst',
     roleColor: 'primary',
     medias: {
-      avatar: '/demo/avatars/10.jpg',
+      avatar: '/10.jpg',
       flag: '/images/icons/flags/united-states-of-america.svg',
     },
     stats: {
@@ -163,7 +163,7 @@ export const users = [
       replies: 15,
       posts: 2,
     },
-    teams: [{ picture: '/demo/avatars/32.jpg' }, { picture: '/demo/avatars/22.jpg' }],
+    teams: [{ picture: '/32.jpg' }, { picture: '/22.jpg' }],
   },
   {
     id: '25',
@@ -172,7 +172,7 @@ export const users = [
     role: 'Web Developer',
     roleColor: 'orange',
     medias: {
-      avatar: '/demo/avatars/25.jpg',
+      avatar: '/25.jpg',
       flag: '/images/icons/flags/united-states-of-america.svg',
     },
     stats: {
@@ -181,11 +181,11 @@ export const users = [
       posts: 4,
     },
     teams: [
-      { picture: '/demo/avatars/26.jpg' },
-      { picture: '/demo/avatars/38.jpg' },
-      { picture: '/demo/avatars/21.jpg' },
-      { picture: '/demo/avatars/5.jpg' },
-      { picture: '/demo/avatars/5.jpg' },
+      { picture: '/26.jpg' },
+      { picture: '/38.jpg' },
+      { picture: '/21.jpg' },
+      { picture: '' },
+      { picture: '' },
     ],
   },
   {
@@ -195,7 +195,7 @@ export const users = [
     role: 'Software Engineer',
     roleColor: 'orange',
     medias: {
-      avatar: '/demo/avatars/7.jpg',
+      avatar: '/',
       flag: '/images/icons/flags/united-states-of-america.svg',
     },
     stats: {
@@ -204,7 +204,7 @@ export const users = [
       posts: 14,
     },
     teams: [
-      { picture: '/demo/avatars/9.jpg' },
+      { picture: '/9.jpg' },
       { picture: '/images/avatars/svg/vuero-1.svg' },
     ],
   },

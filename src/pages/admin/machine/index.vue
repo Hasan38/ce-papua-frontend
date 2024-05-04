@@ -1,234 +1,89 @@
 <script setup lang="ts">
-import type { VFlexTableWrapperDataResolver } from '/@src/components/base/VFlexTableWrapper.vue'
 import { useLaravelFetch } from '/@src/composable/useLaravelFetch'
-import type { Machine } from '/@src/models/machine'
+import type { Machine, MachineResponse } from '/@src/models/machine'
 // import { useNotyf } from '/@src/composable/useNotyf'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
 // import { useUserSession } from '/@src/stores/userSession'
 // the total data will be set by the fetchData function
 const total = ref(0)
-const componentKey = ref(0)
 // we don't have to set "searchable" parameter
 // this will be handled by the fetchData function
 // const userSession = useUserSession()
 const modalView = ref(false)
 // const url = import.meta.env.VITE_API_BASE_URL
 // const notyf = useNotyf()
-const viewWrapper = useViewWrapper()
-viewWrapper.setPageTitle('Machine')
-interface FormEmpresasProps {
-  machine?: Machine
 
-}
+const $fetch = useLaravelFetch()
+const machineData = ref<Machine[]>()
+const filters = ref('')
+const isLoading = ref(false)
+const viewWrapper = useViewWrapper()
+const route = useRoute()
+viewWrapper.setPageTitle('Machine')
+
+interface FormEmpresasProps { machine?: Machine }
 const props = withDefaults(defineProps<FormEmpresasProps>(), {
   machine: Object,
 })
-
 const isMachine = ref(props.machine) ?? null
 
-const columns = {
-  name: {
-    label: 'Name',
-    media: true,
-    grow: true,
-    sortable: true,
-  },
+const debouncedFilter = useDebounce(filters, 500)
 
-  customer: {
-    media: true,
-    grow: true,
-    label: 'Customer',
-  },
+const currentPage = computed(() => {
+  try {
+    return Number.parseInt(route.query.page as string) || 1
+  }
+  catch { 0 }
+  return 1
+})
 
-  branch: {
-    label: 'branch/area',
-    media: true,
-    grow: true,
-  },
+async function getMachine() {
+  isLoading.value = true
+  isLoading.value = true
+  if (debouncedFilter.value) {
+    await $fetch.raw<MachineResponse>('/api/machine', {
+      query: {
+        q: debouncedFilter.value,
+        page: 0,
+        limit: 10,
+      },
+      method: 'GET',
 
-  actions: {
-    label: '',
-    align: 'end',
-  },
-} as const
+      // controller is an instance of AbortController,
+      // this allow to abort the request when the state
+      // is invalidated (before fetchData will be retriggered)
 
-// this is an example of useXxx function that we can reuse across components.
-// it will return writable computeds that works like ref values
-// but the values will be sync with the route query params
-function useQueryParam() {
-  const router = useRouter()
-  const route = useRoute()
+    }).then((res) => {
+      isLoading.value = false
+      machineData.value = res._data?.data.data
+      total.value = res._data?.data.total ?? 0
+    }).catch (() => {
+      isLoading.value = false
+    })
+  }
+  else {
+    await $fetch.raw<MachineResponse>('/api/machine', {
+      query: {
+        q: debouncedFilter.value,
+        page: currentPage.value,
+        limit: 10,
+      },
+      method: 'GET',
 
-  // when the params match those value,
-  // we don't set their value to the query params
-  const defaultSearch = ''
-  const defaultSort = ''
-  const defaultLimit = 10
-  const defaultPage = 1
+      // controller is an instance of AbortController,
+      // this allow to abort the request when the state
+      // is invalidated (before fetchData will be retriggered)
 
-  const searchTerm = computed({
-    get: () => {
-      let searchTermQuery: string
-
-      // read "search" from the query params
-      if (Array.isArray(route?.query?.search)) {
-        searchTermQuery = route.query.search?.[0] ?? defaultSearch
-      }
-      else {
-        searchTermQuery = route.query.search ?? defaultSearch
-      }
-
-      return searchTermQuery
-    },
-    set(value) {
-      // update the route query params with our new "search" value.
-      // we can use router.replace instead of router.push
-      // to not write state to the browser history
-      router.push({
-        query: {
-          search: value === defaultSearch ? undefined : value,
-          sort: sort.value === defaultSort ? undefined : sort.value,
-          limit: limit.value === defaultLimit ? undefined : limit.value,
-          page: page.value === defaultPage ? undefined : page.value,
-        },
-      })
-    },
-  })
-
-  const sort = computed({
-    get: () => {
-      let sortQuery: string
-
-      // read "sort" from the query params
-      if (Array.isArray(route?.query?.sort)) {
-        sortQuery = route.query.sort?.[0] ?? defaultSort
-      }
-      else {
-        sortQuery = route.query.sort ?? defaultSort
-      }
-
-      return sortQuery
-    },
-    set(value) {
-      // update the route query params with our new "sort" value.
-      // we can use router.replace instead of router.push
-      // to not write state to the browser history
-      router.push({
-        query: {
-          search: searchTerm.value === defaultSearch ? undefined : searchTerm.value,
-          sort: value === defaultSort ? undefined : value,
-          limit: limit.value === defaultLimit ? undefined : limit.value,
-          page: page.value === defaultPage ? undefined : page.value,
-        },
-      })
-    },
-  })
-
-  const limit = computed({
-    get: () => {
-      let limitQuery: number
-
-      // read "limit" from the query params
-      if (Array.isArray(route?.query?.limit)) {
-        limitQuery = parseInt(route.query.limit[0] ?? `${defaultLimit}`)
-      }
-      else {
-        limitQuery = parseInt(route.query.limit ?? `${defaultLimit}`)
-      }
-
-      if (Object.is(limitQuery, NaN)) {
-        limitQuery = defaultLimit
-      }
-
-      return limitQuery
-    },
-    set(value) {
-      // update the route query params with our new "limit" value.
-      // we can use router.replace instead of router.push
-      // to not write state to the browser history
-      router.push({
-        query: {
-          search: searchTerm.value === defaultSearch ? undefined : searchTerm.value,
-          sort: sort.value === defaultSort ? undefined : sort.value,
-          limit: value === defaultLimit ? undefined : value,
-          page: page.value === defaultPage ? undefined : page.value,
-        },
-      })
-    },
-  })
-
-  const page = computed({
-    get: () => {
-      let pageQuery: number
-
-      if (Array.isArray(route?.query?.page)) {
-        pageQuery = parseInt(route.query.page[0] ?? `${defaultPage}`)
-      }
-      else {
-        pageQuery = parseInt(route.query.page ?? `${defaultPage}`)
-      }
-
-      // read "page" from the query params
-      if (Object.is(pageQuery, NaN)) {
-        pageQuery = defaultPage
-      }
-
-      return pageQuery
-    },
-    set(value) {
-      // update the route query params with our new "page" value.
-      // we can use router.replace instead of router.push
-      // to not write state to the browser history
-      router.push({
-        query: {
-          search: searchTerm.value === defaultSearch ? undefined : searchTerm.value,
-          sort: sort.value === defaultSort ? undefined : sort.value,
-          limit: limit.value === defaultLimit ? undefined : limit.value,
-          page: value === defaultPage ? undefined : value,
-        },
-      })
-    },
-  })
-
-  return reactive({
-    searchTerm,
-    sort,
-    limit,
-    page,
-  })
+    }).then((res) => {
+      isLoading.value = false
+      machineData.value = res._data?.data.data
+      total.value = res._data?.data.total ?? 0
+    }).catch (() => {
+      isLoading.value = false
+    })
+  }
 }
-const queryParam = useQueryParam()
-
-// the fetchData function will be called each time one of the parameter changes
-const $fetch = useLaravelFetch()
-const fetchData: VFlexTableWrapperDataResolver = async ({
-  searchTerm,
-  limit,
-  controller,
-}) => {
-  // sort will be a string like "name:asc"
-
-  // async fetch data to our server
-  const { _data: data } = await $fetch.raw(`/api/machine`, {
-    query: {
-      q: searchTerm,
-      page: queryParam.page,
-      limit: limit,
-    },
-    // controller is an instance of AbortController,
-    // this allow to abort the request when the state
-    // is invalidated (before fetchData will be retriggered)
-    signal: controller?.signal,
-  })
-
-  // our backend send us the count in the headers,
-  // but we can also get it from another request
-
-  total.value = data.data?.total
-
-  // the return of the function must be an array
-  return data.data?.data
-}
+watchEffect(getMachine)
 
 function addView(row: any) {
   modalView.value = true
@@ -242,203 +97,181 @@ useHead({
 </script>
 
 <template>
-  <!--
-    We use v-model to let VFlexTableWrapper update queryParam
-  -->
   <div>
-    <VFlexTableWrapper
-      :key="componentKey"
-      v-model:page="queryParam.page"
-      v-model:limit="queryParam.limit"
-      v-model:searchTerm="queryParam.searchTerm"
-      v-model:sort="queryParam.sort"
-      :columns="columns"
-      :data="fetchData"
-      :total="total"
-      class="mt-4"
-    >
-      <!--
-      Here we retrieve the internal wrapperState.
-      Note that we can not destructure it
-    -->
-      <template #default="wrapperState">
-        <!--Table Pagination-->
-        <VFlexPagination
-          v-model:current-page="wrapperState.page"
-          :item-per-page="wrapperState.limit!!"
-          :total-items="total"
-          :max-links-displayed="2"
-          no-router
+    <div class="list-view-toolbar">
+      <VField>
+        <VControl icon="feather:search">
+          <input
+            v-model="filters"
+            class="input custom-text-filter"
+            placeholder="Search..."
+          >
+        </VControl>
+      </VField>
+    </div>
+
+    <div class="page-content-inner">
+      <!--List-->
+      <div class="list-view list-view-v2">
+        <!--List Empty Search Placeholder -->
+        <VPlaceholderPage
+          :class="[machineData?.length !== 0 && 'is-hidden']"
+          title="We couldn't find any matching results."
+          subtitle="Too bad. Looks like we couldn't find any matching results for the
+          search terms you've entered. Please try different search terms or
+          criteria."
+          larger
         >
-          <!-- The controls can be updated anywhere in the slot -->
-          <template #before-pagination>
-            <VFlex class="mr-4">
-              <VField>
-                <VControl icon="feather:search">
-                  <input
-                    v-model="wrapperState.searchInput"
-                    type="text"
-                    class="input is-rounded"
-                    placeholder="Filter..."
-                  >
-                </VControl>
-              </VField>
-            </VFlex>
+          <template #image>
+            <img
+              class="light-image"
+              src="/@src/assets/illustrations/placeholders/search-2.svg"
+              alt=""
+            >
+            <img
+              class="dark-image"
+              src="/@src/assets/illustrations/placeholders/search-2-dark.svg"
+              alt=""
+            >
           </template>
+        </VPlaceholderPage>
 
-          <template #before-navigation>
-            <VFlex class="mr-4">
-              <VField>
-                <VControl>
-                  <div class="select is-rounded">
-                    <select v-model="wrapperState.limit">
-                      <option :value="1">
-                        1 results per page
-                      </option>
-                      <option :value="10">
-                        10 results per page
-                      </option>
-                      <option :value="15">
-                        15 results per page
-                      </option>
-                      <option :value="25">
-                        25 results per page
-                      </option>
-                      <option :value="50">
-                        50 results per page
-                      </option>
-                    </select>
-                  </div>
-                </VControl>
-              </VField>
-            </VFlex>
-          </template>
-        </VFlexPagination>
-
-        <VFlexTable
-          rounded
-          clickable
+        <!--Active Tab-->
+        <div
+          id="active-items-tab"
+          class="tab-content is-active"
         >
-          <template #body>
-            <!--
-            The wrapperState.loading will be update
-            when the fetchData function is running
-          -->
-            <div v-if="wrapperState.loading" class="flex-list-inner">
-              <div
-                v-for="key in wrapperState.limit"
-                :key="key"
-                class="flex-table-item"
-              >
-                <VFlexTableCell :column="{ grow: true, media: true }">
-                  <VPlaceloadAvatar size="medium" />
+          <div v-if="isLoading" class="list-view-inner">
+            <div
+              v-for="key in 10"
+              :key="key"
+              class="list-view-item"
+            >
+              <VPlaceloadWrap>
+                <VPlaceloadAvatar size="medium" />
 
-                  <VPlaceloadText
-                    :lines="2"
-                    width="60%"
-                    last-line-width="20%"
-                    class="mx-2"
-                  />
-                </VFlexTableCell>
-                <VFlexTableCell>
-                  <VPlaceload width="60%" class="mx-1" />
-                </VFlexTableCell>
-                <VFlexTableCell>
-                  <VPlaceload width="60%" class="mx-1" />
-                </VFlexTableCell>
-                <VFlexTableCell :column="{ align: 'end' }">
-                  <VPlaceload width="45%" class="mx-1" />
-                </VFlexTableCell>
-              </div>
-            </div>
-
-            <!-- This is the empty state -->
-            <div v-else-if="wrapperState.data?.length === 0" class="flex-list-inner">
-              <VPlaceholderSection
-                title="No matches"
-                subtitle="There is no data that match your query."
-                class="my-6"
-              >
-                <template #image>
-                  <img
-                    class="light-image"
-                    src="/@src/assets/illustrations/placeholders/search-4.svg"
-                    alt=""
-                  >
-                  <img
-                    class="dark-image"
-                    src="/@src/assets/illustrations/placeholders/search-4-dark.svg"
-                    alt=""
-                  >
-                </template>
-              </VPlaceholderSection>
-            </div>
-          </template>
-
-          <!-- This is the body cell slot -->
-          <template #body-cell="{ row, column }">
-            <template v-if="column.key === 'name'">
-              <VAvatar
-                size="medium"
-                picture=""
-              />
-              <div>
-                <span class="dark-text">{{ row?.terminal_id }}</span>
-                <VTextEllipsis width="280px" class="light-text">
-                  {{ row?.sn }}/ {{ row.notes_count }} notes count
-                </VTextEllipsis>
-              </div>
-            </template>
-            <template v-if="column.key === 'customer'">
-              <div>
-                <span class="dark-text">{{ row?.customers.name }}</span>
-                <VTextEllipsis width="280px" class="light-text">
-                  {{ row?.customer_type }}/{{ row?.machine_type }}
-                </VTextEllipsis>
-              </div>
-            </template>
-
-            <template v-if="column.key === 'branch'">
-              <div>
-                <span class="dark-text">{{ row?.branch }}</span>
-                <VTextEllipsis width="280px" class="light-text">
-                  {{ row?.area_groups.name }}/ZONA {{ row?.zona }}
-                </VTextEllipsis>
-              </div>
-            </template>
-
-            <template v-if="column.key === 'actions'">
-              <VButtons>
-                <RouterLink :to="`/admin/machine/note/${row.id}`">
-                  <VIconButton
-                    color="success"
-                    icon="feather:file-text"
-                    circle
-                  />
-                </RouterLink>
-                <VIconButton
-                  color="warning"
-                  icon="feather:eye"
-                  circle
-                  @click="addView(row)"
+                <VPlaceloadText
+                  last-line-width="60%"
+                  class="mx-2"
                 />
-              </VButtons>
-            </template>
-          </template>
-        </VFlexTable>
+                <VPlaceload
+                  class="mx-2"
+                  disabled
+                />
+                <VPlaceload class="mx-2 h-hidden-tablet-p" />
+                <VPlaceload class="mx-2 h-hidden-tablet-p" />
+                <VPlaceload class="mx-2" />
+              </VPlaceloadWrap>
+            </div>
+          </div>
+          <div v-else class="list-view-inner">
+            <TransitionGroup
 
-        <!--Table Pagination-->
-        <VFlexPagination
-          v-model:current-page="wrapperState.page"
-          class="mt-5"
-          :item-per-page="wrapperState.limit!!"
-          :total-items="total!!"
-          :max-links-displayed="2"
-          no-router
-        />
-      </template>
-    </VFlexTableWrapper>
+              name="list-complete"
+              tag="div"
+            >
+              <div
+                v-for="item in machineData"
+                :key="item.id"
+                class="list-view-item"
+              >
+                <div class="list-view-item-inner">
+                  <img
+                    src="/images/mesin/mesin.jpg"
+                    alt=""
+                  >
+                  <div class="meta-left">
+                    <h3>
+                      <span>{{ item.terminal_id }}</span>
+                    </h3>
+                    <p>
+                      <i
+                        aria-hidden="true"
+                        class="iconify"
+                        data-icon="feather:map-pin"
+                      />
+                      <span>{{ item.address }}</span>
+                    </p>
+                    <span>
+                      <span>
+                        {{
+                          item.customers.name
+                        }}
+                      </span>
+                      <i
+                        aria-hidden="true"
+                        class="fas fa-circle icon-separator"
+                      />
+                      <span>
 
+                        {{ item.sn }}
+
+                      </span>
+                      <i
+                        aria-hidden="true"
+                        class="fas fa-circle icon-separator"
+                      />
+                      <span>
+                        {{
+                          item.branch }}
+                      </span>
+                    </span>
+
+                    <div class="icon-list">
+                      <span>
+                        <i
+                          aria-hidden="true"
+                          class="lnil lnil-car"
+                        />
+                        <span>{{ item.area_groups.name }}</span>
+                      </span>
+                      <span>
+                        <i
+                          aria-hidden="true"
+                          class="lnil lnil-map"
+                        />
+                        <span>ZONA {{ item.zona }}</span>
+                      </span>
+                      <span>
+                        <i
+                          aria-hidden="true"
+                          class="lnil lnil-file-name"
+                        />
+                        <span>{{ item.notes_count }} Note</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="meta-right">
+                    <div class="buttons">
+                      <VButton light :to="`/admin/machine/note/${item.id}`">
+                        Notes
+                      </VButton>
+                      <VButton
+                        color="primary"
+                        raised
+
+                        @click="addView(item)"
+                      >
+                        View
+                      </VButton>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TransitionGroup>
+          </div>
+
+          <VFlexPagination
+            v-if="machineData?.length !== 0"
+            :current-page="currentPage"
+            :item-per-page="10"
+            :total-items="(total as number) ?? 0"
+            :max-links-displayed="4"
+            @update:current-page="getMachine"
+          />
+        </div>
+      </div>
+    </div>
     <VModal
       :open="modalView"
       title="Detail"
@@ -585,3 +418,285 @@ useHead({
     </VModal>
   </div>
 </template>
+
+<style lang="scss">
+@import '/@src/scss/abstracts/all';
+
+.list-view-v2 {
+  .list-view-item {
+    @include vuero-s-card;
+
+    margin-bottom: 16px;
+    padding: 16px;
+
+    &:hover,
+    &:focus {
+      box-shadow: var(--light-box-shadow);
+    }
+
+    .list-view-item-inner {
+      display: flex;
+
+      > img {
+        display: block;
+        min-height: 130px;
+        max-height: 130px;
+        min-width: 190px;
+        max-width: 190px;
+        object-fit: cover;
+        border-radius: var(--radius);
+      }
+
+      .meta-left {
+        display: flex;
+        flex-direction: column;
+        margin-inline-start: 16px;
+
+        h3 {
+          font-family: var(--font-alt);
+          color: var(--dark-text);
+          font-weight: 600;
+          font-size: 1.1rem;
+          line-height: 1.5;
+
+          .rating {
+            margin-inline-start: 12px;
+
+            i {
+              font-size: 12px;
+            }
+          }
+        }
+
+        p {
+          font-size: 0.95rem;
+          color: var(--light-text);
+
+          svg {
+            height: 12px;
+            width: 12px;
+          }
+        }
+
+        > span {
+          display: flex;
+          align-items: center;
+          margin-top: 10px;
+          font-family: var(--font);
+          font-size: 0.9rem;
+          color: var(--primary);
+
+          .icon-separator {
+            font-size: 5px;
+            color: var(--light-text);
+            padding: 0 10px;
+          }
+        }
+
+        .icon-list {
+          margin-top: auto;
+          display: flex;
+
+          > span {
+            display: flex;
+            align-items: center;
+            margin-inline-end: 15px;
+
+            span {
+              font-size: 0.85rem;
+              font-family: var(--font-alt);
+              color: var(--dark-text);
+            }
+
+            i {
+              font-size: 1.2rem;
+              margin-inline-end: 6px;
+              color: var(--light-text);
+            }
+          }
+        }
+      }
+
+      .meta-right {
+        margin-inline-start: auto;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        .buttons {
+          margin-bottom: 0;
+          margin-inline-end: 10px;
+        }
+      }
+    }
+  }
+}
+
+.is-dark {
+  .list-view-v2 {
+    .list-view-item {
+      @include vuero-card--dark;
+
+      .list-view-item-inner {
+        .meta-left {
+          h3 {
+            color: var(--dark-dark-text) !important;
+          }
+
+          > span {
+            color: var(--primary);
+          }
+
+          .icon-list {
+            > span {
+              span {
+                color: var(--dark-dark-text);
+              }
+            }
+          }
+        }
+
+        .meta-right {
+          .buttons {
+            .button {
+              &:first-child {
+                background: var(--dark-sidebar-light-2);
+                border-color: var(--dark-sidebar-light-8);
+                color: var(--dark-dark-text);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (width <= 767px) {
+  .list-view-v2 {
+    .list-view-item {
+      padding: 20px;
+
+      .list-view-item-inner {
+        flex-direction: column;
+
+        > img {
+          width: 100%;
+          max-width: 100%;
+          min-height: 160px;
+          max-height: 160px;
+          margin-bottom: 1rem;
+        }
+
+        .meta-left {
+          margin-inline-start: 0;
+
+          > span {
+            margin-bottom: 16px;
+          }
+
+          .icon-list {
+            flex-wrap: wrap;
+
+            > span {
+              flex-direction: column;
+              text-align: center;
+              margin: 10px;
+              width: calc(33.3% - 20px);
+
+              i {
+                margin: 0;
+              }
+            }
+          }
+        }
+
+        .meta-right {
+          margin: 16px 0 0;
+
+          .buttons {
+            margin: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+
+            .button {
+              width: 48%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (width >= 768px) and (width <= 1024px) and (orientation: portrait) {
+  .list-view-v2 {
+    .list-view-inner {
+      display: flex;
+      flex-wrap: wrap;
+
+      .list-view-item {
+        padding: 20px;
+        margin: 10px;
+        width: calc(50% - 20px);
+
+        .list-view-item-inner {
+          flex-direction: column;
+          height: 100%;
+          min-height: 450px;
+
+          > img {
+            width: 100%;
+            max-width: 100%;
+            min-height: 160px;
+            max-height: 160px;
+            margin-bottom: 1rem;
+          }
+
+          .meta-left {
+            margin-inline-start: 0;
+
+            > span {
+              margin-bottom: 16px;
+            }
+
+            .icon-list {
+              flex-wrap: wrap;
+
+              > span {
+                flex-direction: column;
+                text-align: center;
+                margin: 10px;
+                width: calc(33.3% - 20px);
+
+                i {
+                  margin: 0;
+                }
+              }
+            }
+          }
+
+          .meta-right {
+            margin: auto 0 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+
+            .buttons {
+              margin: 16px 0 0;
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+
+              .button {
+                width: 48%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+</style>

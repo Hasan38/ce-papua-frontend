@@ -95,17 +95,17 @@ const chat = useChat()
         </div>
         <div class="detail-photo-grid">
           <img
-            src="/demo/photos/demo-apps/1.jpg"
+            src="/demo/photos/demo-apps"
             alt=""
             @error.once="onceImageErrored(1600, 900)"
           >
           <img
-            src="/demo/photos/demo-apps/2.jpg"
+            src="/demo/photos/demo-apps"
             alt=""
             @error.once="onceImageErrored(1600, 900)"
           >
           <img
-            src="/demo/photos/demo-apps/3.jpg"
+            src="/demo/photos/demo-apps"
             alt=""
             @error.once="onceImageErrored(1600, 900)"
           >
@@ -115,7 +115,7 @@ const chat = useChat()
             @error.once="onceImageErrored(1600, 900)"
           >
           <img
-            src="/demo/photos/demo-apps/5.jpg"
+            src="/demo/photos/demo-apps"
             alt=""
             @error.once="onceImageErrored(1600, 900)"
           >
@@ -125,7 +125,7 @@ const chat = useChat()
             @error.once="onceImageErrored(1600, 900)"
           >
           <img
-            src="/demo/photos/demo-apps/7.jpg"
+            src="/demo/photos/demo-apps/"
             alt=""
             @error.once="onceImageErrored(1600, 900)"
           >
@@ -145,7 +145,7 @@ const chat = useChat()
             @error.once="onceImageErrored(1600, 900)"
           >
           <img
-            src="/demo/photos/demo-apps/11.jpg"
+            src="/demo/photos/demo-apps"
             alt=""
             @error.once="onceImageErrored(1600, 900)"
           >

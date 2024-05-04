@@ -60,9 +60,32 @@ const currentPage = computed(() => {
   return 1
 })
 async function getError() {
-  isLoading.value = true
-  try {
-    const { _data: data } = await $fetch.raw<ErrorCodeCeResponse>('/api/error_code_ce', {
+  if (debouncedFilter.value || valueSingle.value) {
+    isLoading.value = true
+    await $fetch.raw<ErrorCodeCeResponse>('/api/error_code_ce', {
+      query: {
+        q: debouncedFilter.value,
+        model: valueSingle.value,
+        page: 0,
+      },
+      method: 'GET',
+
+      // controller is an instance of AbortController,
+      // this allow to abort the request when the state
+      // is invalidated (before fetchData will be retriggered)
+
+    }).then((res) => {
+      isLoading.value = false
+      errorData.value = res._data?.data.data
+      total.value = res._data?.data.total ?? 0
+    }).catch ((e) => {
+      isLoading.value = false
+      console.log(e)
+    })
+  }
+  else {
+    isLoading.value = true
+    await $fetch.raw<ErrorCodeCeResponse>('/api/error_code_ce', {
       query: {
         q: debouncedFilter.value,
         model: valueSingle.value,
@@ -74,18 +97,17 @@ async function getError() {
       // this allow to abort the request when the state
       // is invalidated (before fetchData will be retriggered)
 
+    }).then((res) => {
+      isLoading.value = false
+      errorData.value = res._data?.data.data
+      total.value = res._data?.data.total ?? 0
+    }).catch ((e) => {
+      isLoading.value = false
+      console.log(e)
     })
-    isLoading.value = false
-    errorData.value = data?.data.data
-    total.value = data?.data.total ?? 0
-  }
-  catch (error: any) {
-    isLoading.value = false
-  }
-  finally {
-    isLoading.value = false
   }
 }
+
 watchEffect(getError)
 
 // Set initial values for the form
@@ -324,7 +346,7 @@ const onDelete = async () => {
               <RouterLink :to="`/admin/error_code/cml/${item.id}`">
                 <VRangeRating
                   :model-value="item.ratings_avg_nilai"
-                  size="medium"
+                  size="small"
                   class="mr-2"
                   disable
                 />
@@ -339,7 +361,7 @@ const onDelete = async () => {
               >
                 <template #icon>
                   <VAvatar
-                    picture="/demo/avatars/19.jpg"
+                    picture="/19.jpg"
                     badge="/images/icons/flags/germany.svg"
                   />
                 </template>

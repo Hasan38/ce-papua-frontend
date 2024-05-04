@@ -340,7 +340,7 @@ const onFilter = async () => {
       }
     })
     optionsCountCustomerPie.value = {
-      series: count_customer.map(val => val.y),
+      series: count_customer.map(val => parseInt(val.y)),
       chartOptions: {
         labels: count_customer.map(val => val.x),
 

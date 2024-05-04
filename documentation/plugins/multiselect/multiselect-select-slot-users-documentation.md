@@ -2,25 +2,25 @@
 selectSlotOptions:
   - value: alice
     name: Alice Carasca
-    icon: /demo/avatars/7.jpg
+    icon: /
   - value: erik
     name: Erik Kovalsky
     icon: /images/avatars/svg/vuero-1.svg
   - value: melany
     name: Melany Wallace
-    icon: /demo/avatars/25.jpg
+    icon: /25.jpg
   - value: tara
     name: Tara Svenson
-    icon: /demo/avatars/13.jpg
+    icon: /13.jpg
   - value: mary
     name: Mary Lebowski
-    icon: /demo/avatars/5.jpg
+    icon: 
   - value: irina
     name: Irina Vierbovsky
-    icon: /demo/avatars/23.jpg
+    icon: /23.jpg
   - value: jonathan
     name: Jonathan Krugger
-    icon: /demo/avatars/32.jpg
+    icon: /32.jpg
 selectSlotValue:
 ---
 
@@ -41,7 +41,7 @@ const selectSlotOptions = [
   {
     value: 'alice',
     name: 'Alice Carasca',
-    icon: '/demo/avatars/7.jpg',
+    icon: '/',
   },
   {
     value: 'erik',
@@ -51,27 +51,27 @@ const selectSlotOptions = [
   {
     value: 'melany',
     name: 'melany Wallace',
-    icon: '/demo/avatars/25.jpg',
+    icon: '/25.jpg',
   },
   {
     value: 'tara',
     name: 'Tara Svenson',
-    icon: '/demo/avatars/13.jpg',
+    icon: '/13.jpg',
   },
   {
     value: 'mary',
     name: 'Mary Lebowski',
-    icon: '/demo/avatars/5.jpg',
+    icon: '',
   },
   {
     value: 'irina',
     name: 'Irina Vierbovsky',
-    icon: '/demo/avatars/23.jpg',
+    icon: '/23.jpg',
   },
   {
     value: 'jonathan',
     name: 'Jonathan Krugger',
-    icon: '/demo/avatars/32.jpg',
+    icon: '/32.jpg',
   },
 ]
 </script>

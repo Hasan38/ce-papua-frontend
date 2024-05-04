@@ -14,7 +14,7 @@ an image inside the component.
   <VSnack title="Metamovies" image="/images/icons/logos/metamovies.svg">
     <i class="iconify" data-icon="feather:x" />
   </VSnack>
-  <VSnack title="Corporate" image="/demo/avatars/7.jpg">
+  <VSnack title="Corporate" image="/">
     <i class="iconify" data-icon="feather:x" />
   </VSnack>
   <VSnack title="English" image="/images/icons/flags/united-states-of-america.svg">
@@ -37,7 +37,7 @@ an image inside the component.
   <VSnack title="Metamovies" image="/images/icons/logos/metamovies.svg">
     <i class="iconify" data-icon="feather:x"></i>
   </VSnack>
-  <VSnack title="Corporate" image="/demo/avatars/7.jpg">
+  <VSnack title="Corporate" image="/">
     <i class="iconify" data-icon="feather:x"></i>
   </VSnack>
   <VSnack title="English" image="/images/icons/flags/united-states-of-america.svg">

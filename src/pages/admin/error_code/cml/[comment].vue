@@ -159,7 +159,7 @@ function dateshow(value: any) {
           >
             <template #icon>
               <VAvatar
-                picture="/demo/avatars/19.jpg"
+                picture="/19.jpg"
                 badge="/images/icons/flags/germany.svg"
               />
             </template>
@@ -197,7 +197,7 @@ function dateshow(value: any) {
               >
                 <VAvatar
                   size="medium"
-                  picture="/demo/avatars/31.jpg"
+                  picture="/31.jpg"
                 />
               </Tippy>
             </template>

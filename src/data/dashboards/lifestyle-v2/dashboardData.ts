@@ -1,19 +1,19 @@
 export const avatarStack1 = [
   {
     id: 12,
-    picture: '/demo/avatars/12.jpg',
+    picture: '/12.jpg',
     initials: 'JS',
     color: 'info',
   },
   {
     id: 32,
-    picture: '/demo/avatars/22.jpg',
+    picture: '/22.jpg',
     initials: 'JH',
     color: 'success',
   },
   {
     id: 40,
-    picture: '/demo/avatars/40.jpg',
+    picture: '/40.jpg',
     initials: 'JM',
     color: 'warning',
   },
@@ -22,19 +22,19 @@ export const avatarStack1 = [
 export const avatarStack2 = [
   {
     id: 7,
-    picture: '/demo/avatars/7.jpg',
+    picture: '/',
     initials: 'AC',
     color: 'info',
   },
   {
     id: 23,
-    picture: '/demo/avatars/23.jpg',
+    picture: '/23.jpg',
     initials: 'IV',
     color: 'success',
   },
   {
     id: 18,
-    picture: '/demo/avatars/18.jpg',
+    picture: '/18.jpg',
     initials: 'EC',
     color: 'warning',
   },
@@ -43,13 +43,13 @@ export const avatarStack2 = [
 export const avatarStack3 = [
   {
     id: 32,
-    picture: '/demo/avatars/32.jpg',
+    picture: '/32.jpg',
     initials: 'JK',
     color: 'info',
   },
   {
     id: 22,
-    picture: '/demo/avatars/22.jpg',
+    picture: '/22.jpg',
     initials: 'JH',
     color: 'success',
   },
@@ -64,19 +64,19 @@ export const avatarStack3 = [
 export const avatarStack4 = [
   {
     id: 27,
-    picture: '/demo/avatars/27.jpg',
+    picture: '/2',
     initials: 'CE',
     color: 'info',
   },
   {
     id: 16,
-    picture: '/demo/avatars/16.jpg',
+    picture: '/16.jpg',
     initials: 'JG',
     color: 'success',
   },
   {
     id: 29,
-    picture: '/demo/avatars/29.jpg',
+    picture: '/29.jpg',
     initials: 'HC',
     color: 'warning',
   },

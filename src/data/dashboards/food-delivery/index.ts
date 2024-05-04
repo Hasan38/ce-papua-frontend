@@ -135,7 +135,7 @@ export const restaurants = [
   {
     id: 0,
     name: 'Mario\'s place',
-    picture: '/demo/photos/food/1.jpg',
+    picture: '/demo/photos/food',
     deliveryTime: 45,
     category: 'Pizza',
     icon: '/images/icons/food/icon-2.svg',
@@ -144,7 +144,7 @@ export const restaurants = [
   {
     id: 1,
     name: 'Jimmy\'s Downtown',
-    picture: '/demo/photos/food/2.jpg',
+    picture: '/demo/photos/food',
     deliveryTime: 30,
     category: 'Fast',
     icon: '/images/icons/food/icon-4.svg',
@@ -153,7 +153,7 @@ export const restaurants = [
   {
     id: 2,
     name: 'Fruity Loops',
-    picture: '/demo/photos/food/3.jpg',
+    picture: '/demo/photos/food',
     deliveryTime: 45,
     category: 'Fruits',
     icon: '/images/icons/food/icon-9.svg',
@@ -171,7 +171,7 @@ export const restaurants = [
   {
     id: 4,
     name: 'Salad Bar',
-    picture: '/demo/photos/food/5.jpg',
+    picture: '/demo/photos/food',
     deliveryTime: 30,
     category: 'Veggie',
     icon: '/images/icons/food/icon-10.svg',
@@ -189,7 +189,7 @@ export const restaurants = [
   {
     id: 6,
     name: 'The Noodle Bar',
-    picture: '/demo/photos/food/7.jpg',
+    picture: '/demo/photos/food/',
     deliveryTime: 15,
     category: 'Thai',
     icon: '/images/icons/food/icon-7.svg',
@@ -225,7 +225,7 @@ export const restaurants = [
   {
     id: 10,
     name: 'Pollos Hermanos',
-    picture: '/demo/photos/food/11.jpg',
+    picture: '/demo/photos/food',
     deliveryTime: 15,
     category: 'Fast',
     icon: '/images/icons/food/icon-4.svg',
@@ -279,7 +279,7 @@ export const restaurants = [
   {
     id: 16,
     name: 'O\' Fried Chicken',
-    picture: '/demo/photos/food/17.jpg',
+    picture: '/demo/photos/food/1',
     deliveryTime: 45,
     category: 'Fast',
     icon: '/images/icons/food/icon-4.svg',

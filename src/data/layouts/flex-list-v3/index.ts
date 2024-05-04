@@ -2,7 +2,7 @@ export const classes = [
   {
     id: 0,
     name: 'Introduction to Html5',
-    picture: '/demo/photos/courses/1.jpg',
+    picture: '/demo/photos/courses',
     category: 'Web Development',
     difficulty: 1,
     price: 26,
@@ -31,7 +31,7 @@ export const classes = [
     },
     author: {
       id: 12,
-      picture: '/demo/avatars/12.jpg',
+      picture: '/12.jpg',
       username: 'Joshua S.',
       initials: 'JS',
       color: 'info',
@@ -40,7 +40,7 @@ export const classes = [
   {
     id: 2,
     name: 'Discovering CSS3 and Stylesheets',
-    picture: '/demo/photos/courses/3.jpg',
+    picture: '/demo/photos/courses',
     category: 'Web Development',
     difficulty: 2,
     price: 16,
@@ -50,7 +50,7 @@ export const classes = [
     },
     author: {
       id: 12,
-      picture: '/demo/avatars/5.jpg',
+      picture: '',
       username: 'Mary L.',
       initials: 'ML',
       color: 'info',
@@ -69,7 +69,7 @@ export const classes = [
     },
     author: {
       id: 18,
-      picture: '/demo/avatars/18.jpg',
+      picture: '/18.jpg',
       username: 'Esteban C.',
       initials: 'EC',
       color: 'info',
@@ -88,7 +88,7 @@ export const classes = [
     },
     author: {
       id: 18,
-      picture: '/demo/avatars/18.jpg',
+      picture: '/18.jpg',
       username: 'Esteban C.',
       initials: 'EC',
       color: 'info',
@@ -107,7 +107,7 @@ export const classes = [
     },
     author: {
       id: 30,
-      picture: '/demo/avatars/30.jpg',
+      picture: '/30.jpg',
       username: 'Clément D.',
       initials: 'CD',
       color: 'info',
@@ -126,7 +126,7 @@ export const classes = [
     },
     author: {
       id: 38,
-      picture: '/demo/avatars/38.jpg',
+      picture: '/38.jpg',
       username: 'Christie D.',
       initials: 'CD',
       color: 'info',
@@ -145,7 +145,7 @@ export const classes = [
     },
     author: {
       id: 30,
-      picture: '/demo/avatars/30.jpg',
+      picture: '/30.jpg',
       username: 'Clément D.',
       initials: 'CD',
       color: 'info',
@@ -154,7 +154,7 @@ export const classes = [
   {
     id: 8,
     name: 'Another Angular Crash Course',
-    picture: '/demo/photos/courses/11.jpg',
+    picture: '/demo/photos/courses',
     category: 'Web Development',
     difficulty: 4,
     price: 22,
@@ -164,7 +164,7 @@ export const classes = [
     },
     author: {
       id: 34,
-      picture: '/demo/avatars/34.jpg',
+      picture: '/34.jpg',
       username: 'Daniel R.',
       initials: 'DR',
       color: 'info',
@@ -183,7 +183,7 @@ export const classes = [
     },
     author: {
       id: 30,
-      picture: '/demo/avatars/30.jpg',
+      picture: '/30.jpg',
       username: 'Clément D.',
       initials: 'CD',
       color: 'info',

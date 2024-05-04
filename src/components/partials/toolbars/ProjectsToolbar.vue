@@ -9,15 +9,15 @@
     <VAvatarStack>
       <VAvatar
         size="small"
-        picture="/demo/avatars/7.jpg"
+        picture="/"
       />
       <VAvatar
         size="small"
-        picture="/demo/avatars/9.jpg"
+        picture="/9.jpg"
       />
       <VAvatar
         size="small"
-        picture="/demo/avatars/12.jpg"
+        picture="/12.jpg"
       />
       <VAvatar
         size="small"
@@ -25,11 +25,11 @@
       />
       <VAvatar
         size="small"
-        picture="/demo/avatars/25.jpg"
+        picture="/25.jpg"
       />
       <VAvatar
         size="small"
-        picture="/demo/avatars/22.jpg"
+        picture="/22.jpg"
       />
     </VAvatarStack>
 

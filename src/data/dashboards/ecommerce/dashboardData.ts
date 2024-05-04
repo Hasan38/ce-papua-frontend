@@ -15,7 +15,7 @@ export const flexRowsOrders = [
   },
   {
     id: 1,
-    picture: '/demo/avatars/22.jpg',
+    picture: '/22.jpg',
     username: 'Jimmy H.',
     orderId: '#15893',
     date: 'Oct 31, 2020',
@@ -25,7 +25,7 @@ export const flexRowsOrders = [
   },
   {
     id: 2,
-    picture: '/demo/avatars/25.jpg',
+    picture: '/25.jpg',
     username: 'Melany W.',
     orderId: '#155848',
     date: 'Oct 31, 2020',
@@ -35,7 +35,7 @@ export const flexRowsOrders = [
   },
   {
     id: 3,
-    picture: '/demo/avatars/12.jpg',
+    picture: '/12.jpg',
     username: 'Joshua S.',
     orderId: '#154736',
     date: 'Oct 30, 2020',
@@ -45,7 +45,7 @@ export const flexRowsOrders = [
   },
   {
     id: 4,
-    picture: '/demo/avatars/13.jpg',
+    picture: '/13.jpg',
     username: 'Tara S.',
     orderId: '#158315',
     date: 'Oct 30, 2020',

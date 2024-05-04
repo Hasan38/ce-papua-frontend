@@ -322,13 +322,15 @@ export default defineConfig({
       mode: isProd ? 'production' : 'development',
       // registerType: 'autoUpdate',
       workbox: {
+
         /**
          * precache files that match the glob pattern
          *
          * @see https://vite-pwa-org.netlify.app/guide/service-worker-precache.html
          */
         globPatterns: ['**/*.{js,css,ico,png,svg,webp,jpg,jpeg}'],
-
+        // globPatterns: ['**/*.{js,css}'],
+        // navigateFallback: null,
         /**
          * add external cache of google fonts
          *

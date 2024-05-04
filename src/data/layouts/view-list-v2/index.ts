@@ -1,7 +1,7 @@
 export const retails = [
   {
     id: '1',
-    picture: '/demo/photos/1.jpg',
+    picture: '/demo/photos',
     name: '1396 Redmond Street',
     location: '1396 Redmond Street, Apartment 12, Suite H 102, Los Angeles, CA',
     rating: 4,
@@ -22,7 +22,7 @@ export const retails = [
   },
   {
     id: '2',
-    picture: '/demo/photos/2.jpg',
+    picture: '/demo/photos',
     name: '24 Mulberry Street',
     location: '24 Mulberry Street, Suite 43, New York, NY',
     rating: 5,
@@ -38,7 +38,7 @@ export const retails = [
   },
   {
     id: '3',
-    picture: '/demo/photos/3.jpg',
+    picture: '/demo/photos',
     name: '62 John Walberg Ave',
     location: '62 John Walberg Avenue, Apartment 10, Suite 24, Los Angeles, CA',
     rating: 5,
@@ -80,7 +80,7 @@ export const retails = [
   },
   {
     id: '5',
-    picture: '/demo/photos/5.jpg',
+    picture: '/demo/photos',
     name: '12 Charity Street',
     location: '12 Charity Street, Apartment 49, Brooklynn, NY',
     rating: 4,
@@ -119,7 +119,7 @@ export const retails = [
   },
   {
     id: '7',
-    picture: '/demo/photos/7.jpg',
+    picture: '/demo/photos/',
     name: '1028 Pasadena Ave',
     location: '1028 Pasadena Avenue, Suite F 24, Los Angeles, CA',
     rating: 5,

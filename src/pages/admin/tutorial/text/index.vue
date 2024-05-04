@@ -41,9 +41,34 @@ const props = withDefaults(defineProps<FormEmpresasProps>(), {
 const isTutor = ref(props.tutorial) ?? null
 const debouncedFilter = useDebounce(filters, 500)
 async function getVideo() {
-  isLoading.value = true
-  try {
-    const { _data: data } = await $fetch.raw<TutorialResponse>('/api/tutorial', {
+  if (debouncedFilter.value) {
+    isLoading.value = true
+    await $fetch.raw<TutorialResponse>('/api/tutorial', {
+      query: {
+        q: debouncedFilter.value,
+        page: 0,
+        type: path.value,
+      },
+      method: 'GET',
+
+      // controller is an instance of AbortController,
+      // this allow to abort the request when the state
+      // is invalidated (before fetchData will be retriggered)
+
+    }).then((res) => {
+      isLoading.value = false
+      response.value = res._data
+      videoData.value = res._data?.data.data
+      total.value = res._data?.data.total ?? 0
+    })
+      .catch ((e) => {
+        isLoading.value = false
+        console.log(e)
+      })
+  }
+  else {
+    isLoading.value = true
+    await $fetch.raw<TutorialResponse>('/api/tutorial', {
       query: {
         q: debouncedFilter.value,
         page: currentPage.value,
@@ -55,17 +80,16 @@ async function getVideo() {
       // this allow to abort the request when the state
       // is invalidated (before fetchData will be retriggered)
 
+    }).then((res) => {
+      isLoading.value = false
+      response.value = res._data
+      videoData.value = res._data?.data.data
+      total.value = res._data?.data.total ?? 0
     })
-    isLoading.value = false
-    response.value = data
-    videoData.value = data?.data.data
-    total.value = data?.data.total ?? 0
-  }
-  catch (error: any) {
-    isLoading.value = false
-  }
-  finally {
-    isLoading.value = false
+      .catch ((e) => {
+        isLoading.value = false
+        console.log(e)
+      })
   }
 }
 watchEffect(getVideo)
@@ -133,27 +157,28 @@ const onDelete = async () => {
     </div>
 
     <div class="tile-grid tile-grid-v3">
-      <div v-if="isLoading" class="columns is-multiline">
-        <!--Grid item-->
-        <div
-          v-for="key in 30"
-          :key="key"
-          class="column is-4"
-        >
-          <div class="tile-grid-item">
-            <div class="tile-grid-item-inner placeload-wrap is-flex">
-              <VPlaceloadAvatar size="medium" />
-              <VPlaceloadText
-                width="80%"
-                last-line-width="60%"
-                class="mx-2"
-              />
+      <div v-if="isLoading" class="card-grid card-grid-v2">
+        <div class="columns is-multiline">
+          <!--Grid item-->
+          <div
+            v-for="key in 30"
+            :key="key"
+            class="column is-4"
+          >
+            <div class="tile-grid-item">
+              <div class="tile-grid-item-inner placeload-wrap is-flex">
+                <VPlaceloadAvatar size="medium" />
+                <VPlaceloadText
+                  width="80%"
+                  last-line-width="60%"
+                  class="mx-2"
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="card-grid card-grid-v2">
+      <div v-else class="card-grid card-grid-v2">
         <!--List Empty Search Placeholder -->
         <VPlaceholderPage
           :class="[videoData?.length !== 0 && 'is-hidden']"
@@ -271,15 +296,15 @@ const onDelete = async () => {
             </div>
           </div>
         </TransitionGroup>
-        <VFlexPagination
-          v-if="videoData?.length !== 0"
-          :current-page="currentPage"
-          :item-per-page="8"
-          :total-items="(total as number) ?? 0"
-          :max-links-displayed="5"
-          @update:current-page="getVideo"
-        />
       </div>
+      <VFlexPagination
+        v-if="videoData?.length !== 0"
+        :current-page="currentPage"
+        :item-per-page="8"
+        :total-items="(total as number) ?? 0"
+        :max-links-displayed="5"
+        @update:current-page="getVideo"
+      />
     </div>
 
     <VModal

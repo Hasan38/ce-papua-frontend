@@ -17,7 +17,7 @@ export function useKanban() {
       participants: [
         {
           color: 'warning',
-          picture: '/demo/avatars/7.jpg',
+          picture: '/',
         },
       ],
     },
@@ -41,15 +41,15 @@ export function useKanban() {
       participants: [
         {
           color: 'danger',
-          picture: '/demo/avatars/12.jpg',
+          picture: '/12.jpg',
         },
         {
           color: undefined,
-          picture: '/demo/avatars/26.jpg',
+          picture: '/26.jpg',
         },
         {
           color: undefined,
-          picture: '/demo/avatars/19.jpg',
+          picture: '/19.jpg',
         },
       ],
     },
@@ -61,7 +61,7 @@ export function useKanban() {
       participants: [
         {
           color: 'success',
-          picture: '/demo/avatars/13.jpg',
+          picture: '/13.jpg',
         },
       ],
     },
@@ -73,7 +73,7 @@ export function useKanban() {
       participants: [
         {
           color: 'info',
-          picture: '/demo/avatars/16.jpg',
+          picture: '/16.jpg',
         },
       ],
     },
@@ -97,7 +97,7 @@ export function useKanban() {
       participants: [
         {
           color: 'success',
-          picture: '/demo/avatars/12.jpg',
+          picture: '/12.jpg',
         },
       ],
     },
@@ -109,10 +109,10 @@ export function useKanban() {
       participants: [
         {
           color: 'danger',
-          picture: '/demo/avatars/18.jpg',
+          picture: '/18.jpg',
         },
         {
-          picture: '/demo/avatars/9.jpg',
+          picture: '/9.jpg',
         },
       ],
     },
@@ -124,7 +124,7 @@ export function useKanban() {
       participants: [
         {
           color: 'primary',
-          picture: '/demo/avatars/13.jpg',
+          picture: '/13.jpg',
         },
       ],
     },
@@ -136,7 +136,7 @@ export function useKanban() {
       participants: [
         {
           color: 'warning',
-          picture: '/demo/avatars/16.jpg',
+          picture: '/16.jpg',
         },
       ],
     },

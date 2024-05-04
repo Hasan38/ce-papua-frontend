@@ -14,7 +14,7 @@ Simply add a 1:1 ratio image URL to the avatar component using the `badge` prop.
     column-gap=".25rem"
   >
     <VAvatar
-      picture="/demo/avatars/7.jpg"
+      picture="/"
       size="small"
       badge="/images/icons/flags/united-states-of-america.svg"
     />
@@ -23,22 +23,22 @@ Simply add a 1:1 ratio image URL to the avatar component using the `badge` prop.
       badge="/images/icons/flags/united-states-of-america.svg"
     />
     <VAvatar
-      picture="/demo/avatars/11.jpg"
+      picture=""
       badge="/images/icons/flags/united-states-of-america.svg"
       size="medium"
     />
     <VAvatar
-      picture="/demo/avatars/21.jpg"
+      picture="/21.jpg"
       badge="/images/icons/flags/united-states-of-america.svg"
       size="large"
     />
     <VAvatar
-      picture="/demo/avatars/13.jpg"
+      picture="/13.jpg"
       badge="/images/icons/flags/united-states-of-america.svg"
       size="big"
     />
     <VAvatar
-      picture="/demo/avatars/5.jpg"
+      picture=""
       badge="/images/icons/flags/united-states-of-america.svg"
       size="xl"
     />
@@ -50,12 +50,12 @@ Simply add a 1:1 ratio image URL to the avatar component using the `badge` prop.
 
 <!--example-->
 <VFlex flex-wrap="wrap" align-items="flex-end" row-gap=".5rem" column-gap=".25rem">
-  <VAvatar picture="/demo/avatars/7.jpg" size="small" badge="/images/icons/flags/united-states-of-america.svg" />
+  <VAvatar picture="/" size="small" badge="/images/icons/flags/united-states-of-america.svg" />
   <VAvatar picture="/images/avatars/svg/vuero-1.svg" badge="/images/icons/flags/united-states-of-america.svg" />
-  <VAvatar picture="/demo/avatars/11.jpg" badge="/images/icons/flags/united-states-of-america.svg" size="medium" />
-  <VAvatar picture="/demo/avatars/21.jpg" badge="/images/icons/flags/united-states-of-america.svg" size="large" />
-  <VAvatar picture="/demo/avatars/13.jpg" badge="/images/icons/flags/united-states-of-america.svg" size="big" />
-  <VAvatar picture="/demo/avatars/5.jpg" badge="/images/icons/flags/united-states-of-america.svg" size="xl" />
+  <VAvatar picture="" badge="/images/icons/flags/united-states-of-america.svg" size="medium" />
+  <VAvatar picture="/21.jpg" badge="/images/icons/flags/united-states-of-america.svg" size="large" />
+  <VAvatar picture="/13.jpg" badge="/images/icons/flags/united-states-of-america.svg" size="big" />
+  <VAvatar picture="" badge="/images/icons/flags/united-states-of-america.svg" size="xl" />
 </VFlex>
 
 <!--/example-->
