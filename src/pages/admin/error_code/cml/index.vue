@@ -6,6 +6,7 @@ import { useNotyf } from '/@src/composable/useNotyf'
 import CKE from '@ckeditor/ckeditor5-vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useViewWrapper } from '/@src/stores/viewWrapper'
+import moment from 'moment'
 
 const viewWrapper = useViewWrapper()
 viewWrapper.setPageTitle('CML')
@@ -47,11 +48,7 @@ const props = withDefaults(defineProps<FormEmpresasProps>(), {
 })
 const isError = ref(props.errCe) ?? null
 const valueSingle = ref()
-const optionsSingle = [
-  'SR7500',
-  'VS-ATM',
-  'TCR',
-]
+
 const currentPage = computed(() => {
   try {
     return Number.parseInt(route.query.page as string) || 1
@@ -194,544 +191,578 @@ const onDelete = async () => {
     notyf.error($e)
   }
 }
+
+function onChange() {
+  filters.value = filters.value.toUpperCase()
+}
+
+function dateshow(value: any) {
+  // here u modify data
+  return moment(value).fromNow() // and set to the view
+}
 </script>
 
 <template>
   <div>
-    <div class="card-grid-toolbar">
-      <VControl icon="feather:search">
-        <input
-          v-model="filters"
-          class="input custom-text-filter"
-          placeholder="Search..."
-        >
-      </VControl>
+    <div class="list-view-toolbar">
+      <VField>
+        <VControl icon="feather:search">
+          <input
+            v-model="filters"
+            class="input custom-text-filter"
+            placeholder="Search..."
+            @keyup="onChange()"
+          >
+        </VControl>
+      </VField>
 
-      <div class="buttons">
-        <VField class="h-hidden-mobile">
-          <VControl>
-            <Multiselect
-              v-model="valueSingle"
-              :options="optionsSingle"
-              :max-height="145"
-              placeholder="Select an option"
-            />
-          </VControl>
-        </VField>
-        <VButton
-          color="primary"
-          raised
-          @click="modalPost=true"
-        >
-          <span class="icon">
-            <i
-              aria-hidden="true"
-              class="fas fa-plus"
-            />
-          </span>
-          <span>Add Problem</span>
-        </VButton>
+      <div class="tabs-inner">
+        <div class="tabs">
+          <ul>
+            <li>
+              <VField>
+                <VControl>
+                  <VSelect v-model="valueSingle" class="is-rounded">
+                    <VOption value="">
+                      Select a Machine
+                    </VOption>
+                    <VOption value="SR7500">
+                      SR7500
+                    </VOption>
+                    <VOption value="VS-ATM">
+                      VS
+                    </VOption>
+                    <VOption value="TCR">
+                      TCR
+                    </VOption>
+                  </VSelect>
+                </VControl>
+              </VField>
+            </li>
+            <li>
+              <VButton
+                color="primary"
+                raised
+                @click="modalPost=true"
+              >
+                <span class="icon">
+                  <i
+                    aria-hidden="true"
+                    class="fas fa-plus"
+                  />
+                </span>
+                <span>Add</span>
+              </VButton>
+            </li>
+            <li class="tab-naver" />
+          </ul>
+        </div>
       </div>
     </div>
 
-    <div class="card-grid card-grid-v1">
-      <!--List Empty Search Placeholder -->
-      <VPlaceholderPage
-        :class="[errorData?.length !== 0 && 'is-hidden']"
-        title="We couldn't find any matching results."
-        subtitle="Too bad. Looks like we couldn't find any matching results for the
+    <div class="page-content-inner">
+      <!--List-->
+      <div class="list-view list-view-v2">
+        <!--List Empty Search Placeholder -->
+        <VPlaceholderPage
+          :class="[errorData?.length !== 0 && 'is-hidden']"
+          title="We couldn't find any matching results."
+          subtitle="Too bad. Looks like we couldn't find any matching results for the
           search terms you've entered. Please try different search terms or
           criteria."
-        larger
-      >
-        <template #image>
-          <img
-            class="light-image"
-            src="/@src/assets/illustrations/placeholders/search-4.svg"
-            alt=""
+          larger
+        >
+          <template #image>
+            <img
+              class="light-image"
+              src="/@src/assets/illustrations/placeholders/search-2.svg"
+              alt=""
+            >
+            <img
+              class="dark-image"
+              src="/@src/assets/illustrations/placeholders/search-2-dark.svg"
+              alt=""
+            >
+          </template>
+        </VPlaceholderPage>
+        <div v-if="isLoading" class="list-view-inner">
+          <div
+            v-for="key in 10"
+            :key="key"
+            class="list-view-item"
           >
-          <img
-            class="dark-image"
-            src="/@src/assets/illustrations/placeholders/search-4-dark.svg"
-            alt=""
-          >
-        </template>
-      </VPlaceholderPage>
+            <VPlaceloadWrap>
+              <VPlaceloadAvatar size="medium" />
 
-      <!--Card Grid v1-->
-      <TransitionGroup
-        name="list"
-        tag="div"
-        class="columns is-multiline"
-      >
-        <!--Grid item-->
-        <div
-          v-for="(item, index) in errorData"
-          :key="index"
-          class="column is-12"
-        >
-          <VCardAdvanced radius="rounded">
-            <template #header-left>
-              <p><b>{{ item.error_code }} / {{ item.machine_type }}</b></p>
-            </template>
-            <template #header-right>
-              <VDropdown
-                icon="feather:more-vertical"
-                right
-                spaced
-              >
-                <template #content>
-                  <RouterLink
-                    :to="`/admin/error_code/cml/${item.id}`"
-                    role="menuitem"
-                    class="dropdown-item is-media"
-                  >
-                    <div class="icon">
-                      <i class="lnil lnil-comments-alt" aria-hidden="true" />
-                    </div>
-                    <div class="meta">
-                      <span>Comment & Rating</span>
-                      <span>Comment</span>
-                    </div>
-                  </RouterLink>
-                  <a
-                    v-if="userSession.user?.id === item.user_id || userSession.user?.roles[0]?.name ==='admin'"
-                    href="#"
-                    role="menuitem"
-                    class="dropdown-item is-media"
-                    @click="addEdit(item)"
-                  >
-                    <div class="icon">
-                      <i
-                        aria-hidden="true"
-                        class="lnil lnil-pencil"
-                      />
-                    </div>
-                    <div class="meta">
-                      <span>Edit</span>
-                      <span>Edit Post</span>
-                    </div>
-                  </a>
-
-                  <hr class="dropdown-divider">
-
-                  <a
-                    v-if="userSession.user?.id === item.user_id || userSession.user?.roles[0]?.name ==='admin'"
-                    href="#"
-                    role="menuitem"
-                    class="dropdown-item is-media"
-                    @click="addDelete(item)"
-                  >
-                    <div class="icon">
-                      <i
-                        aria-hidden="true"
-                        class="lnil lnil-trash-can-alt"
-                      />
-                    </div>
-                    <div class="meta">
-                      <span>Remove</span>
-                      <span>Remove from view</span>
-                    </div>
-                  </a>
-                </template>
-              </VDropdown>
-            </template>
-            <template #content>
-              <p><b>Problem Info</b></p>
-              <VMarkdownPreview :source="item.problem_info" />
-              <p><b>Action</b></p>
-              <VMarkdownPreview :source="item.action_taken" />
-            </template>
-            <template #footer-left>
-              <RouterLink :to="`/admin/error_code/cml/${item.id}`">
-                <VRangeRating
-                  :model-value="item.ratings_avg_nilai"
-                  size="small"
-                  class="mr-2"
-                  disable
-                />
-              </RouterLink>
-              {{ item.ratings_count }} comments
-            </template>
-            <template #footer-right>
-              <VBlock
-                :title="`${item.users.name }`"
-                subtitle="Admin"
-                center
-              >
-                <template #icon>
-                  <VAvatar
-                    picture="/19.jpg"
-                    badge="/images/icons/flags/germany.svg"
-                  />
-                </template>
-              </VBlock>
-            </template>
-          </VCardAdvanced>
-        </div>
-      </TransitionGroup>
-      <VFlexPagination
-        v-if="errorData?.length !== 0"
-        :current-page="currentPage"
-        :item-per-page="10"
-        :total-items="(total as number) ?? 0"
-        :max-links-displayed="5"
-        @update:current-page="getError"
-      />
-    </div>
-    <VModal
-      is="form"
-      :open="modalPost"
-      size="large"
-      actions="center"
-      title="Post Your Action"
-      @submit.prevent="onPost"
-      @close="modalPost = false"
-    >
-      <template #content>
-        <VField
-          label="Machine Type"
-        >
-          <VControl>
-            <VSelect v-model="machine_type">
-              <VOption value="SR7500">
-                SR7500
-              </VOption>
-
-              <VOption value="TCR">
-                TCR
-              </VOption>
-              <VOption value="VS-ATM">
-                SR7500 VS
-              </VOption>
-            </VSelect>
-
-            <p v-if="errors?.machine_type" class="help has-text-danger">
-              {{ errors?.machine_type }}
-            </p>
-          </VControl>
-        </VField>
-        <VField v-slot="{ id }" label="Error Code">
-          <VControl>
-            <Multiselect
-              v-model="errorValue"
-              :attrs="{ id }"
-              mode="tags"
-              :searchable="true"
-              :create-tag="true"
-              :options="errorValue"
-              placeholder="Error Code"
-            />
-            <p v-if="errors?.error_code" class="help has-text-danger">
-              {{ errors?.error_code }}
-            </p>
-          </VControl>
-        </VField>
-        <VField
-
-          label="Problem Info"
-        >
-          <VControl fullwidth>
-            <CKEditor
-              v-model="problem_info"
-              :editor="ClassicEditor"
-              class="ck-editor"
-              :config="config"
-            />
-
-            <p v-if="errors?.problem_info" class="help has-text-danger">
-              {{ errors?.problem_info }}
-            </p>
-          </VControl>
-        </VField>
-        <VField label="Detail Action">
-          <VControl fullwidth>
-            <CKEditor
-              v-model="action_taken"
-              :editor="ClassicEditor"
-              :config="config"
-            />
-
-            <p v-if="errors?.action_taken" class="help has-text-danger">
-              {{ errors?.action_taken }}
-            </p>
-          </VControl>
-        </VField>
-      </template>
-      <template #action>
-        <VButton
-          type="submit"
-          color="primary"
-          :loading="isLoading"
-          raised
-        >
-          Simpan
-        </VButton>
-      </template>
-    </VModal>
-    <VModal
-      is="form"
-      :open="modalEdit"
-      size="large"
-      actions="center"
-      title="Post Your Action"
-      @submit.prevent="onEdit"
-      @close="modalEdit = false"
-    >
-      <template #content>
-        <VField
-          label="Machine Type"
-        >
-          <VControl>
-            <VSelect v-model="isError.machine_type">
-              <VOption value="SR7500">
-                SR7500
-              </VOption>
-
-              <VOption value="TCR">
-                TCR
-              </VOption>
-              <VOption value="VS-ATM">
-                SR7500 VS
-              </VOption>
-            </VSelect>
-
-            <p v-if="errors?.machine_type" class="help has-text-danger">
-              {{ errors?.machine_type }}
-            </p>
-          </VControl>
-        </VField>
-        <VField v-slot="{ id }" label="Error Code">
-          <VControl>
-            <Multiselect
-              v-model="isError.error_code"
-              :attrs="{ id }"
-              mode="tags"
-              :searchable="true"
-              :create-tag="true"
-              :options="isError.error_code"
-              placeholder="Error Code"
-            />
-            <p v-if="errors?.error_code" class="help has-text-danger">
-              {{ errors?.error_code }}
-            </p>
-          </VControl>
-        </VField>
-        <VField
-
-          label="Problem Info"
-        >
-          <VControl fullwidth>
-            <CKEditor
-              v-model="isError.problem_info"
-              :editor="ClassicEditor"
-              class="ck-editor"
-              :config="config"
-            />
-
-            <p v-if="errors?.problem_info" class="help has-text-danger">
-              {{ errors?.problem_info }}
-            </p>
-          </VControl>
-        </VField>
-        <VField label="Detail Action">
-          <VControl fullwidth>
-            <CKEditor
-              v-model="isError.action_taken"
-              :editor="ClassicEditor"
-              :config="config"
-            />
-
-            <p v-if="errors?.action_taken" class="help has-text-danger">
-              {{ errors?.action_taken }}
-            </p>
-          </VControl>
-        </VField>
-      </template>
-      <template #action>
-        <VButton
-          type="submit"
-          color="primary"
-          :loading="isLoading"
-          raised
-        >
-          Simpan
-        </VButton>
-      </template>
-    </VModal>
-    <VModal
-      is="form"
-      :open="modalDelete"
-      title=""
-      size="small"
-      actions="center"
-      @submit.prevent="onDelete"
-      @close="modalDelete = false"
-    >
-      <template #content>
-        <div class="modal-form">
-          <div class="field">
-            <VPlaceholderSection
-              title="Are you sure you want to delete this?"
-              :subtitle="`${isError.error_code}`"
-            />
+              <VPlaceloadText
+                last-line-width="60%"
+                class="mx-2"
+              />
+              <VPlaceload
+                class="mx-2"
+                disabled
+              />
+              <VPlaceload class="mx-2 h-hidden-tablet-p" />
+              <VPlaceload class="mx-2 h-hidden-tablet-p" />
+              <VPlaceload class="mx-2" />
+            </VPlaceloadWrap>
           </div>
         </div>
-      </template>
-      <template #action>
-        <VButton
-          color="primary"
-          :loading="isLoading"
-          type="submit"
-        >
-          Confirm
-        </VButton>
-      </template>
-    </VModal>
+        <div v-else class="list-view-inner">
+          <TransitionGroup
+            name="list-complete"
+            tag="div"
+          >
+            <div
+              v-for="item in errorData"
+              :key="item.id"
+              class="list-view-item"
+            >
+              <div class="list-view-item-inner">
+                <div class="meta-left">
+                  <h3>
+                    <span>{{ item.error_code }} - {{ item.machine_type }}</span>
+                  </h3>
+
+                  <VMarkdownPreview :source="item.problem_info" />
+
+                  <span>
+
+                    <span>
+                      <VRangeRating
+                        :model-value="item.ratings_avg_nilai"
+                        disable
+
+                        class="is-inline"
+                      >
+                        <i
+                          class="fas fa-star"
+                          aria-hidden="true"
+                        />
+                      </VRangeRating>
+                    </span>
+                    <i
+                      aria-hidden="true"
+                      class="fas fa-circle icon-separator"
+                    />
+                    <span>
+                      {{ item.ratings_count }} comments
+                    </span>
+                  </span>
+                  <div class="icon-list">
+                    <span v-if="item.users.name ">
+
+                      <span class="mr-1">
+                        {{ item.users.name }}
+                      </span>
+                      <i
+                        aria-hidden="true"
+                        class="fas fa-circle icon-separator"
+                      />
+                      <span>
+                        {{ dateshow(item.created_at) }}
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div class="meta-right">
+                  <VDropdown
+                    icon="feather:more-vertical"
+                    right
+                    spaced
+                  >
+                    <template #content>
+                      <RouterLink
+                        :to="`/admin/error_code/cml/${item.id}`"
+                        role="menuitem"
+                        class="dropdown-item is-media"
+                      >
+                        <div class="icon">
+                          <i class="lnil lnil-comments-alt" aria-hidden="true" />
+                        </div>
+                        <div class="meta">
+                          <span>Comment & Rating</span>
+                          <span>Comment</span>
+                        </div>
+                      </RouterLink>
+                      <a
+                        v-if="userSession.user?.id === item.user_id || userSession.user?.roles[0]?.name ==='admin'"
+                        href="#"
+                        role="menuitem"
+                        class="dropdown-item is-media"
+                        @click="addEdit(item)"
+                      >
+                        <div class="icon">
+                          <i
+                            aria-hidden="true"
+                            class="lnil lnil-pencil"
+                          />
+                        </div>
+                        <div class="meta">
+                          <span>Edit</span>
+                          <span>Edit Post</span>
+                        </div>
+                      </a>
+
+                      <hr class="dropdown-divider">
+
+                      <a
+                        v-if="userSession.user?.id === item.user_id || userSession.user?.roles[0]?.name ==='admin'"
+                        href="#"
+                        role="menuitem"
+                        class="dropdown-item is-media"
+                        @click="addDelete(item)"
+                      >
+                        <div class="icon">
+                          <i
+                            aria-hidden="true"
+                            class="lnil lnil-trash-can-alt"
+                          />
+                        </div>
+                        <div class="meta">
+                          <span>Remove</span>
+                          <span>Remove from view</span>
+                        </div>
+                      </a>
+                    </template>
+                  </VDropdown>
+                </div>
+              </div>
+            </div>
+          </TransitionGroup>
+        </div>
+
+        <VFlexPagination
+          v-if="errorData?.length !== 0"
+          :current-page="currentPage"
+          :item-per-page="10"
+          :total-items="(total as number) ?? 0"
+          :max-links-displayed="5"
+          @update:current-page="getError"
+        />
+
+      <!--Inactive Tab-->
+      </div>
+      <VModal
+        is="form"
+        :open="modalPost"
+        size="large"
+        actions="center"
+        title="Post Your Action"
+        @submit.prevent="onPost"
+        @close="modalPost = false"
+      >
+        <template #content>
+          <VField
+            label="Machine Type"
+          >
+            <VControl>
+              <VSelect v-model="machine_type">
+                <VOption value="SR7500">
+                  SR7500
+                </VOption>
+
+                <VOption value="TCR">
+                  TCR
+                </VOption>
+                <VOption value="VS-ATM">
+                  SR7500 VS
+                </VOption>
+              </VSelect>
+
+              <p v-if="errors?.machine_type" class="help has-text-danger">
+                {{ errors?.machine_type }}
+              </p>
+            </VControl>
+          </VField>
+          <VField v-slot="{ id }" label="Error Code">
+            <VControl>
+              <Multiselect
+                v-model="errorValue"
+                :attrs="{ id }"
+                mode="tags"
+                :searchable="true"
+                :create-tag="true"
+                :options="errorValue"
+                placeholder="Error Code"
+              />
+              <p v-if="errors?.error_code" class="help has-text-danger">
+                {{ errors?.error_code }}
+              </p>
+            </VControl>
+          </VField>
+          <VField
+
+            label="Problem Info"
+          >
+            <VControl fullwidth>
+              <CKEditor
+                v-model="problem_info"
+                :editor="ClassicEditor"
+                class="ck-editor"
+                :config="config"
+              />
+
+              <p v-if="errors?.problem_info" class="help has-text-danger">
+                {{ errors?.problem_info }}
+              </p>
+            </VControl>
+          </VField>
+          <VField label="Detail Action">
+            <VControl fullwidth>
+              <CKEditor
+                v-model="action_taken"
+                :editor="ClassicEditor"
+                :config="config"
+              />
+
+              <p v-if="errors?.action_taken" class="help has-text-danger">
+                {{ errors?.action_taken }}
+              </p>
+            </VControl>
+          </VField>
+        </template>
+        <template #action>
+          <VButton
+            type="submit"
+            color="primary"
+            :loading="isLoading"
+            raised
+          >
+            Simpan
+          </VButton>
+        </template>
+      </VModal>
+      <VModal
+        is="form"
+        :open="modalEdit"
+        size="large"
+        actions="center"
+        title="Post Your Action"
+        @submit.prevent="onEdit"
+        @close="modalEdit = false"
+      >
+        <template #content>
+          <VField
+            label="Machine Type"
+          >
+            <VControl>
+              <VSelect v-model="isError.machine_type">
+                <VOption value="SR7500">
+                  SR7500
+                </VOption>
+
+                <VOption value="TCR">
+                  TCR
+                </VOption>
+                <VOption value="VS-ATM">
+                  SR7500 VS
+                </VOption>
+              </VSelect>
+
+              <p v-if="errors?.machine_type" class="help has-text-danger">
+                {{ errors?.machine_type }}
+              </p>
+            </VControl>
+          </VField>
+          <VField v-slot="{ id }" label="Error Code">
+            <VControl>
+              <Multiselect
+                v-model="isError.error_code"
+                :attrs="{ id }"
+                mode="tags"
+                :searchable="true"
+                :create-tag="true"
+                :options="isError.error_code"
+                placeholder="Error Code"
+              />
+              <p v-if="errors?.error_code" class="help has-text-danger">
+                {{ errors?.error_code }}
+              </p>
+            </VControl>
+          </VField>
+          <VField
+
+            label="Problem Info"
+          >
+            <VControl fullwidth>
+              <CKEditor
+                v-model="isError.problem_info"
+                :editor="ClassicEditor"
+                class="ck-editor"
+                :config="config"
+              />
+
+              <p v-if="errors?.problem_info" class="help has-text-danger">
+                {{ errors?.problem_info }}
+              </p>
+            </VControl>
+          </VField>
+          <VField label="Detail Action">
+            <VControl fullwidth>
+              <CKEditor
+                v-model="isError.action_taken"
+                :editor="ClassicEditor"
+                :config="config"
+              />
+
+              <p v-if="errors?.action_taken" class="help has-text-danger">
+                {{ errors?.action_taken }}
+              </p>
+            </VControl>
+          </VField>
+        </template>
+        <template #action>
+          <VButton
+            type="submit"
+            color="primary"
+            :loading="isLoading"
+            raised
+          >
+            Simpan
+          </VButton>
+        </template>
+      </VModal>
+      <VModal
+        is="form"
+        :open="modalDelete"
+        title=""
+        size="small"
+        actions="center"
+        @submit.prevent="onDelete"
+        @close="modalDelete = false"
+      >
+        <template #content>
+          <div class="modal-form">
+            <div class="field">
+              <VPlaceholderSection
+                title="Are you sure you want to delete this?"
+                :subtitle="`${isError.error_code}`"
+              />
+            </div>
+          </div>
+        </template>
+        <template #action>
+          <VButton
+            color="primary"
+            :loading="isLoading"
+            type="submit"
+          >
+            Confirm
+          </VButton>
+        </template>
+      </VModal>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
-.card-grid {
-  .columns {
-    margin-inline-start: -0.5rem !important;
-    margin-inline-end: -0.5rem !important;
-    margin-top: -0.5rem !important;
-  }
+@import '/@src/scss/abstracts/all';
 
-  .column {
-    padding: 0.5rem !important;
-  }
-}
+.list-view-v2 {
+  .list-view-item {
+    @include vuero-s-card;
 
-.card-grid-v1 {
-  .card-grid-item {
-    flex: 1;
-    display: inline-block;
-    width: 100%;
-    background-color: var(--white);
-    border-radius: 6px;
-    border: 1px solid var(--fade-grey-dark-3);
-    transition: all 0.3s; // transition-all test
+    margin-bottom: 16px;
+    padding: 16px;
 
-    .card-grid-item-body {
+    &:hover,
+    &:focus {
+      box-shadow: var(--light-box-shadow);
+    }
+
+    .list-view-item-inner {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
-      border-bottom: 1px solid var(--fade-grey-dark-3);
 
-      .left {
-        display: flex;
-        align-items: center;
-
-        .meta {
-          margin-inline-start: 12px;
-          line-height: 1.3;
-
-          span {
-            display: block;
-
-            &:first-child {
-              font-size: 1.1rem;
-              font-weight: 600;
-              font-family: var(--font-alt);
-              color: var(--dark-text);
-            }
-
-            &:nth-child(2) {
-              font-family: var(--font);
-              font-size: 0.85rem;
-              color: var(--light-text);
-            }
-          }
-        }
+      > img {
+        display: block;
+        min-height: 130px;
+        max-height: 130px;
+        min-width: 190px;
+        max-width: 190px;
+        object-fit: cover;
+        border-radius: var(--radius);
       }
 
-      .right {
-        .social-links {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
+      .meta-left {
+        display: flex;
+        flex-direction: column;
+        margin-inline-start: 16px;
 
-          .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 32px;
-            width: 32px;
-            min-width: 32px;
-            border-radius: 50%;
-            border: 1px solid var(--fade-grey-dark-3);
-            margin: 0 4px;
-            color: var(--primary);
-            box-shadow: var(--light-box-shadow);
-            transition: all 0.3s; // transition-all test
+        h3 {
+          font-family: var(--font-alt);
+          color: var(--dark-text);
+          font-weight: 600;
+          font-size: 1.1rem;
+          line-height: 1.5;
 
-            &:hover {
-              color: var(--white);
-              background: var(--primary);
-              border-color: var(--primary);
-              box-shadow: var(--primary-box-shadow);
-            }
+          .rating {
+            margin-inline-start: 12px;
 
             i {
               font-size: 12px;
             }
           }
         }
-      }
-    }
 
-    .card-grid-item-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
+        p {
+          font-size: 0.95rem;
+          color: var(--light-text);
 
-      .left {
-        flex-grow: 2;
-        max-width: 50%;
+          svg {
+            height: 12px;
+            width: 12px;
+          }
+        }
 
-        .progress-stats {
+        > span {
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          margin-bottom: 8px;
+          margin-top: 10px;
+          font-family: var(--font);
+          font-size: 0.9rem;
+          color: var(--primary);
 
-          span {
-            display: block;
+          .icon-separator {
+            font-size: 5px;
+            color: var(--light-text);
+            padding: 0 10px;
+          }
+        }
 
-            &:first-child {
+        .icon-list {
+          margin-top: auto;
+          display: flex;
+
+          > span {
+            display: flex;
+            align-items: center;
+            margin-inline-end: 15px;
+
+            span {
+              font-size: 0.85rem;
               font-family: var(--font-alt);
-              font-size: 0.9rem;
-              font-weight: 600;
               color: var(--dark-text);
             }
 
-            &:nth-child(2) {
-              font-size: 0.9rem;
+            i {
+              font-size: 1.2rem;
+              margin-inline-end: 6px;
               color: var(--light-text);
             }
           }
         }
-
-        .progress {
-          margin-bottom: 0;
-        }
       }
 
-      .right {
-        .v-button {
-          color: var(--light-text);
+      .meta-right {
+        margin-inline-start: auto;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
 
-          &:hover,
-          &:focus {
-            border-color: var(--primary);
-            background: var(--primary);
-            color: var(--smoke-white);
-            box-shadow: var(--primary-box-shadow);
-          }
+        .buttons {
+          margin-bottom: 0;
+          margin-inline-end: 10px;
         }
       }
     }
@@ -739,43 +770,38 @@ const onDelete = async () => {
 }
 
 .is-dark {
-  .card-grid-v1 {
-    .card-grid-item {
-      background: var(--dark-sidebar-light-6);
-      border-color: var(--dark-sidebar-light-12);
+  .list-view-v2 {
+    .list-view-item {
+      @include vuero-card--dark;
 
-      .card-grid-item-body {
-        border-color: var(--dark-sidebar-light-12);
-
-        .left {
-          .v-avatar {
-            .badge {
-              border-color: var(--dark-sidebar-light-6);
-            }
+      .list-view-item-inner {
+        .meta-left {
+          h3 {
+            color: var(--dark-dark-text) !important;
           }
-        }
 
-        .right {
-          .social-links {
-            .social-link {
-              background: var(--dark-sidebar-light-2);
-              border-color: var(--dark-sidebar-light-12);
-              color: var(--dark-dark-text);
+          > span {
+            color: var(--primary);
+          }
 
-              &:hover,
-              &:focus {
-                border-color: var(--primary) !important;
-                color: var(--primary) !important;
+          .icon-list {
+            > span {
+              span {
+                color: var(--dark-dark-text);
               }
             }
           }
         }
-      }
 
-      .card-grid-item-footer {
-        .right {
-          .v-button {
-            box-shadow: none !important;
+        .meta-right {
+          .buttons {
+            .button {
+              &:first-child {
+                background: var(--dark-sidebar-light-2);
+                border-color: var(--dark-sidebar-light-8);
+                color: var(--dark-dark-text);
+              }
+            }
           }
         }
       }
@@ -784,17 +810,56 @@ const onDelete = async () => {
 }
 
 @media only screen and (width <= 767px) {
-  .card-grid-v1 {
-    .card-grid-item {
-      .card-grid-item-body {
+  .list-view-v2 {
+    .list-view-item {
+      padding: 20px;
+
+      .list-view-item-inner {
         flex-direction: column;
 
-        .left {
-          flex-direction: column;
-          text-align: center;
+        > img {
+          width: 100%;
+          max-width: 100%;
+          min-height: 160px;
+          max-height: 160px;
+          margin-bottom: 1rem;
+        }
 
-          .meta {
-            margin: 5px 0 20px;
+        .meta-left {
+          margin-inline-start: 0;
+
+          > span {
+            margin-bottom: 16px;
+          }
+
+          .icon-list {
+            flex-wrap: wrap;
+
+            > span {
+              flex-direction: column;
+              text-align: center;
+              margin: 10px;
+              width: calc(33.3% - 20px);
+
+              i {
+                margin: 0;
+              }
+            }
+          }
+        }
+
+        .meta-right {
+          margin: 16px 0 0;
+
+          .buttons {
+            margin: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+
+            .button {
+              width: 48%;
+            }
           }
         }
       }
@@ -802,7 +867,73 @@ const onDelete = async () => {
   }
 }
 
-.ck-editor {
-    height: 400px;
-   }
+@media only screen and (width >= 768px) and (width <= 1024px) and (orientation: portrait) {
+  .list-view-v2 {
+    .list-view-inner {
+      display: flex;
+      flex-wrap: wrap;
+
+      .list-view-item {
+        padding: 20px;
+        margin: 10px;
+        width: calc(50% - 20px);
+
+        .list-view-item-inner {
+          flex-direction: column;
+          height: 100%;
+          min-height: 450px;
+
+          > img {
+            width: 100%;
+            max-width: 100%;
+            min-height: 160px;
+            max-height: 160px;
+            margin-bottom: 1rem;
+          }
+
+          .meta-left {
+            margin-inline-start: 0;
+
+            > span {
+              margin-bottom: 16px;
+            }
+
+            .icon-list {
+              flex-wrap: wrap;
+
+              > span {
+                flex-direction: column;
+                text-align: center;
+                margin: 10px;
+                width: calc(33.3% - 20px);
+
+                i {
+                  margin: 0;
+                }
+              }
+            }
+          }
+
+          .meta-right {
+            margin: auto 0 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+
+            .buttons {
+              margin: 16px 0 0;
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+
+              .button {
+                width: 48%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 </style>

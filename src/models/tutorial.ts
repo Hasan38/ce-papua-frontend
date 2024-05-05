@@ -2,7 +2,7 @@ import type { User } from './users'
 
 export interface Tutorial {
   id: number
-  user_id: number
+  user_id: string
   machine_type: []
   customer: string
   type: string

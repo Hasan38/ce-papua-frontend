@@ -30,7 +30,7 @@
           >
             <i
               aria-hidden="true"
-              class="lnil lnil-analytics-alt-1"
+              class="lnil lnil-search"
             />
             <span>Search EC</span>
           </RouterLink>

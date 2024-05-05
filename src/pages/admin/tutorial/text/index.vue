@@ -157,6 +157,27 @@ const onDelete = async () => {
     </div>
 
     <div class="tile-grid tile-grid-v3">
+      <VPlaceholderPage
+        :class="[videoData?.length !== 0 && 'is-hidden']"
+        title="We couldn't find any matching results."
+        subtitle="Too bad. Looks like we couldn't find any matching results for the
+          search terms you've entered. Please try different search terms or
+          criteria."
+        larger
+      >
+        <template #image>
+          <img
+            class="light-image"
+            src="/@src/assets/illustrations/placeholders/search-3.svg"
+            alt=""
+          >
+          <img
+            class="dark-image"
+            src="/@src/assets/illustrations/placeholders/search-3-dark.svg"
+            alt=""
+          >
+        </template>
+      </VPlaceholderPage>
       <div v-if="isLoading" class="card-grid card-grid-v2">
         <div class="columns is-multiline">
           <!--Grid item-->
@@ -180,27 +201,6 @@ const onDelete = async () => {
       </div>
       <div v-else class="card-grid card-grid-v2">
         <!--List Empty Search Placeholder -->
-        <VPlaceholderPage
-          :class="[videoData?.length !== 0 && 'is-hidden']"
-          title="We couldn't find any matching results."
-          subtitle="Too bad. Looks like we couldn't find any matching results for the
-          search terms you've entered. Please try different search terms or
-          criteria."
-          larger
-        >
-          <template #image>
-            <img
-              class="light-image"
-              src="/@src/assets/illustrations/placeholders/search-3.svg"
-              alt=""
-            >
-            <img
-              class="dark-image"
-              src="/@src/assets/illustrations/placeholders/search-3-dark.svg"
-              alt=""
-            >
-          </template>
-        </VPlaceholderPage>
 
         <!--Card Grid v2-->
         <TransitionGroup
@@ -229,7 +229,7 @@ const onDelete = async () => {
                   </div>
                   <div class="card-header-icon">
                     <VDropdown
-                      v-if="userSession.user?.roles[0]?.name ==='admin'"
+                      v-if="userSession.user?.roles[0]?.name ==='admin' || userSession.user?.id === item.user_id"
                       icon="feather:more-vertical"
                       class="play-button-right"
                       spaced
@@ -287,7 +287,7 @@ const onDelete = async () => {
                         @keypress="addView(item)"
                         @click="addView(item)"
                       >
-                        {{ item.title }}
+                        {{ item.title }} - {{ item.machine_type }}
                       </h3>
                     </div>
                   </div>
@@ -300,14 +300,14 @@ const onDelete = async () => {
       <VFlexPagination
         v-if="videoData?.length !== 0"
         :current-page="currentPage"
-        :item-per-page="8"
+        :item-per-page="12"
         :total-items="(total as number) ?? 0"
         :max-links-displayed="5"
         @update:current-page="getVideo"
       />
     </div>
 
-    <VModal
+    <VModalCustome
       :open="modalView"
       size="big"
       actions="center"
@@ -318,15 +318,15 @@ const onDelete = async () => {
         <VMarkdownPreview v-if="isTutor.title" :source="isTutor.title" />
         <VMarkdownPreview v-if="isTutor.content" :source="isTutor.content" />
 
-        <VPlyr
+        <VGDrive
           v-if="isTutor.link"
-          ratio="4by3"
+
           :source="`${isTutor.link}`"
           :embed="true"
         />
       </template>
       <template #action />
-    </VModal>
+    </VModalCustome>
     <VModal
       is="form"
       :open="modalDelete"

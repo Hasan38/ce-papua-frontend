@@ -29,7 +29,7 @@
               aria-hidden="true"
               class="lnil lnil-analytics-alt-1"
             />
-            <span>Text</span>
+            <span>Text & File</span>
           </RouterLink>
           <RouterLink
             to="/admin/tutorial/video"
