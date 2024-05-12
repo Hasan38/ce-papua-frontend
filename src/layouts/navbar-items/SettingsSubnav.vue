@@ -180,22 +180,12 @@ const activeTab = ref<TabId>('general')
 
               <div class="column is-3">
                 <h4 class="column-heading">
-                  Error Code
+                  Activity
                 </h4>
                 <ul>
                   <li>
-                    <RouterLink to="/admin/error_code/cml">
-                      <span>Error Code By TS</span>
-                      <i
-                        aria-hidden="true"
-                        class="iconify"
-                        data-icon="feather:circle"
-                      />
-                    </RouterLink>
-                  </li>
-                  <li>
-                    <RouterLink to="/admin/error_code/cml">
-                      <span>CE Papua</span>
+                    <RouterLink to="/admin/setting/activity">
+                      <span>PM AND PROJECT</span>
                       <i
                         aria-hidden="true"
                         class="iconify"

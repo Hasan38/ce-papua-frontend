@@ -50,6 +50,8 @@ declare module 'vue-router/auto/routes' {
     '/admin/machine/': RouteRecordInfo<'/admin/machine/', '/admin/machine', Record<never, never>, Record<never, never>>,
     '/admin/machine/note/[index]': RouteRecordInfo<'/admin/machine/note/[index]', '/admin/machine/note/:index', { index: ParamValue<true> }, { index: ParamValue<false> }>,
     '/admin/setting/': RouteRecordInfo<'/admin/setting/', '/admin/setting', Record<never, never>, Record<never, never>>,
+    '/admin/setting/activity/': RouteRecordInfo<'/admin/setting/activity/', '/admin/setting/activity', Record<never, never>, Record<never, never>>,
+    '/admin/setting/activity/add': RouteRecordInfo<'/admin/setting/activity/add', '/admin/setting/activity/add', Record<never, never>, Record<never, never>>,
     '/admin/setting/area/': RouteRecordInfo<'/admin/setting/area/', '/admin/setting/area', Record<never, never>, Record<never, never>>,
     '/admin/setting/customer/': RouteRecordInfo<'/admin/setting/customer/', '/admin/setting/customer', Record<never, never>, Record<never, never>>,
     '/admin/setting/machine/': RouteRecordInfo<'/admin/setting/machine/', '/admin/setting/machine', Record<never, never>, Record<never, never>>,
